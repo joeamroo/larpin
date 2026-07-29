@@ -39,6 +39,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "articles", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "headline", null: false
+    t.integer "persona_id", null: false
+    t.integer "readers_seed", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_articles_on_created_at"
+    t.index ["persona_id"], name: "index_articles_on_persona_id"
+  end
+
   create_table "comment_likes", force: :cascade do |t|
     t.integer "comment_id", null: false
     t.datetime "created_at", null: false
@@ -91,6 +102,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.index ["endorser_id"], name: "index_endorsements_on_endorser_id"
     t.index ["persona_id", "endorser_id", "skill"], name: "idx_endorsements_unique", unique: true
     t.index ["persona_id"], name: "index_endorsements_on_persona_id"
+  end
+
+  create_table "experiences", force: :cascade do |t|
+    t.string "company", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "end_year"
+    t.integer "persona_id", null: false
+    t.integer "start_year", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["persona_id"], name: "index_experiences_on_persona_id"
   end
 
   create_table "job_applications", force: :cascade do |t|
@@ -170,6 +193,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.index ["persona_id"], name: "index_posts_on_persona_id"
   end
 
+  create_table "profile_skills", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "persona_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["persona_id", "name"], name: "index_profile_skills_on_persona_id_and_name", unique: true
+    t.index ["persona_id"], name: "index_profile_skills_on_persona_id"
+  end
+
   create_table "reactions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "kind", null: false
@@ -183,6 +215,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "articles", "personas"
   add_foreign_key "comment_likes", "comments"
   add_foreign_key "comment_likes", "personas"
   add_foreign_key "comments", "personas"
@@ -193,6 +226,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
   add_foreign_key "conversations", "personas", column: "b_id"
   add_foreign_key "endorsements", "personas"
   add_foreign_key "endorsements", "personas", column: "endorser_id"
+  add_foreign_key "experiences", "personas"
   add_foreign_key "job_applications", "jobs"
   add_foreign_key "job_applications", "personas"
   add_foreign_key "jobs", "personas"
@@ -201,6 +235,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
   add_foreign_key "notifications", "personas"
   add_foreign_key "notifications", "personas", column: "actor_id"
   add_foreign_key "posts", "personas"
+  add_foreign_key "profile_skills", "personas"
   add_foreign_key "reactions", "personas"
   add_foreign_key "reactions", "posts"
 end

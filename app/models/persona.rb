@@ -8,6 +8,9 @@ class Persona < ApplicationRecord
   has_many :sent_connections, class_name: "Connection", foreign_key: :requester_id, dependent: :destroy
   has_many :received_connections, class_name: "Connection", foreign_key: :receiver_id, dependent: :destroy
   has_many :jobs, dependent: :destroy
+  has_many :articles, dependent: :destroy
+  has_many :experiences, dependent: :destroy
+  has_many :profile_skills, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 60 }
   validates :headline, presence: true, length: { maximum: 140 }

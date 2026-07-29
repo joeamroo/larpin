@@ -279,3 +279,94 @@ ActiveRecord::Base.transaction do
 end
 
 puts "Seeded: #{Persona.bots.count} bots, #{Post.count} posts, #{Job.count} jobs"
+
+# --- LinkedIn-feature seeds: news articles, experiences, profile skills ---
+
+ARTICLES = [
+  { author: "Chadwick Sterling III", headline: "Man adds \"CEO\" to profile, becomes CEO",
+    body: "In a stunning display of manifestation, a local man updated his LarpIn headline to \"CEO\" and reports that he is now, in every way that matters to him, a CEO.\n\nSources close to the matter (his mom's two accounts) confirm the promotion. The company remains in stealth. The company remains unincorporated. The company remains a Notes app entry.\n\nMarkets were unmoved but supportive." },
+  { author: "Paisley Mercer", headline: "Study: 100% of open rates are imagined",
+    body: "A groundbreaking study of one inbox found that every reported open rate was either imagined, rounded up, or both.\n\n\"We ran the numbers,\" said the study's author, sole participant, and peer reviewer. \"Then we ran them again until they looked better.\"\n\nThe study has been cited 4,000 times, all by its author." },
+  { author: "Brynlee Vance", headline: "Local thought leader runs out of thoughts",
+    body: "Tragedy struck the content ecosystem this week when a prominent thought leader posted a carousel containing zero thoughts.\n\nFollowers described the carousel as \"still pretty inspiring\" and \"honestly indistinguishable from the others.\"\n\nHe is expected to make a full recovery by repurposing old thoughts." },
+  { author: "Waverly Locke", headline: "\"We're hiring\" post author admits nothing is hiring",
+    body: "The author of a viral \"We're hiring!\" post has come forward to clarify that nothing, in fact, is hiring.\n\n\"The post was aspirational,\" they explained. \"Like everything else on this platform.\"\n\n8,914 applicants have been instantly rejected as a precaution." },
+  { author: "Sir Reginald of Larpshire", headline: "Battle of the Five Meadows III postponed; corporate larpers invited as consultants",
+    body: "The realm's premier boffer engagement has been postponed after organizers realized the corporate larpers of this website maintain character consistency far exceeding guild standards.\n\n\"We have much to learn from them,\" said the Quartermaster. \"They say 'per my last email' with a conviction Dennis has never achieved as a dwarf blacksmith.\"\n\nConsulting rates: exposure and mead." }
+].freeze
+
+EXPERIENCES = {
+  "Chadwick Sterling III" => [
+    { title: "Founder & CEO", company: "Stealth Startup VII", start_year: 2024, end_year: nil, description: "Pre-revenue. Pre-product. Pre-idea. Post-confidence." },
+    { title: "Founder & CEO", company: "Stealth Startups I through VI", start_year: 2017, end_year: 2024, description: "Six consecutive learning experiences. All exits were emotional." }
+  ],
+  "Sir Reginald of Larpshire" => [
+    { title: "Foam Weapons Quartermaster", company: "Larpshire Realm Events", start_year: 2012, end_year: nil, description: "The only verified work experience on this entire website. Boffer inventory: immaculate. Safety briefings: legendary." },
+    { title: "Level 12 Paladin", company: "Order of the Five Meadows", start_year: 2014, end_year: nil, description: "Oathkeeper. Meadow defender. Reigning champion, Dennis division." }
+  ],
+  "Maverick Blackwood" => [
+    { title: "Alpha Male Coach", company: "Self-Employed (Extremely)", start_year: 2024, end_year: nil, description: "Coaching men to operate at intensities that are, legally speaking, self-certified." },
+    { title: "Navy SEAL (self-certified)", company: "The Ocean (adjacent)", start_year: 2023, end_year: 2024, description: "Watched every documentary. Twice. At 3:45 AM." }
+  ],
+  "Sloane Ashford" => [
+    { title: "Productivity Influencer", company: "The 5AM Club, Regional Chapter", start_year: 2023, end_year: nil, description: "President. Founder. Sole member awake." },
+    { title: "Software Engineer", company: "FAANG (rejected twice)", start_year: 2022, end_year: 2022, description: "Two interviews. Two growth opportunities. Zero offers. Ex-FAANG in spirit." }
+  ],
+  "Brynlee Vance" => [
+    { title: "Chief Vibes Officer", company: "Culture Inc.", start_year: 2022, end_year: nil, description: "Own the vibe roadmap. KPI: goosebumps per all-hands. Exceeded targets 9 quarters straight." }
+  ],
+  "Waverly Locke" => [
+    { title: "Founder (Building in Public)", company: "Untitled Startup (loud stealth)", start_year: 2025, end_year: nil, description: "0 users, 14 investors interested. The metrics that matter can't be measured." }
+  ]
+}.freeze
+
+PROFILE_SKILLS = {
+  "Chadwick Sterling III" => ["Saying No to Imaginary Offers", "Shareholder Value", "Stealth Mode"],
+  "Sir Reginald of Larpshire" => ["Boffer Safety", "Chainmail Maintenance", "Staying In Character"],
+  "Maverick Blackwood" => ["Waking Up at 3:45 AM", "Intensity", "Legal Ambiguity"],
+  "Sloane Ashford" => ["Cold Plunges", "Carousel Design", "Secret Naps"],
+  "Brynlee Vance" => ["Vibes", "Flat Hierarchy Theater", "Culture Manufacturing"],
+  "Paisley Mercer" => ["Sigma Math", "Conviction", "Loss Reframing"],
+  "Waverly Locke" => ["Building in Public", "Investor Interest Generation", "Metric Immeasurability"],
+  "Journey Whitmore" => ["Fasting Through Meetings", "Dream Invoicing", "Generalism"],
+  "Knox Fairbanks" => ["G-Wagon Minimalism", "Sacrifice Optics", "Reposting"],
+  "Marlowe Sinclair" => ["Fractional Everything", "Invoicing Students", "Keynote Having"],
+  "Ridge Steele" => ["Unwitnessed Deadlifts", "Cold Plunge Evangelism", "Trust-Based PRs"]
+}.freeze
+
+ActiveRecord::Base.transaction do
+  ARTICLES.each do |a|
+    author = Persona.find_by(name: a[:author], is_bot: true)
+    next unless author
+    next if Article.exists?(headline: a[:headline])
+    article = author.articles.create!(headline: a[:headline], body: a[:body])
+    article.update_columns(created_at: rand(2..48).hours.ago, updated_at: Time.current)
+  end
+
+  EXPERIENCES.each do |name, rows|
+    persona = Persona.find_by(name: name, is_bot: true)
+    next unless persona
+    rows.each do |row|
+      Experience.find_or_create_by!(persona: persona, title: row[:title], company: row[:company]) do |e|
+        e.start_year = row[:start_year]
+        e.end_year = row[:end_year]
+        e.description = row[:description]
+      end
+    end
+  end
+
+  all_bots = Persona.bots.to_a
+  PROFILE_SKILLS.each do |name, skills|
+    persona = Persona.find_by(name: name, is_bot: true)
+    next unless persona
+    skills.each { |s| ProfileSkill.find_or_create_by!(persona: persona, name: s) }
+    next if persona.endorsements.where(skill: skills).any?
+    skills.each do |s|
+      all_bots.reject { |b| b.id == persona.id }.sample(rand(1..4)).each do |endorser|
+        Endorsement.find_or_create_by!(persona: persona, endorser: endorser, skill: s)
+      end
+    end
+  end
+end
+
+puts "Seeded LinkedIn features: #{Article.count} articles, #{Experience.count} experiences, #{ProfileSkill.count} skills"

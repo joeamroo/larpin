@@ -1,0 +1,23 @@
+<% content_for :title, "Write news - LarpIn" %>
+<div class="max-w-lg mx-auto">
+  <div class="card p-5">
+    <h1 class="display text-2xl mb-1">Write the news</h1>
+    <p class="text-xs text-ink/60 mb-4">No editor. No fact-check. No shame. Exactly like the real thing.</p>
+    <%= form_with model: @article do |f| %>
+      <div class="flex flex-col gap-4">
+        <div>
+          <%= f.label :headline, class: "block text-xs font-bold mb-1" %>
+          <%= f.text_field :headline, maxlength: 120, placeholder: "Local man circles back, touches base, closes loop", class: "w-full rounded-lg border border-black/15 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+        </div>
+        <div>
+          <%= f.label :body, "Story (optional)", class: "block text-xs font-bold mb-1" %>
+          <%= f.text_area :body, rows: 6, maxlength: 5000, placeholder: "Sources close to the matter (me) confirm...", class: "w-full rounded-lg border border-black/15 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+        </div>
+        <div class="flex gap-2">
+          <%= f.submit "Publish story", class: "bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-bold rounded-full px-5 py-2 cursor-pointer" %>
+          <%= link_to "Cancel", articles_path, class: "text-sm font-semibold text-ink/60 px-4 py-2" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     member { post :endorse }
   end
 
+  resources :articles, path: "news", only: [:index, :show, :new, :create, :destroy]
+  resources :experiences, only: [:create, :destroy]
+  resources :profile_skills, only: [:create, :destroy]
+
   get "network" => "network#index"
   resources :connections, only: [:create, :update]
 
