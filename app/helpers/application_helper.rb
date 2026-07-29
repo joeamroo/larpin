@@ -16,9 +16,8 @@ module ApplicationHelper
   end
 
   def post_body_html(text)
-    safe = h(text)
-    linked = safe.gsub(/#[[:alnum:]_]+/) { |tag| "<span class=\"hashtag\">#{tag}</span>" }
-    simple_format(linked.html_safe, {}, sanitize: false)
+    escaped = ERB::Util.html_escape(text.strip).to_str
+    escaped.gsub(/(?<=^|[[:space:]])#[[:alpha:]][[:alnum:]_]*/) { |tag| "<span class=\"hashtag\">#{tag}</span>" }.html_safe
   end
 
   def short_time_ago(time)
