@@ -1,5 +1,5 @@
 <div class="card overflow-hidden">
-  <div class="h-14" style="background: linear-gradient(120deg, hsl(<%= persona.hue %>, 60%, 30%), hsl(<%= (persona.hue + 60) % 360 %>, 55%, 45%));"></div>
+  <div class="h-14" style="background: linear-gradient(120deg, hsl(<%= persona.hue %>, 30%, 30%), hsl(<%= (persona.hue + 55) % 360 %>, 34%, 44%));"></div>
   <div class="px-3 pb-4 -mt-8 text-center">
     <%= link_to persona_path(persona), class: "inline-block" do %>
       <%= avatar_tag(persona, size: 16, ring: true, classes: "mx-auto") %>

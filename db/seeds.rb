@@ -370,3 +370,19 @@ ActiveRecord::Base.transaction do
 end
 
 puts "Seeded LinkedIn features: #{Article.count} articles, #{Experience.count} experiences, #{ProfileSkill.count} skills"
+
+# --- LarpIn Learning: bots hold certifications ---
+ActiveRecord::Base.transaction do
+  Persona.bots.find_each do |bot|
+    next if bot.certifications.any?
+    Certification::COURSES.sample(2).each do |c|
+      Certification.find_or_create_by!(persona: bot, course: c[:course]) { |cert| cert.hours = c[:hours] }
+    end
+  end
+  reginald = Persona.find_by(name: "Sir Reginald of Larpshire", is_bot: true)
+  if reginald
+    Certification.find_or_create_by!(persona: reginald, course: "Boffer Safety Level 1 (the only real course here)") { |c| c.hours = "8 hours" }
+  end
+end
+
+puts "Seeded certifications: #{Certification.count}"

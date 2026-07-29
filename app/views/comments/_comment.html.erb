@@ -10,11 +10,11 @@
       <p class="text-sm mt-1 whitespace-pre-line"><%= comment.body %></p>
     </div>
     <div class="flex items-center gap-3 mt-0.5 px-2">
-      <%= button_to like_comment_path(comment), class: "text-xs font-semibold cursor-pointer #{comment.liked_by?(current_persona) ? 'text-cobalt-700' : 'text-ink/50 hover:text-cobalt-700'}" do %>
+      <%= button_to like_comment_path(comment), form_class: "btn-form", class: "text-xs font-semibold cursor-pointer #{comment.liked_by?(current_persona) ? 'text-cobalt-700' : 'text-ink/50 hover:text-cobalt-700'}" do %>
         Like<% if comment.likes_count > 0 %> · <%= comment.likes_count %><% end %>
       <% end %>
       <% if current_persona&.id == comment.persona_id %>
-        <%= button_to "Delete", comment_path(comment), method: :delete, class: "text-xs text-ink/40 hover:text-accent-600 cursor-pointer" %>
+        <%= button_to "Delete", comment_path(comment), method: :delete, form_class: "btn-form", class: "text-xs text-ink/40 hover:text-accent-600 cursor-pointer" %>
       <% end %>
     </div>
   </div>

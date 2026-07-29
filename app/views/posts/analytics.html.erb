@@ -4,6 +4,15 @@
     <h1 class="display text-2xl">Post analytics</h1>
     <p class="text-xs text-ink/50 mb-4">All numbers are real in the sense that they exist.</p>
 
+    <div class="flex items-center justify-between gap-3 rounded-lg bg-cobalt-50 border border-cobalt-200 px-4 py-3 mb-5">
+      <div>
+        <p class="text-sm font-bold text-cobalt-800">Larp Level: <%= @post.larp_level %>/100 · <%= @post.larp_tier %></p>
+        <p class="text-xs text-ink/60">Computed from buzzword density, dramatic line breaks, and 4 AM references.</p>
+      </div>
+      <button data-controller="clipboard" data-clipboard-text-value="My post scored Larp Level <%= @post.larp_level %>/100 (<%= @post.larp_tier %>) on LarpIn. Beat it: <%= post_url(@post) %>" data-action="clipboard#copy"
+              class="shrink-0 text-xs font-semibold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-3 py-1.5 cursor-pointer">Copy brag</button>
+    </div>
+
     <div class="grid grid-cols-3 gap-3 text-center mb-5">
       <div class="bg-paper rounded-xl p-3">
         <p class="text-2xl font-bold text-cobalt-700 num"><%= number_with_delimiter(@post.impressions) %></p>

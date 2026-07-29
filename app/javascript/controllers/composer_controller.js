@@ -1,16 +1,25 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["textarea", "fileInput", "previews", "enhanceBtn", "hint"]
+  static targets = ["textarea", "fileInput", "previews", "enhanceBtn", "hint", "submit"]
 
   connect() {
     this.grow()
+    this.validate()
   }
 
   grow() {
     const el = this.textareaTarget
     el.style.height = "auto"
     el.style.height = `${Math.min(el.scrollHeight, 320)}px`
+    this.validate()
+  }
+
+  validate() {
+    if (!this.hasSubmitTarget) return
+    const hasText = this.textareaTarget.value.trim().length > 0
+    const hasFiles = this.hasFileInputTarget && this.fileInputTarget.files.length > 0
+    this.submitTarget.disabled = !(hasText || hasFiles)
   }
 
   previewImages() {
@@ -26,6 +35,7 @@ export default class extends Controller {
       img.src = URL.createObjectURL(file)
       this.previewsTarget.appendChild(img)
     })
+    this.validate()
   }
 
   async enhance() {
@@ -50,8 +60,7 @@ export default class extends Controller {
       const data = await response.json()
       if (response.ok && data.text) {
         this.textareaTarget.value = data.text
-        this.textareaTarget.style.height = "auto"
-        this.textareaTarget.rows = Math.min(14, data.text.split("\n").length + 2)
+        this.grow()
         this.showHint("Enhanced. You are now 40% more insufferable.")
       } else {
         this.showHint(data.error || "Enhancement failed. Your authenticity survives another day.")

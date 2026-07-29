@@ -8,7 +8,7 @@ module ApplicationHelper
   }.freeze
 
   def avatar_tag(persona, size: 12, ring: false, classes: "")
-    style = "background: linear-gradient(135deg, hsl(#{persona.hue}, 72%, 46%), hsl(#{(persona.hue + 40) % 360}, 78%, 32%));"
+    style = "background: linear-gradient(135deg, hsl(#{persona.hue}, 46%, 44%), hsl(#{(persona.hue + 35) % 360}, 52%, 28%));"
     content_tag :div, persona.initials,
       class: "shrink-0 rounded-full text-white font-bold flex items-center justify-center select-none " \
              "#{AVATAR_SIZES.fetch(size, AVATAR_SIZES[12])} #{'ring-4 ring-white' if ring} #{classes}",

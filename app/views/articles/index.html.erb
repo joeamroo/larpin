@@ -23,7 +23,7 @@
           </p>
         </div>
         <% if current_persona&.id == article.persona_id %>
-          <%= button_to "Retract", article_path(article), method: :delete, form: { data: { turbo_confirm: "Retract this story?" } }, class: "text-xs text-ink/50 hover:text-accent-600 cursor-pointer shrink-0" %>
+          <%= button_to "Retract", article_path(article), method: :delete, form: { data: { turbo_confirm: "Retract this story?" } }, form_class: "btn-form", class: "text-xs text-ink/50 hover:text-accent-600 cursor-pointer shrink-0" %>
         <% end %>
       </div>
     <% end %>

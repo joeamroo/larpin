@@ -33,6 +33,41 @@ class Post < ApplicationRecord
     impressions_seed + reactions_count * 137 + comments_count * 291
   end
 
+  LARP_BUZZWORDS = %w[
+    synergy grindset hustle blessed mindset disrupt leverage scale alpha sigma
+    ceo founder stealth exit pivot journey humbled grateful excited thrilled
+    announce 10x b2b saas roi kpi ai vulnerability discipline conviction mentor
+    portfolio investors revenue growth locked bullish
+  ].freeze
+
+  LARP_TIERS = [
+    [20, "Aspiring Larper"],
+    [40, "Committed to the Bit"],
+    [60, "Method Actor"],
+    [80, "Thought Leader"],
+    [101, "Final Boss of LinkedIn"]
+  ].freeze
+
+  # Deterministic satire: score the post's hustle-cringe density.
+  def larp_level
+    text = body.to_s.downcase
+    score = 0
+    score += LARP_BUZZWORDS.count { |w| text.include?(w) } * 8
+    score += 8 if body.include?("👇")
+    score += 8 if text.match?(/\b[3-5](:\d\d)? ?am\b/)
+    score += 10 if text.include?("let that sink in")
+    score += 7 if text.match?(/agree\?/)
+    score += body.scan(/#[[:alpha:]]/).count.clamp(0, 4) * 4
+    score += body.scan(/\n\n/).count.clamp(0, 6) * 3
+    score += 5 if text.match?(/\$\d/)
+    score += 5 if text.match?(/\d{2,}%/)
+    [score, 100].min
+  end
+
+  def larp_tier
+    LARP_TIERS.find { |max, _| larp_level < max }.last
+  end
+
   def reaction_breakdown
     reactions.group(:kind).count.sort_by { |_, v| -v }
   end

@@ -27,9 +27,9 @@
       </label>
       <button type="button" data-action="composer#enhance" data-composer-target="enhanceBtn"
               class="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-[13px] font-semibold text-accent-600 hover:bg-orange-50 px-2 sm:px-3 py-2 rounded cursor-pointer whitespace-nowrap">
-        ✨ Enhance<span class="hidden sm:inline"> my larp</span>
+        <span>✨</span><span>Enhance<span class="hidden sm:inline">&nbsp;my larp</span></span>
       </button>
-      <%= f.submit "Post", class: "ml-auto bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-semibold rounded-full px-4 py-1.5 cursor-pointer" %>
+      <%= f.submit "Post", disabled: true, data: { composer_target: "submit" }, class: "ml-auto bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-semibold rounded-full px-4 py-1.5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed" %>
     </div>
     <p class="hidden text-xs text-ink/50 mt-1 pl-[52px]" data-composer-target="hint"></p>
   <% end %>
