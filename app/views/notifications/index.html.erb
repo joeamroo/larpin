@@ -2,8 +2,8 @@
 <div class="max-w-xl mx-auto">
   <div class="card divide-y divide-black/5">
     <div class="p-4">
-      <h1 class="font-bold text-sm">Notifications</h1>
-      <p class="text-[11px] text-ink/50">Some of these are real. The flattering ones are not.</p>
+      <h1 class="display text-lg">Notifications</h1>
+      <p class="text-xs text-ink/50">Some of these are real. The flattering ones are not.</p>
     </div>
     <% if @notifications.any? %>
       <% @notifications.each do |notification| %>
@@ -15,7 +15,7 @@
           <% end %>
           <div class="min-w-0">
             <p class="text-sm"><%= notification.body %></p>
-            <p class="text-[11px] text-ink/40 mt-0.5"><%= short_time_ago(notification.created_at) %> ago</p>
+            <p class="text-xs text-ink/40 mt-0.5"><%= short_time_ago(notification.created_at) %> ago</p>
           </div>
         <% end %>
       <% end %>

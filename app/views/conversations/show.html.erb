@@ -18,7 +18,7 @@
           <div class="rounded-2xl px-3.5 py-2 text-sm <%= mine ? 'bg-cobalt-600 text-white rounded-br-sm' : 'bg-paper rounded-bl-sm' %>">
             <p class="whitespace-pre-line"><%= message.body %></p>
           </div>
-          <p class="text-[10px] text-ink/40 mt-0.5 <%= 'text-right' if mine %>"><%= short_time_ago(message.created_at) %></p>
+          <p class="text-xs text-ink/40 mt-0.5 <%= 'text-right' if mine %>"><%= short_time_ago(message.created_at) %></p>
         </div>
       <% end %>
       <% if @messages.empty? %>

@@ -2,8 +2,8 @@
 <div class="max-w-xl mx-auto">
   <div class="card divide-y divide-black/5">
     <div class="p-4">
-      <h1 class="font-bold text-sm">Messaging</h1>
-      <p class="text-[11px] text-ink/50">Reach out. Circle back. Touch base. The holy trinity.</p>
+      <h1 class="display text-lg">Messaging</h1>
+      <p class="text-xs text-ink/50">Reach out. Circle back. Touch base. The holy trinity.</p>
     </div>
     <% if @conversations.any? %>
       <% @conversations.each do |conversation| %>
@@ -15,11 +15,11 @@
           <div class="min-w-0 flex-1">
             <div class="flex items-baseline justify-between gap-2">
               <p class="font-bold text-sm truncate"><%= other.name %></p>
-              <span class="text-[11px] text-ink/40 shrink-0"><%= last ? short_time_ago(last.created_at) : "" %></span>
+              <span class="text-xs text-ink/40 shrink-0"><%= last ? short_time_ago(last.created_at) : "" %></span>
             </div>
             <p class="text-xs text-ink/60 truncate"><%= last ? "#{last.sender_id == @persona.id ? 'You: ' : ''}#{last.body}" : "No messages yet. The synergy awaits." %></p>
           </div>
-          <% if unread > 0 %><span class="bg-accent-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center shrink-0"><%= unread %></span><% end %>
+          <% if unread > 0 %><span class="bg-accent-500 text-white text-xs font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center shrink-0"><%= unread %></span><% end %>
         <% end %>
       <% end %>
     <% else %>

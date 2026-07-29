@@ -1,7 +1,7 @@
 <% content_for :title, "Edit persona - LarpIn" %>
 <div class="max-w-lg mx-auto">
   <div class="card p-5">
-    <h1 class="font-bold text-lg mb-1">Edit your persona</h1>
+    <h1 class="display text-2xl mb-1">Edit your persona</h1>
     <p class="text-xs text-ink/50 mb-4">Reinvention is free. Authenticity was never on the menu.</p>
     <%= form_with model: @persona, url: my_persona_path, method: :patch do |f| %>
       <div class="flex flex-col gap-4">

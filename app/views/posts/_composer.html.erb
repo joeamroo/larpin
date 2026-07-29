@@ -7,7 +7,7 @@
               rows: 2,
               maxlength: 4000,
               placeholder: "Start a larp... (\"I wasn't going to share this, but...\")",
-              class: "w-full resize-y rounded-xl border border-black/15 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500 min-h-[52px]",
+              class: "w-full resize-none rounded-xl border border-black/15 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500 min-h-[52px]",
               data: { composer_target: "textarea" } %>
         <div class="flex flex-wrap gap-2 mt-2 empty:hidden" data-composer-target="previews"></div>
         <div class="flex items-center flex-wrap gap-2 mt-2">
@@ -26,7 +26,7 @@
           </button>
           <%= f.submit "Post", class: "ml-auto bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-bold rounded-full px-5 py-1.5 cursor-pointer" %>
         </div>
-        <p class="hidden text-[11px] text-ink/40 mt-1" data-composer-target="hint"></p>
+        <p class="hidden text-xs text-ink/40 mt-1" data-composer-target="hint"></p>
       </div>
     </div>
   <% end %>
