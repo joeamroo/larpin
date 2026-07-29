@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+  skip_forgery_protection
   before_action :require_admin_token!
 
   def destroy_post
