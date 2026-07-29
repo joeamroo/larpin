@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-2">
   <% posts.each_with_index do |post, i| %>
     <%= render "posts/post", post: post %>
     <% if i == 1 && promoted %>

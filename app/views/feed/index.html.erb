@@ -1,16 +1,17 @@
-<div class="grid grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_280px] gap-5 items-start">
-  <aside class="hidden lg:block sticky top-[72px]">
+<div class="max-w-[1128px] mx-auto grid grid-cols-1 lg:grid-cols-[225px_minmax(0,1fr)_300px] gap-6 items-start">
+  <aside class="hidden lg:block sticky top-[68px]">
     <%= render "shared/profile_card", persona: current_persona if current_persona %>
   </aside>
 
-  <section>
+  <section class="min-w-0">
     <%= render "posts/composer" %>
 
-    <div class="flex items-center gap-1 mt-4 mb-2 px-1">
-      <span class="text-xs text-ink/50 mr-2">Sort feed:</span>
-      <% { "hot" => "🔥 Hot", "new" => "🕐 New", "top" => "🏆 Top" }.each do |key, label| %>
+    <div class="flex items-center gap-2 mt-2 mb-2">
+      <div class="flex-1 border-t border-black/15"></div>
+      <span class="text-xs text-ink/60">Sort by:</span>
+      <% { "hot" => "Hot", "new" => "Recent", "top" => "Top" }.each do |key, label| %>
         <%= link_to label, root_path(sort: key),
-              class: "text-xs font-semibold px-3 py-1 rounded-full #{@sort == key ? 'bg-cobalt-700 text-white' : 'bg-white border border-black/10 text-ink/70 hover:bg-cobalt-50'}" %>
+              class: "text-xs #{@sort == key ? 'font-bold text-ink' : 'font-medium text-ink/60 hover:text-ink'}" %>
       <% end %>
     </div>
 
@@ -19,7 +20,7 @@
     </turbo-frame>
   </section>
 
-  <aside class="hidden lg:flex flex-col gap-4 sticky top-[72px]">
+  <aside class="hidden lg:flex flex-col gap-2 sticky top-[68px]">
     <%= render "shared/right_rail" %>
   </aside>
 </div>
