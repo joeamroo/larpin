@@ -1,0 +1,41 @@
+<% content_for :title, "Post analytics - LarpIn" %>
+<div class="max-w-xl mx-auto flex flex-col gap-3">
+  <div class="card p-5">
+    <h1 class="font-bold text-lg">Post analytics</h1>
+    <p class="text-xs text-ink/50 mb-4">All numbers are real in the sense that they exist.</p>
+
+    <div class="grid grid-cols-3 gap-3 text-center mb-5">
+      <div class="bg-paper rounded-xl p-3">
+        <p class="text-2xl font-bold text-cobalt-700"><%= number_with_delimiter(@post.impressions) %></p>
+        <p class="text-[11px] text-ink/60">Impressions</p>
+      </div>
+      <div class="bg-paper rounded-xl p-3">
+        <p class="text-2xl font-bold text-cobalt-700"><%= @post.reactions_count %></p>
+        <p class="text-[11px] text-ink/60">Reactions</p>
+      </div>
+      <div class="bg-paper rounded-xl p-3">
+        <p class="text-2xl font-bold text-cobalt-700"><%= @post.comments_count %></p>
+        <p class="text-[11px] text-ink/60">Comments</p>
+      </div>
+    </div>
+
+    <h2 class="text-sm font-bold mb-2">Who viewed this post</h2>
+    <ul class="text-sm space-y-2">
+      <% seed = @post.impressions_seed %>
+      <li class="flex justify-between"><span>People at companies you want to work for</span><span class="font-bold"><%= seed % 47 + 3 %></span></li>
+      <li class="flex justify-between"><span>Recruiters who said nothing</span><span class="font-bold"><%= seed % 23 + 5 %></span></li>
+      <li class="flex justify-between"><span>Your old boss (multiple times)</span><span class="font-bold"><%= seed % 9 + 2 %></span></li>
+      <li class="flex justify-between"><span>People in Stealth Mode</span><span class="font-bold"><%= seed % 140 + 12 %></span></li>
+      <li class="flex justify-between"><span>The algorithm, emotionally</span><span class="font-bold">1</span></li>
+    </ul>
+
+    <h2 class="text-sm font-bold mt-5 mb-2">Engagement quality</h2>
+    <% [["Genuine interest", seed % 4], ["Polite obligation", seed % 38 + 20], ["Hate-reading", seed % 31 + 14], ["Accidental clicks", seed % 26 + 8]].each do |label, pct| %>
+      <div class="mb-2">
+        <div class="flex justify-between text-xs mb-0.5"><span><%= label %></span><span><%= pct %>%</span></div>
+        <div class="bg-paper rounded-full h-2 overflow-hidden"><div class="bg-cobalt-600 h-2" style="width: <%= [pct, 100].min %>%"></div></div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "← Back to the feed", root_path, class: "text-sm font-semibold text-cobalt-700 hover:underline px-2" %>
+</div>

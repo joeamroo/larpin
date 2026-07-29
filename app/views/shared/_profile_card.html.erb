@@ -1,0 +1,14 @@
+<div class="card overflow-hidden">
+  <div class="h-16" style="background: linear-gradient(120deg, hsl(<%= persona.hue %>, 60%, 30%), hsl(<%= (persona.hue + 60) % 360 %>, 55%, 45%));"></div>
+  <div class="px-4 pb-4 -mt-8">
+    <%= avatar_tag(persona, size: 16, ring: true) %>
+    <%= link_to persona.name, persona_path(persona), class: "block mt-2 font-bold hover:underline" %>
+    <p class="text-xs text-ink/60 mt-0.5"><%= persona.headline %></p>
+    <div class="mt-3 pt-3 border-t border-black/5 text-xs space-y-1.5">
+      <div class="flex justify-between"><span class="text-ink/60">Connections</span><span class="font-bold text-cobalt-700"><%= persona.clout_display %></span></div>
+      <div class="flex justify-between"><span class="text-ink/60">Larping since</span><span class="font-medium"><%= persona.larping_since.year %></span></div>
+      <div class="flex justify-between"><span class="text-ink/60">Profile views</span><span class="font-medium"><%= persona.id * 137 % 9000 + 240 %> this week</span></div>
+    </div>
+    <%= link_to "Edit persona", edit_my_persona_path, class: "mt-3 block text-center text-xs font-semibold text-cobalt-700 border border-cobalt-600 rounded-full py-1.5 hover:bg-cobalt-50" %>
+  </div>
+</div>

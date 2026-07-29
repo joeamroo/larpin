@@ -1,0 +1,48 @@
+<% unread_notifs = current_persona&.unread_notifications_count.to_i %>
+<% unread_msgs = current_persona&.unread_messages_count.to_i %>
+<% pending_reqs = current_persona ? current_persona.received_connections.pending.count : 0 %>
+<nav class="sticky top-0 z-40 bg-white border-b border-black/10">
+  <div class="max-w-6xl mx-auto px-3 sm:px-4 flex items-center gap-2 sm:gap-4 h-14">
+    <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
+      <div class="w-9 h-9 rounded-lg bg-cobalt-600 text-white flex items-center justify-center font-serif font-bold text-2xl leading-none">L</div>
+      <span class="hidden sm:block font-serif font-bold text-xl tracking-tight text-cobalt-800">LarpIn</span>
+    <% end %>
+
+    <div class="hidden md:flex items-center gap-2 bg-paper rounded-full px-3 py-1.5 text-sm text-ink/50 w-56 cursor-not-allowed" title="Search is a Premium feature. Premium does not exist.">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="m21 21-4.3-4.3M17 10.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg>
+      Search (Premium only)
+    </div>
+
+    <div class="flex items-center gap-1 sm:gap-2 ml-auto">
+      <%= link_to root_path, class: "flex flex-col items-center px-2 sm:px-3 py-1 rounded-lg hover:bg-paper text-ink/70 hover:text-ink" do %>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
+        <span class="text-[10px] leading-tight hidden sm:block">Home</span>
+      <% end %>
+      <%= link_to network_path, class: "relative flex flex-col items-center px-2 sm:px-3 py-1 rounded-lg hover:bg-paper text-ink/70 hover:text-ink" do %>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3 0-7 1.5-7 4.5V20h14v-2.5C16 14.5 12 13 9 13Zm8-2a3 3 0 1 0-3-3 3 3 0 0 0 3 3Zm1.8 2.3A6.7 6.7 0 0 1 22 17.5V20h-4v-2.5a5.4 5.4 0 0 0-2.2-4.2 8.7 8.7 0 0 1 3-.99Z"/></svg>
+        <span class="text-[10px] leading-tight hidden sm:block">Network</span>
+        <% if pending_reqs > 0 %><span class="absolute -top-0.5 right-1 bg-accent-500 text-white text-[10px] font-bold rounded-full min-w-4 h-4 px-1 flex items-center justify-center"><%= pending_reqs %></span><% end %>
+      <% end %>
+      <%= link_to jobs_path, class: "flex flex-col items-center px-2 sm:px-3 py-1 rounded-lg hover:bg-paper text-ink/70 hover:text-ink" do %>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4h4a2 2 0 0 1 2 2v1h4a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h4V6a2 2 0 0 1 2-2Zm0 3h4V6h-4v1Z"/></svg>
+        <span class="text-[10px] leading-tight hidden sm:block">Jobs</span>
+      <% end %>
+      <%= link_to conversations_path, class: "relative flex flex-col items-center px-2 sm:px-3 py-1 rounded-lg hover:bg-paper text-ink/70 hover:text-ink" do %>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8l-5 4V5a1 1 0 0 1 1-1Z"/></svg>
+        <span class="text-[10px] leading-tight hidden sm:block">Messaging</span>
+        <% if unread_msgs > 0 %><span class="absolute -top-0.5 right-1 bg-accent-500 text-white text-[10px] font-bold rounded-full min-w-4 h-4 px-1 flex items-center justify-center"><%= unread_msgs %></span><% end %>
+      <% end %>
+      <%= link_to notifications_path, class: "relative flex flex-col items-center px-2 sm:px-3 py-1 rounded-lg hover:bg-paper text-ink/70 hover:text-ink" do %>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22Zm7-5v-6a7 7 0 0 0-5-6.7V4a2 2 0 0 0-4 0v.3A7 7 0 0 0 5 11v6l-2 2v1h18v-1l-2-2Z"/></svg>
+        <span class="text-[10px] leading-tight hidden sm:block">Notifications</span>
+        <% if unread_notifs > 0 %><span class="absolute -top-0.5 right-1 bg-accent-500 text-white text-[10px] font-bold rounded-full min-w-4 h-4 px-1 flex items-center justify-center"><%= unread_notifs %></span><% end %>
+      <% end %>
+      <% if current_persona %>
+        <%= link_to persona_path(current_persona), class: "flex flex-col items-center px-2 sm:px-3 py-1 rounded-lg hover:bg-paper" do %>
+          <%= avatar_tag(current_persona, size: 8) %>
+          <span class="text-[10px] leading-tight text-ink/70 hidden sm:block">Me</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</nav>

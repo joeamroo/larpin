@@ -1,0 +1,21 @@
+<div id="<%= dom_id(comment) %>" class="flex items-start gap-2">
+  <%= link_to persona_path(comment.persona), data: { turbo_frame: "_top" } do %><%= avatar_tag(comment.persona, size: 8) %><% end %>
+  <div class="flex-1 min-w-0">
+    <div class="bg-paper rounded-xl px-3 py-2">
+      <div class="flex items-baseline gap-2">
+        <%= link_to comment.persona.name, persona_path(comment.persona), class: "text-xs font-bold hover:underline", data: { turbo_frame: "_top" } %>
+        <span class="text-[10px] text-ink/40"><%= short_time_ago(comment.created_at) %></span>
+      </div>
+      <p class="text-xs text-ink/60 truncate"><%= comment.persona.headline %></p>
+      <p class="text-sm mt-1 whitespace-pre-line"><%= comment.body %></p>
+    </div>
+    <div class="flex items-center gap-3 mt-0.5 px-2">
+      <%= button_to like_comment_path(comment), class: "text-[11px] font-semibold cursor-pointer #{comment.liked_by?(current_persona) ? 'text-cobalt-700' : 'text-ink/50 hover:text-cobalt-700'}" do %>
+        Like<% if comment.likes_count > 0 %> · <%= comment.likes_count %><% end %>
+      <% end %>
+      <% if current_persona&.id == comment.persona_id %>
+        <%= button_to "Delete", comment_path(comment), method: :delete, class: "text-[11px] text-ink/40 hover:text-accent-600 cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+</div>
