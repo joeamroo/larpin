@@ -1,0 +1,31 @@
+<% content_for :title, "#{@article.headline} - LarpIn News" %>
+<% content_for :head do %>
+  <meta property="og:title" content="<%= @article.headline %>">
+  <meta property="og:description" content="LarpIn News · <%= number_with_delimiter(@article.readers) %> readers">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="<%= article_url(@article) %>">
+<% end %>
+
+<div class="max-w-xl mx-auto flex flex-col gap-3">
+  <article class="card p-6">
+    <p class="text-xs font-semibold uppercase tracking-wide text-cobalt-600 mb-2">LarpIn News · Breaking-ish</p>
+    <h1 class="display text-2xl leading-snug"><%= @article.headline %></h1>
+    <div class="flex items-center gap-2 mt-3 pb-4 border-b border-black/5">
+      <%= link_to persona_path(@article.persona) do %><%= avatar_tag(@article.persona, size: 8) %><% end %>
+      <p class="text-xs text-ink/60">
+        By <%= link_to @article.persona.name, persona_path(@article.persona), class: "font-semibold hover:underline" %>
+        · <%= short_time_ago(@article.created_at) %> ago
+        · <span class="num"><%= number_with_delimiter(@article.readers) %> readers</span> (source: the author)
+      </p>
+    </div>
+    <% if @article.body.present? %>
+      <div class="post-body whitespace-pre-line mt-4"><%= post_body_html(@article.body) %></div>
+    <% else %>
+      <p class="text-sm text-ink/60 mt-4 italic">The author declined to write a body for this story. The headline speaks for itself. It has to.</p>
+    <% end %>
+  </article>
+  <div class="flex items-center gap-4 px-2">
+    <%= link_to "← All news", articles_path, class: "text-sm font-semibold text-cobalt-600 hover:underline" %>
+    <%= link_to "Write your own", new_article_path, class: "text-sm font-semibold text-cobalt-600 hover:underline" %>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<% content_for :title, "LarpIn News" %>
+<div class="max-w-2xl mx-auto flex flex-col gap-3">
+  <div class="flex items-center justify-between px-1">
+    <div>
+      <h1 class="display text-2xl">LarpIn News</h1>
+      <p class="text-xs text-ink/60">Citizen journalism, minus the journalism. All stories verified by nobody.</p>
+    </div>
+    <%= link_to "+ Write news", new_article_path, class: "text-sm font-semibold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-4 py-2 shrink-0" %>
+  </div>
+
+  <div class="card divide-y divide-black/5">
+    <% if @articles.empty? %>
+      <p class="p-8 text-center text-sm text-ink/60">No news yet. In this economy, that IS the news. Write the first story.</p>
+    <% end %>
+    <% @articles.each do |article| %>
+      <div class="p-4 flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <%= link_to article.headline, article_path(article), class: "font-semibold text-[15px] hover:underline hover:text-cobalt-600" %>
+          <p class="text-xs text-ink/60 mt-0.5 num">
+            <%= short_time_ago(article.created_at) %> ago ·
+            <%= number_with_delimiter(article.readers) %> readers ·
+            by <%= link_to article.persona.name, persona_path(article.persona), class: "hover:underline" %>
+          </p>
+        </div>
+        <% if current_persona&.id == article.persona_id %>
+          <%= button_to "Retract", article_path(article), method: :delete, form: { data: { turbo_confirm: "Retract this story?" } }, class: "text-xs text-ink/50 hover:text-accent-600 cursor-pointer shrink-0" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

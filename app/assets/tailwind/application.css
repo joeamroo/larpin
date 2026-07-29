@@ -1,52 +1,26 @@
 @import "tailwindcss";
 
-/* Self-hosted variable fonts. Public Sans carries the bureaucratic-earnest UI;
-   Fraunces carries the old-money-corporate display voice. */
-@font-face {
-  font-family: "Public Sans";
-  src: url("PublicSans-normal.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Public Sans";
-  src: url("PublicSans-italic.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Fraunces";
-  src: url("Fraunces-normal.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Fraunces";
-  src: url("Fraunces-italic.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-
 @theme {
-  --font-sans: "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  /* LinkedIn's actual font stack: pure system fonts, no webfonts. */
+  --font-sans: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell,
+    "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Lucida Grande", Helvetica, Arial, sans-serif;
 
-  --color-paper: #f4f1ea;
-  --color-ink: #1c2733;
-  --color-cobalt-50: #eef3fe;
-  --color-cobalt-100: #dce7fd;
-  --color-cobalt-200: #b9cefa;
-  --color-cobalt-500: #2f5fe3;
-  --color-cobalt-600: #1f4fd8;
-  --color-cobalt-700: #1a41b0;
-  --color-cobalt-800: #16368f;
-  --color-cobalt-900: #122a6e;
+  /* LinkedIn blue family (cobalt token names kept so existing classes update). */
+  --color-paper: #f4f2ee;
+  --color-ink: #191919;
+  --color-cobalt-50: #f1f8ff;
+  --color-cobalt-100: #e8f0fe;
+  --color-cobalt-200: #c3d9f0;
+  --color-cobalt-500: #378fe9;
+  --color-cobalt-600: #0a66c2;
+  --color-cobalt-700: #004182;
+  --color-cobalt-800: #09344f;
+  --color-cobalt-900: #062338;
   --color-accent-500: #e8590c;
   --color-accent-600: #d9480f;
+  --color-badge: #cb112d;
   --color-gold-500: #b8860b;
 }
 
@@ -57,19 +31,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Display voice: page titles and section headers wear the serif. */
+/* Section/page headers: LinkedIn uses weight, not a display face. */
 .display {
-  font-family: var(--font-serif);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 40;
+  letter-spacing: normal;
 }
 
 .card {
   background: white;
-  border-radius: 0.75rem;
-  border: 1px solid rgb(0 0 0 / 0.08);
-  box-shadow: 0 1px 2px rgb(16 24 40 / 0.04);
+  border-radius: 0.5rem;
+  border: 1px solid rgb(140 140 140 / 0.2);
+  box-shadow: 0 0 0 rgb(0 0 0 / 0);
 }
 
 .clamped {
@@ -81,12 +53,12 @@ body {
 
 .post-body {
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .post-body a, .hashtag {
-  color: var(--color-cobalt-700);
-  font-weight: 500;
+  color: var(--color-cobalt-600);
+  font-weight: 600;
 }
 
 /* Counts and metrics align like a spreadsheet should. */
