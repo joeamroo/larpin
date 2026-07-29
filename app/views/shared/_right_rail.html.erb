@@ -1,11 +1,11 @@
-<% celebrant = Persona.bots.where("base_clout < 500").order("RANDOM()").first %>
+<% celebrant = Persona.bots.where("base_clout < 500").where(larping_since: ..1.year.ago).order("RANDOM()").first %>
 <% if celebrant %>
   <div class="card p-4">
     <h3 class="text-sm font-bold mb-3">Today's milestones</h3>
     <div class="flex items-start gap-3">
       <%= avatar_tag(celebrant, size: 10) %>
       <div class="text-xs">
-        <p><%= link_to celebrant.name, persona_path(celebrant), class: "font-semibold hover:underline" %> is celebrating <span class="font-semibold"><%= celebrant.years_larping %> years</span> of larping.</p>
+        <p><%= link_to celebrant.name, persona_path(celebrant), class: "font-semibold hover:underline" %> is celebrating <span class="font-semibold"><%= pluralize(celebrant.years_larping, "year") %></span> of larping.</p>
         <%= button_to "Say congrats 🎉", conversations_path(persona_id: celebrant.id), class: "mt-2 text-cobalt-700 font-semibold border border-cobalt-600 rounded-full px-3 py-1 hover:bg-cobalt-50 cursor-pointer" %>
       </div>
     </div>

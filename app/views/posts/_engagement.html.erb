@@ -4,10 +4,10 @@
   <div class="flex items-center justify-between px-4 pt-2.5 pb-1.5 text-xs text-ink/50">
     <div class="flex items-center gap-1">
       <% breakdown.first(3).each do |kind, _| %><span><%= Reaction::KINDS[kind][:emoji] %></span><% end %>
-      <span class="ml-1"><%= post.reactions_count %> reactions</span>
+      <span class="ml-1"><%= pluralize(post.reactions_count, "reaction") %></span>
     </div>
     <div class="flex items-center gap-3">
-      <span><%= post.comments_count %> comments</span>
+      <span><%= pluralize(post.comments_count, "comment") %></span>
       <span title="Impressions are computed by vibes"><%= number_with_delimiter(post.impressions) %> impressions</span>
       <% if current_persona&.id == post.persona_id %>
         <%= link_to "Analytics", analytics_post_path(post), class: "text-cobalt-700 font-semibold hover:underline", data: { turbo_frame: "_top" } %>
