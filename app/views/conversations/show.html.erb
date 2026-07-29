@@ -11,6 +11,7 @@
       </div>
     </div>
 
+    <%= turbo_frame_tag "conversation_messages", src: conversation_path(@conversation), data: { controller: "refresher", refresher_interval_value: 8000 } do %>
     <div class="p-4 flex flex-col gap-2 max-h-[55vh] overflow-y-auto">
       <% @messages.each do |message| %>
         <% mine = message.sender_id == @persona.id %>
@@ -25,6 +26,7 @@
         <p class="text-center text-xs text-ink/50 py-6">Say something professional-sounding.</p>
       <% end %>
     </div>
+    <% end %>
 
     <%= form_with url: conversation_messages_path(@conversation), data: { turbo_frame: "_top" }, class: "border-t border-black/5 p-3" do |f| %>
       <div class="flex gap-2">

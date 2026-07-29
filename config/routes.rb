@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :posts, only: [:create, :show, :destroy] do
     member do
       post :react
+      post :hype
       get :analytics
     end
     resources :comments, only: [:create], shallow: true
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
   resources :articles, path: "news", only: [:index, :show, :new, :create, :destroy]
   resources :experiences, only: [:create, :destroy]
   resources :profile_skills, only: [:create, :destroy]
+  resources :certifications, only: [:create]
 
   get "network" => "network#index"
   resources :connections, only: [:create, :update]

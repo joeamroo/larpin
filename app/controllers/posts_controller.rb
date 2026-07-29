@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :destroy, :react, :analytics]
+  before_action :set_post, only: [:show, :destroy, :react, :analytics, :hype]
 
   def create
     persona = ensure_persona!
@@ -55,6 +55,15 @@ class PostsController < ApplicationController
 
   def analytics
     render layout: !turbo_frame_request?
+  end
+
+  def hype
+    return head :forbidden unless current_persona&.id == @post.persona_id
+    if HypeSquad.summon!(@post)
+      redirect_back fallback_location: post_path(@post), notice: "Hype squad dispatched. Engagement is now organic (contractually)."
+    else
+      redirect_back fallback_location: post_path(@post), alert: "Your hype squad already came. They have other grinds to attend."
+    end
   end
 
   private

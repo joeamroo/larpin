@@ -18,6 +18,10 @@
       <% if current_persona&.id == post.persona_id %>
         <span class="text-ink/30">·</span>
         <%= link_to "Analytics", analytics_post_path(post), class: "text-cobalt-600 font-semibold hover:underline", data: { turbo_frame: "_top" } %>
+        <% unless post.hyped? %>
+          <span class="text-ink/30">·</span>
+          <%= button_to "🚀 Hype squad", hype_post_path(post), form: { data: { turbo_frame: "_top" } }, form_class: "btn-form", class: "text-accent-600 font-semibold hover:underline cursor-pointer", title: "Summon 3 bots to hype this post. Once per larp." %>
+        <% end %>
       <% end %>
     </div>
   </div>

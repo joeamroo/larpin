@@ -6,6 +6,8 @@ class NetworkController < ApplicationController
     connected_ids = @accepted.flat_map { |c| [c.requester_id, c.receiver_id] } +
                     @pending.map(&:requester_id) +
                     @persona.sent_connections.pluck(:receiver_id) + [@persona.id]
-    @suggestions = Persona.where.not(id: connected_ids.uniq).where.not(name: "LarpIn Premium").order("RANDOM()").limit(6)
+    # Real humans first; bots fill the rest.
+    @suggestions = Persona.where.not(id: connected_ids.uniq).where.not(name: "LarpIn Premium")
+                          .order(Arel.sql("is_bot ASC, RANDOM()")).limit(6)
   end
 end

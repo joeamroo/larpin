@@ -11,6 +11,8 @@ class Persona < ApplicationRecord
   has_many :articles, dependent: :destroy
   has_many :experiences, dependent: :destroy
   has_many :profile_skills, dependent: :destroy
+  has_many :certifications, dependent: :destroy
+  has_many :certifications, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 60 }
   validates :headline, presence: true, length: { maximum: 140 }

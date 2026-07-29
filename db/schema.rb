@@ -50,6 +50,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.index ["persona_id"], name: "index_articles_on_persona_id"
   end
 
+  create_table "certifications", force: :cascade do |t|
+    t.string "course", null: false
+    t.datetime "created_at", null: false
+    t.string "hours", null: false
+    t.integer "persona_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["persona_id", "course"], name: "index_certifications_on_persona_id_and_course", unique: true
+    t.index ["persona_id"], name: "index_certifications_on_persona_id"
+  end
+
   create_table "comment_likes", force: :cascade do |t|
     t.integer "comment_id", null: false
     t.datetime "created_at", null: false
@@ -183,6 +193,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.text "body", default: "", null: false
     t.integer "comments_count", default: 0, null: false
     t.datetime "created_at", null: false
+    t.boolean "hyped", default: false, null: false
     t.integer "impressions_seed", default: 0, null: false
     t.string "kind", default: "post", null: false
     t.integer "persona_id", null: false
@@ -216,6 +227,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "personas"
+  add_foreign_key "certifications", "personas"
   add_foreign_key "comment_likes", "comments"
   add_foreign_key "comment_likes", "personas"
   add_foreign_key "comments", "personas"
