@@ -1,6 +1,40 @@
 @import "tailwindcss";
 
+/* Self-hosted variable fonts. Public Sans carries the bureaucratic-earnest UI;
+   Fraunces carries the old-money-corporate display voice. */
+@font-face {
+  font-family: "Public Sans";
+  src: url("PublicSans-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("PublicSans-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("Fraunces-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("Fraunces-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
+  --font-sans: "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+
   --color-paper: #f4f1ea;
   --color-ink: #1c2733;
   --color-cobalt-50: #eef3fe;
@@ -19,6 +53,16 @@
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display voice: page titles and section headers wear the serif. */
+.display {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 40;
 }
 
 .card {
@@ -35,7 +79,39 @@ body {
   overflow: hidden;
 }
 
+.post-body {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
 .post-body a, .hashtag {
   color: var(--color-cobalt-700);
   font-weight: 500;
+}
+
+/* Counts and metrics align like a spreadsheet should. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Interaction polish: consistent, quick state changes everywhere. */
+a, button, input, select, textarea, [type="submit"] {
+  transition: background-color 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+              color 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.15s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cobalt-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

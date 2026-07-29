@@ -1,21 +1,21 @@
 <% content_for :title, "Post analytics - LarpIn" %>
 <div class="max-w-xl mx-auto flex flex-col gap-3">
   <div class="card p-5">
-    <h1 class="font-bold text-lg">Post analytics</h1>
+    <h1 class="display text-2xl">Post analytics</h1>
     <p class="text-xs text-ink/50 mb-4">All numbers are real in the sense that they exist.</p>
 
     <div class="grid grid-cols-3 gap-3 text-center mb-5">
       <div class="bg-paper rounded-xl p-3">
-        <p class="text-2xl font-bold text-cobalt-700"><%= number_with_delimiter(@post.impressions) %></p>
-        <p class="text-[11px] text-ink/60">Impressions</p>
+        <p class="text-2xl font-bold text-cobalt-700 num"><%= number_with_delimiter(@post.impressions) %></p>
+        <p class="text-xs text-ink/60">Impressions</p>
       </div>
       <div class="bg-paper rounded-xl p-3">
         <p class="text-2xl font-bold text-cobalt-700"><%= @post.reactions_count %></p>
-        <p class="text-[11px] text-ink/60">Reactions</p>
+        <p class="text-xs text-ink/60">Reactions</p>
       </div>
       <div class="bg-paper rounded-xl p-3">
         <p class="text-2xl font-bold text-cobalt-700"><%= @post.comments_count %></p>
-        <p class="text-[11px] text-ink/60">Comments</p>
+        <p class="text-xs text-ink/60">Comments</p>
       </div>
     </div>
 

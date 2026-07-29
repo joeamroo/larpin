@@ -2,17 +2,20 @@
 <div class="max-w-2xl mx-auto flex flex-col gap-3">
   <div class="flex items-center justify-between px-1">
     <div>
-      <h1 class="font-bold text-lg">LarpIn Jobs</h1>
+      <h1 class="display text-2xl">LarpIn Jobs</h1>
       <p class="text-xs text-ink/50">Every listing is fake. Every rejection is instant. Just like real life, but faster.</p>
     </div>
     <%= link_to "+ Post a job", new_job_path, class: "text-sm font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-4 py-2 shrink-0" %>
   </div>
 
+  <% if @jobs.empty? %>
+    <div class="card p-8 text-center text-sm text-ink/60">No openings right now. The market has decided to keep its positions unfilled, for the mystique.</div>
+  <% end %>
   <% @jobs.each do |job| %>
     <div class="card p-5">
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0">
-          <h2 class="font-bold text-base text-cobalt-800"><%= job.title %></h2>
+          <h2 class="display text-[17px] text-cobalt-800"><%= job.title %></h2>
           <p class="text-sm text-ink/70"><%= job.company %></p>
           <p class="text-xs text-ink/50 mt-0.5">
             <%= job.location.presence || "Location undisclosed (stealth)" %>
@@ -29,7 +32,7 @@
       <% if job.description.present? %>
         <p class="text-sm mt-2 whitespace-pre-line text-ink/80"><%= job.description %></p>
       <% end %>
-      <p class="text-[11px] text-ink/40 mt-2">Posted by <%= link_to job.persona.name, persona_path(job.persona), class: "hover:underline font-medium" %> · <%= short_time_ago(job.created_at) %> ago</p>
+      <p class="text-xs text-ink/40 mt-2">Posted by <%= link_to job.persona.name, persona_path(job.persona), class: "hover:underline font-medium" %> · <%= short_time_ago(job.created_at) %> ago</p>
     </div>
   <% end %>
 </div>

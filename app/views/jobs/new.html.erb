@@ -1,7 +1,7 @@
 <% content_for :title, "Post a job - LarpIn" %>
 <div class="max-w-lg mx-auto">
   <div class="card p-5">
-    <h1 class="font-bold text-lg mb-1">Post a fake job</h1>
+    <h1 class="display text-2xl mb-1">Post a fake job</h1>
     <p class="text-xs text-ink/50 mb-4">All applicants will be instantly rejected. It's called managing expectations.</p>
     <%= form_with model: @job, url: jobs_path do |f| %>
       <div class="flex flex-col gap-4">

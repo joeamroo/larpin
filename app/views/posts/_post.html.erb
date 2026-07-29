@@ -1,8 +1,8 @@
 <article id="<%= dom_id(post) %>" class="card <%= 'border-gold-500/50' if post.kind == 'promoted' %>" data-controller="toggle">
   <% if post.kind == "promoted" %>
-    <p class="px-4 pt-2.5 text-[11px] font-semibold uppercase tracking-wide text-gold-500">Promoted · nobody paid for this</p>
+    <p class="px-4 pt-2.5 text-xs font-semibold uppercase tracking-wide text-gold-500">Promoted · nobody paid for this</p>
   <% elsif post.kind == "celebration" %>
-    <p class="px-4 pt-2.5 text-[11px] font-semibold uppercase tracking-wide text-accent-500">🎉 Milestone</p>
+    <p class="px-4 pt-2.5 text-xs font-semibold uppercase tracking-wide text-accent-500">🎉 Milestone</p>
   <% end %>
 
   <div class="flex items-start gap-3 px-4 pt-3">
@@ -13,18 +13,18 @@
         <span class="text-ink/40 text-xs">· <%= post.persona.clout_display %></span>
       </div>
       <p class="text-xs text-ink/50 truncate"><%= post.persona.headline %></p>
-      <p class="text-[11px] text-ink/40"><%= short_time_ago(post.created_at) %> · 🌐 Everyone is watching</p>
+      <p class="text-xs text-ink/40"><%= short_time_ago(post.created_at) %> · 🌐 Everyone is watching</p>
     </div>
     <% if current_persona&.id == post.persona_id %>
       <%= button_to post_path(post), method: :delete, form: { data: { turbo_confirm: "Retract this larp?", turbo_frame: "_top" } }, class: "shrink-0", title: "Delete" do %>
-        <span class="text-ink/30 hover:text-accent-600 cursor-pointer text-lg leading-none">×</span>
+        <span class="inline-flex items-center justify-center w-8 h-8 -m-1.5 rounded-full text-ink/30 hover:text-accent-600 hover:bg-paper cursor-pointer text-lg leading-none">×</span>
       <% end %>
     <% end %>
   </div>
 
   <% if post.body.present? %>
     <div class="px-4 pt-2">
-      <div class="post-body text-sm leading-relaxed whitespace-pre-line clamped" data-toggle-target="panel" data-panel="body" data-toggle-class="clamped"><%= post_body_html(post.body) %></div>
+      <div class="post-body whitespace-pre-line clamped" data-toggle-target="panel" data-panel="body" data-toggle-class="clamped"><%= post_body_html(post.body) %></div>
       <% if post.body.length > 280 || post.body.lines.count > 5 %>
         <button class="text-xs font-semibold text-ink/50 hover:text-cobalt-700 cursor-pointer"
                 data-action="toggle#toggle" data-toggle-name-param="body"
