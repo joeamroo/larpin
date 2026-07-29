@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Larpin" %></title>
+    <title><%= content_for(:title) || "LarpIn - The professional network for professional pretenders" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Larpin">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="LinkedIn, but everyone admits they're larping. One global feed of committed bits.">
+    <%= yield :head %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%231f4fd8%22/><text x=%2250%22 y=%2272%22 font-size=%2264%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Georgia%22 font-weight=%22bold%22>L</text></svg>">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="min-h-screen">
+    <%= render "shared/navbar" %>
+    <div id="flashes" class="fixed top-16 inset-x-0 z-50 flex flex-col items-center gap-2 pointer-events-none px-4">
+      <%= render "shared/flashes" %>
+    </div>
+    <main class="max-w-6xl mx-auto px-3 sm:px-4 py-5">
       <%= yield %>
     </main>
+    <footer class="max-w-6xl mx-auto px-4 pb-10 pt-4 text-xs text-ink/50 text-center">
+      LarpIn: every post is a bit, every persona is fake, every connection is forever.
+      Built for fun. Please larp responsibly.
+    </footer>
   </body>
 </html>

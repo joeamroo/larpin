@@ -1,0 +1,37 @@
+<% other = @conversation.other(@persona) %>
+<% content_for :title, "Chat with #{other.name} - LarpIn" %>
+<div class="max-w-xl mx-auto">
+  <div class="card overflow-hidden">
+    <div class="flex items-center gap-3 p-4 border-b border-black/5">
+      <%= link_to conversations_path, class: "text-ink/50 hover:text-ink font-bold" do %>←<% end %>
+      <%= link_to persona_path(other) do %><%= avatar_tag(other, size: 10) %><% end %>
+      <div class="min-w-0">
+        <%= link_to other.name, persona_path(other), class: "font-bold text-sm hover:underline" %>
+        <p class="text-xs text-ink/50 truncate"><%= other.headline %></p>
+      </div>
+    </div>
+
+    <div class="p-4 flex flex-col gap-2 max-h-[55vh] overflow-y-auto">
+      <% @messages.each do |message| %>
+        <% mine = message.sender_id == @persona.id %>
+        <div class="max-w-[80%] <%= mine ? 'self-end' : 'self-start' %>">
+          <div class="rounded-2xl px-3.5 py-2 text-sm <%= mine ? 'bg-cobalt-600 text-white rounded-br-sm' : 'bg-paper rounded-bl-sm' %>">
+            <p class="whitespace-pre-line"><%= message.body %></p>
+          </div>
+          <p class="text-[10px] text-ink/40 mt-0.5 <%= 'text-right' if mine %>"><%= short_time_ago(message.created_at) %></p>
+        </div>
+      <% end %>
+      <% if @messages.empty? %>
+        <p class="text-center text-xs text-ink/50 py-6">Say something professional-sounding.</p>
+      <% end %>
+    </div>
+
+    <%= form_with url: conversation_messages_path(@conversation), data: { turbo_frame: "_top" }, class: "border-t border-black/5 p-3" do |f| %>
+      <div class="flex gap-2">
+        <%= f.text_field "message[body]", placeholder: "Write a message... (\"Quick question...\")", maxlength: 2000, autocomplete: "off",
+              class: "flex-1 rounded-full border border-black/15 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+        <%= f.submit "Send", class: "text-sm font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-5 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>

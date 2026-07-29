@@ -1,0 +1,31 @@
+<% celebrant = Persona.bots.where("base_clout < 500").order("RANDOM()").first %>
+<% if celebrant %>
+  <div class="card p-4">
+    <h3 class="text-sm font-bold mb-3">Today's milestones</h3>
+    <div class="flex items-start gap-3">
+      <%= avatar_tag(celebrant, size: 10) %>
+      <div class="text-xs">
+        <p><%= link_to celebrant.name, persona_path(celebrant), class: "font-semibold hover:underline" %> is celebrating <span class="font-semibold"><%= celebrant.years_larping %> years</span> of larping.</p>
+        <%= button_to "Say congrats 🎉", conversations_path(persona_id: celebrant.id), class: "mt-2 text-cobalt-700 font-semibold border border-cobalt-600 rounded-full px-3 py-1 hover:bg-cobalt-50 cursor-pointer" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="card p-4">
+  <h3 class="text-sm font-bold mb-2">LarpIn News</h3>
+  <ul class="text-xs space-y-2.5">
+    <li><p class="font-semibold">Man adds "CEO" to profile, becomes CEO</p><p class="text-ink/50">2h ago · 41,204 readers</p></li>
+    <li><p class="font-semibold">Study: 100% of open rates are imagined</p><p class="text-ink/50">5h ago · 12 readers</p></li>
+    <li><p class="font-semibold">Local thought leader runs out of thoughts</p><p class="text-ink/50">1d ago · he's fine</p></li>
+    <li><p class="font-semibold">"We're hiring" post author admits nothing is hiring</p><p class="text-ink/50">2d ago · 8,914 readers</p></li>
+  </ul>
+</div>
+
+<div class="card p-4 border-gold-500/40">
+  <h3 class="text-sm font-bold text-gold-500">Try LarpIn Premium</h3>
+  <p class="text-xs text-ink/60 mt-1">A gold badge. That's it. That's the feature. $0/month, billed never.</p>
+  <button class="mt-2 text-xs font-semibold text-white bg-gold-500 rounded-full px-3 py-1.5 opacity-90 hover:opacity-100 cursor-not-allowed" title="Coming never">Start free trial of nothing</button>
+</div>
+
+<p class="text-[11px] text-ink/40 px-2">Share LarpIn: the only network where being fake is being honest.</p>

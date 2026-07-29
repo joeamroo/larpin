@@ -1,0 +1,73 @@
+<article id="<%= dom_id(post) %>" class="card <%= 'border-gold-500/50' if post.kind == 'promoted' %>" data-controller="toggle">
+  <% if post.kind == "promoted" %>
+    <p class="px-4 pt-2.5 text-[11px] font-semibold uppercase tracking-wide text-gold-500">Promoted · nobody paid for this</p>
+  <% elsif post.kind == "celebration" %>
+    <p class="px-4 pt-2.5 text-[11px] font-semibold uppercase tracking-wide text-accent-500">🎉 Milestone</p>
+  <% end %>
+
+  <div class="flex items-start gap-3 px-4 pt-3">
+    <%= link_to persona_path(post.persona), data: { turbo_frame: "_top" } do %><%= avatar_tag(post.persona, size: 12) %><% end %>
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-1.5">
+        <%= link_to post.persona.name, persona_path(post.persona), class: "font-bold text-sm hover:underline truncate", data: { turbo_frame: "_top" } %>
+        <span class="text-ink/40 text-xs">· <%= post.persona.clout_display %></span>
+      </div>
+      <p class="text-xs text-ink/50 truncate"><%= post.persona.headline %></p>
+      <p class="text-[11px] text-ink/40"><%= short_time_ago(post.created_at) %> · 🌐 Everyone is watching</p>
+    </div>
+    <% if current_persona&.id == post.persona_id %>
+      <%= button_to post_path(post), method: :delete, form: { data: { turbo_confirm: "Retract this larp?", turbo_frame: "_top" } }, class: "shrink-0", title: "Delete" do %>
+        <span class="text-ink/30 hover:text-accent-600 cursor-pointer text-lg leading-none">×</span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if post.body.present? %>
+    <div class="px-4 pt-2">
+      <div class="post-body text-sm leading-relaxed whitespace-pre-line clamped" data-toggle-target="panel" data-panel="body" data-toggle-class="clamped"><%= post_body_html(post.body) %></div>
+      <% if post.body.length > 280 || post.body.lines.count > 5 %>
+        <button class="text-xs font-semibold text-ink/50 hover:text-cobalt-700 cursor-pointer"
+                data-action="toggle#toggle" data-toggle-name-param="body"
+                data-toggle-target="panel" data-panel="body">...see more</button>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if post.images.attached? %>
+    <div class="mt-2 grid <%= post.images.size == 1 ? 'grid-cols-1' : 'grid-cols-2' %> gap-0.5">
+      <% post.images.each do |image| %>
+        <%= link_to url_for(image), target: "_blank", rel: "noopener" do %>
+          <img src="<%= url_for(image) %>" alt="larp evidence" class="w-full object-cover <%= post.images.size == 1 ? 'max-h-[480px]' : 'h-52' %>" loading="lazy">
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render "posts/engagement", post: post %>
+
+  <div class="hidden border-t border-black/5 px-4 py-3" data-toggle-target="panel" data-panel="comments">
+    <%= form_with url: post_comments_path(post) do |f| %>
+      <div class="flex gap-2">
+        <% if current_persona %><%= avatar_tag(current_persona, size: 8) %><% end %>
+        <%= f.text_field "comment[body]", placeholder: "Add value... or just say \"So true\"", maxlength: 1500,
+              class: "flex-1 rounded-full border border-black/15 px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+        <%= f.submit "Reply", class: "text-xs font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-4 cursor-pointer" %>
+      </div>
+    <% end %>
+    <div id="<%= dom_id(post, :comments) %>" class="mt-3 flex flex-col gap-2">
+      <%= render partial: "comments/comment", collection: post.comments.order(created_at: :desc).limit(8).includes(:persona).to_a.reverse %>
+    </div>
+  </div>
+
+  <div class="hidden" data-toggle-target="panel" data-panel="share">
+  <div class="border-t border-black/5 px-4 py-2 flex flex-wrap items-center gap-2">
+    <% share_url = post_url(post) %>
+    <% share_text = "Peak larp on LarpIn:" %>
+    <a href="https://twitter.com/intent/tweet?text=<%= u(share_text) %>&url=<%= u(share_url) %>" target="_blank" rel="noopener" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-black text-white">Share on X</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= u(share_url) %>" target="_blank" rel="noopener" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-cobalt-700 text-white">LinkedIn (do it)</a>
+    <a href="https://www.reddit.com/submit?url=<%= u(share_url) %>&title=<%= u(share_text) %>" target="_blank" rel="noopener" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-accent-500 text-white">Reddit</a>
+    <a href="https://wa.me/?text=<%= u("#{share_text} #{share_url}") %>" target="_blank" rel="noopener" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-green-600 text-white">WhatsApp</a>
+    <button data-controller="clipboard" data-clipboard-text-value="<%= share_url %>" data-action="clipboard#copy" class="text-xs font-semibold px-3 py-1.5 rounded-full border border-black/15 cursor-pointer">Copy link</button>
+  </div>
+  </div>
+</article>

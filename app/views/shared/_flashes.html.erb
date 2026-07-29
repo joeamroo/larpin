@@ -1,0 +1,6 @@
+<% if notice.present? %>
+  <div class="pointer-events-auto bg-cobalt-800 text-white text-sm px-4 py-2.5 rounded-lg shadow-lg max-w-md text-center" data-controller="fade"><%= notice %></div>
+<% end %>
+<% if alert.present? %>
+  <div class="pointer-events-auto bg-accent-600 text-white text-sm px-4 py-2.5 rounded-lg shadow-lg max-w-md text-center" data-controller="fade"><%= alert %></div>
+<% end %>

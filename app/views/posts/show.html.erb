@@ -1,0 +1,30 @@
+<% content_for :title, "#{@post.persona.name} on LarpIn" %>
+<% content_for :head do %>
+  <meta property="og:title" content="<%= @post.persona.name %> on LarpIn">
+  <meta property="og:description" content="<%= og_description(@post) %>">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="<%= post_url(@post) %>">
+  <% if @post.images.attached? %>
+    <meta property="og:image" content="<%= url_for(@post.images.first) %>">
+  <% end %>
+  <meta name="twitter:card" content="summary_large_image">
+<% end %>
+
+<div class="max-w-xl mx-auto flex flex-col gap-3">
+  <%= render "posts/post", post: @post %>
+  <div class="card p-4">
+    <h2 class="text-sm font-bold mb-3"><%= @post.comments_count %> comments</h2>
+    <%= form_with url: post_comments_path(@post), data: { turbo_frame: "_top" } do |f| %>
+      <div class="flex gap-2 mb-4">
+        <% if current_persona %><%= avatar_tag(current_persona, size: 8) %><% end %>
+        <%= f.text_field "comment[body]", placeholder: "Add value... or just say \"So true\"", maxlength: 1500,
+              class: "flex-1 rounded-full border border-black/15 px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+        <%= f.submit "Reply", class: "text-xs font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-4 cursor-pointer" %>
+      </div>
+    <% end %>
+    <div class="flex flex-col gap-2">
+      <%= render partial: "comments/comment", collection: @comments %>
+    </div>
+  </div>
+  <%= link_to "← Back to the feed", root_path, class: "text-sm font-semibold text-cobalt-700 hover:underline px-2" %>
+</div>

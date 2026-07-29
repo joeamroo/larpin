@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "feed_page_#{@page}" do %>
+  <%= render "feed/page", posts: @posts, promoted: @promoted, page: @page, sort: @sort, has_next: @has_next %>
+<% end %>
