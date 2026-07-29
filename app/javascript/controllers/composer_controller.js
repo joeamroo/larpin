@@ -3,6 +3,16 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["textarea", "fileInput", "previews", "enhanceBtn", "hint"]
 
+  connect() {
+    this.grow()
+  }
+
+  grow() {
+    const el = this.textareaTarget
+    el.style.height = "auto"
+    el.style.height = `${Math.min(el.scrollHeight, 320)}px`
+  }
+
   previewImages() {
     this.previewsTarget.innerHTML = ""
     const files = Array.from(this.fileInputTarget.files).slice(0, 4)

@@ -1,14 +1,20 @@
 <div class="card overflow-hidden">
-  <div class="h-16" style="background: linear-gradient(120deg, hsl(<%= persona.hue %>, 60%, 30%), hsl(<%= (persona.hue + 60) % 360 %>, 55%, 45%));"></div>
-  <div class="px-4 pb-4 -mt-8">
-    <%= avatar_tag(persona, size: 16, ring: true) %>
-    <%= link_to persona.name, persona_path(persona), class: "block mt-2 font-bold hover:underline" %>
-    <p class="text-xs text-ink/60 mt-0.5"><%= persona.headline %></p>
-    <div class="mt-3 pt-3 border-t border-black/5 text-xs space-y-1.5">
-      <div class="flex justify-between"><span class="text-ink/60">Connections</span><span class="font-bold text-cobalt-700"><%= persona.clout_display %></span></div>
-      <div class="flex justify-between"><span class="text-ink/60">Larping since</span><span class="font-medium"><%= persona.larping_since.year %></span></div>
-      <div class="flex justify-between"><span class="text-ink/60">Profile views</span><span class="font-medium"><%= persona.id * 137 % 9000 + 240 %> this week</span></div>
-    </div>
-    <%= link_to "Edit persona", edit_my_persona_path, class: "mt-3 block text-center text-xs font-semibold text-cobalt-700 border border-cobalt-600 rounded-full py-1.5 hover:bg-cobalt-50" %>
+  <div class="h-14" style="background: linear-gradient(120deg, hsl(<%= persona.hue %>, 60%, 30%), hsl(<%= (persona.hue + 60) % 360 %>, 55%, 45%));"></div>
+  <div class="px-3 pb-4 -mt-8 text-center">
+    <%= link_to persona_path(persona), class: "inline-block" do %>
+      <%= avatar_tag(persona, size: 16, ring: true, classes: "mx-auto") %>
+    <% end %>
+    <%= link_to persona.name, persona_path(persona), class: "block mt-1.5 font-semibold text-base leading-tight hover:underline" %>
+    <p class="text-xs text-ink/60 mt-1 leading-snug px-1"><%= persona.headline %></p>
+  </div>
+  <div class="border-t border-black/8 px-3 py-3 text-xs space-y-2">
+    <div class="flex justify-between"><span class="text-ink/60 font-medium">Connections</span><span class="font-semibold text-cobalt-600 num"><%= persona.clout_display %></span></div>
+    <div class="flex justify-between"><span class="text-ink/60 font-medium">Profile views</span><span class="font-semibold text-cobalt-600 num"><%= persona.id * 137 % 9000 + 240 %></span></div>
+    <div class="flex justify-between"><span class="text-ink/60 font-medium">Larping since</span><span class="font-semibold num"><%= persona.larping_since.year %></span></div>
+  </div>
+  <div class="border-t border-black/8 px-3 py-2.5">
+    <%= link_to edit_my_persona_path, class: "flex items-center gap-2 text-xs font-semibold text-ink/80 hover:text-ink" do %>
+      <span class="w-3.5 h-3.5 rounded-sm bg-gold-500 inline-block"></span> Edit persona
+    <% end %>
   </div>
 </div>
