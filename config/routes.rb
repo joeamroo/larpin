@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     member do
       post :react
       post :hype
+      post :save
+      post :report
       get :analytics
     end
     resources :comments, only: [:create], shallow: true
@@ -22,6 +24,12 @@ Rails.application.routes.draw do
   resources :experiences, only: [:create, :destroy]
   resources :profile_skills, only: [:create, :destroy]
   resources :certifications, only: [:create]
+
+  get "saved" => "saved_posts#index"
+  get "premium" => "premium#show"
+  post "premium/activate" => "premium#activate"
+  get "profile-views" => "profile_views#index", as: :profile_views
+  get "search" => "search#index"
 
   get "network" => "network#index"
   resources :connections, only: [:create, :update]

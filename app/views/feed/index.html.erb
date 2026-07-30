@@ -1,6 +1,25 @@
 <div class="max-w-[1128px] mx-auto grid grid-cols-1 lg:grid-cols-[225px_minmax(0,1fr)_300px] gap-6 items-start">
-  <aside class="hidden lg:block sticky top-[68px]">
-    <%= render "shared/profile_card", persona: current_persona if current_persona %>
+  <aside class="hidden lg:flex flex-col gap-2 sticky top-[68px]">
+    <% if current_persona %>
+      <%= render "shared/profile_card", persona: current_persona %>
+      <div class="card px-3 py-3 text-xs space-y-2.5">
+        <%= link_to saved_path, class: "flex items-center gap-2 font-semibold text-ink/80 hover:text-cobalt-600" do %>
+          <svg class="w-4 h-4 text-ink/50" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2H6a2 2 0 0 0-2 2v18l8-5 8 5V4a2 2 0 0 0-2-2Z"/></svg>
+          My items
+          <span class="ml-auto text-ink/50 num"><%= current_persona.saved_posts.count %></span>
+        <% end %>
+        <%= link_to profile_views_path, class: "flex items-center gap-2 font-semibold text-ink/80 hover:text-cobalt-600" do %>
+          <svg class="w-4 h-4 text-ink/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7Zm0 11a4 4 0 1 1 4-4 4 4 0 0 1-4 4Z"/></svg>
+          Who viewed you
+        <% end %>
+        <% unless current_persona.premium? %>
+          <%= link_to premium_path, class: "flex items-center gap-2 font-semibold text-gold-500 hover:opacity-80" do %>
+            <span class="w-3.5 h-3.5 rounded-[2px] bg-gold-500 inline-block shrink-0"></span>
+            Try Premium for $0
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </aside>
 
   <section class="min-w-0">

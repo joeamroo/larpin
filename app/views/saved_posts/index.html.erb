@@ -1,0 +1,16 @@
+<% content_for :title, "My items - LarpIn" %>
+<div class="max-w-[555px] mx-auto flex flex-col gap-2">
+  <div class="card p-4">
+    <h1 class="display text-lg">My items</h1>
+    <p class="text-xs text-ink/50">Larps you saved to revisit later. You will not revisit them. Nobody ever has.</p>
+  </div>
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <%= render "posts/post", post: post %>
+    <% end %>
+  <% else %>
+    <div class="card p-8 text-center text-sm text-ink/60">
+      Nothing saved yet. Find a larp that changes your life (it won't) and hit Save in the ⋯ menu.
+    </div>
+  <% end %>
+</div>

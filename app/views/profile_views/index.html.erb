@@ -1,0 +1,26 @@
+<% content_for :title, "Who viewed your profile - LarpIn" %>
+<div class="max-w-xl mx-auto flex flex-col gap-2">
+  <div class="card p-5">
+    <h1 class="display text-lg">Who viewed your profile</h1>
+    <p class="text-xs text-ink/50 mb-4"><span class="font-bold text-cobalt-600 num"><%= number_with_delimiter(@view_count) %></span> profile views this week. All of them are listed below, spiritually.</p>
+
+    <div class="flex flex-col divide-y divide-black/5">
+      <% @viewer_rows.each_with_index do |(who, detail), i| %>
+        <div class="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+          <div class="w-12 h-12 shrink-0 rounded-full bg-paper border border-black/10 flex items-center justify-center text-lg">
+            <%= %w[🕵️ 👔 💼 🫥 📎 🤖 🎙️ 🏰 📊 🧊][i % 10] %>
+          </div>
+          <div class="min-w-0">
+            <p class="font-semibold text-sm"><%= who %></p>
+            <p class="text-xs text-ink/60"><%= detail %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-4 rounded-lg bg-cobalt-50 border border-cobalt-200 px-4 py-3 text-xs text-ink/70">
+      Want to see who <span class="font-semibold">actually</span> viewed your profile?
+      So do we. The data does not exist. <%= link_to "Premium", premium_path, class: "font-semibold text-cobalt-600 hover:underline" %> will not help with this, but the badge is gold.
+    </div>
+  </div>
+</div>

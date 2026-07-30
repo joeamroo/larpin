@@ -9,16 +9,25 @@ module ApplicationHelper
 
   def avatar_tag(persona, size: 12, ring: false, classes: "")
     size_classes = AVATAR_SIZES.fetch(size, AVATAR_SIZES[12])
+    open_ring = persona.open_to_larp? ? "ring-[3px] ring-[#01754f] ring-offset-1" : ""
     if persona.avatar.attached?
       image_tag url_for(persona.avatar), alt: persona.name,
-        class: "shrink-0 rounded-full object-cover select-none #{size_classes} #{'ring-4 ring-white' if ring} #{classes}"
+        class: "shrink-0 rounded-full object-cover select-none #{size_classes} #{'ring-4 ring-white' if ring} #{open_ring} #{classes}"
     else
       style = "background: linear-gradient(135deg, hsl(#{persona.hue}, 46%, 44%), hsl(#{(persona.hue + 35) % 360}, 52%, 28%));"
       content_tag :div, persona.initials,
         class: "shrink-0 rounded-full text-white font-bold flex items-center justify-center select-none " \
-               "#{size_classes} #{'ring-4 ring-white' if ring} #{classes}",
+               "#{size_classes} #{'ring-4 ring-white' if ring} #{open_ring} #{classes}",
         style: style
     end
+  end
+
+  # LinkedIn-style gold Premium square next to names.
+  def premium_badge(persona)
+    return unless persona.premium?
+    content_tag :span, "in",
+      class: "inline-flex items-center justify-center w-3.5 h-3.5 rounded-[2px] bg-gold-500 text-white text-[9px] font-bold leading-none shrink-0",
+      title: "LarpIn Premium. The badge does nothing. That's the point."
   end
 
   def cover_tag(persona, height_class)
