@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     member { post :like }
   end
 
-  resource :my_persona, only: [:edit, :update], controller: "my_personas"
+  resource :my_persona, only: [:edit, :update], controller: "my_personas" do
+    post :regenerate
+  end
   resources :personas, only: [:show] do
     member { post :endorse }
   end
