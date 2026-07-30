@@ -8,6 +8,6 @@ class AddFunFeatures < ActiveRecord::Migration[8.1]
       t.string :hours, null: false
       t.timestamps
     end
-    add_index :certifications, [:persona_id, :course], unique: true
+    add_index :certifications, [ :persona_id, :course ], unique: true
   end
 end

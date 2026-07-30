@@ -6,7 +6,7 @@ class Conversation < ApplicationRecord
   scope :involving, ->(p) { where("a_id = :id OR b_id = :id", id: p.id) }
 
   def self.between!(x, y)
-    lo, hi = [x, y].sort_by(&:id)
+    lo, hi = [ x, y ].sort_by(&:id)
     find_or_create_by!(a_id: lo.id, b_id: hi.id)
   end
 

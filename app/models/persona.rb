@@ -56,7 +56,7 @@ class Persona < ApplicationRecord
   end
 
   def years_larping
-    [((Date.current - larping_since) / 365.0).floor, 0].max
+    [ ((Date.current - larping_since) / 365.0).floor, 0 ].max
   end
 
   def initials

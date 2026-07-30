@@ -66,7 +66,7 @@ module CringeEnhancer
       model: "claude-haiku-4-5",
       max_tokens: 500,
       system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: text.to_s.first(2000) }]
+      messages: [ { role: "user", content: text.to_s.first(2000) } ]
     }.to_json
     res = http.request(req)
     raise "API #{res.code}" unless res.code == "200"

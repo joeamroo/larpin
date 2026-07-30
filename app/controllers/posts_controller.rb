@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :destroy, :react, :analytics, :hype, :save, :report]
+  before_action :set_post, only: [ :show, :destroy, :react, :analytics, :hype, :save, :report ]
 
   def create
     persona = ensure_persona!

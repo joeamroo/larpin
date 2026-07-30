@@ -321,17 +321,17 @@ EXPERIENCES = {
 }.freeze
 
 PROFILE_SKILLS = {
-  "Chadwick Sterling III" => ["Saying No to Imaginary Offers", "Shareholder Value", "Stealth Mode"],
-  "Sir Reginald of Larpshire" => ["Boffer Safety", "Chainmail Maintenance", "Staying In Character"],
-  "Maverick Blackwood" => ["Waking Up at 3:45 AM", "Intensity", "Legal Ambiguity"],
-  "Sloane Ashford" => ["Cold Plunges", "Carousel Design", "Secret Naps"],
-  "Brynlee Vance" => ["Vibes", "Flat Hierarchy Theater", "Culture Manufacturing"],
-  "Paisley Mercer" => ["Sigma Math", "Conviction", "Loss Reframing"],
-  "Waverly Locke" => ["Building in Public", "Investor Interest Generation", "Metric Immeasurability"],
-  "Journey Whitmore" => ["Fasting Through Meetings", "Dream Invoicing", "Generalism"],
-  "Knox Fairbanks" => ["G-Wagon Minimalism", "Sacrifice Optics", "Reposting"],
-  "Marlowe Sinclair" => ["Fractional Everything", "Invoicing Students", "Keynote Having"],
-  "Ridge Steele" => ["Unwitnessed Deadlifts", "Cold Plunge Evangelism", "Trust-Based PRs"]
+  "Chadwick Sterling III" => [ "Saying No to Imaginary Offers", "Shareholder Value", "Stealth Mode" ],
+  "Sir Reginald of Larpshire" => [ "Boffer Safety", "Chainmail Maintenance", "Staying In Character" ],
+  "Maverick Blackwood" => [ "Waking Up at 3:45 AM", "Intensity", "Legal Ambiguity" ],
+  "Sloane Ashford" => [ "Cold Plunges", "Carousel Design", "Secret Naps" ],
+  "Brynlee Vance" => [ "Vibes", "Flat Hierarchy Theater", "Culture Manufacturing" ],
+  "Paisley Mercer" => [ "Sigma Math", "Conviction", "Loss Reframing" ],
+  "Waverly Locke" => [ "Building in Public", "Investor Interest Generation", "Metric Immeasurability" ],
+  "Journey Whitmore" => [ "Fasting Through Meetings", "Dream Invoicing", "Generalism" ],
+  "Knox Fairbanks" => [ "G-Wagon Minimalism", "Sacrifice Optics", "Reposting" ],
+  "Marlowe Sinclair" => [ "Fractional Everything", "Invoicing Students", "Keynote Having" ],
+  "Ridge Steele" => [ "Unwitnessed Deadlifts", "Cold Plunge Evangelism", "Trust-Based PRs" ]
 }.freeze
 
 ActiveRecord::Base.transaction do
@@ -388,6 +388,6 @@ end
 puts "Seeded certifications: #{Certification.count}"
 
 # --- Premium and open-to-larp flags for bots ---
-Persona.where(name: ["Chadwick Sterling III", "Sloane Ashford", "LarpIn Premium", "Marlowe Sinclair"], is_bot: true).update_all(premium: true)
-Persona.where(name: ["Sir Reginald of Larpshire", "Waverly Locke"], is_bot: true).update_all(open_to_larp: true)
+Persona.where(name: [ "Chadwick Sterling III", "Sloane Ashford", "LarpIn Premium", "Marlowe Sinclair" ], is_bot: true).update_all(premium: true)
+Persona.where(name: [ "Sir Reginald of Larpshire", "Waverly Locke" ], is_bot: true).update_all(open_to_larp: true)
 puts "Flags set: #{Persona.where(premium: true).count} premium, #{Persona.where(open_to_larp: true).count} open to larp"

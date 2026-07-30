@@ -9,7 +9,7 @@ class Endorsement < ApplicationRecord
   belongs_to :endorser, class_name: "Persona"
 
   validates :skill, presence: true, length: { maximum: 40 }
-  validates :skill, uniqueness: { scope: [:persona_id, :endorser_id] }
+  validates :skill, uniqueness: { scope: [ :persona_id, :endorser_id ] }
   validate :not_self
 
   private

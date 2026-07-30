@@ -41,11 +41,11 @@ class Post < ApplicationRecord
   ].freeze
 
   LARP_TIERS = [
-    [20, "NPC (for now)"],
-    [40, "Committed to the Bit"],
-    [60, "Method Actor"],
-    [80, "Certified Larpmaxxer"],
-    [101, "Final Boss of LinkedIn"]
+    [ 20, "NPC (for now)" ],
+    [ 40, "Committed to the Bit" ],
+    [ 60, "Method Actor" ],
+    [ 80, "Certified Larpmaxxer" ],
+    [ 101, "Final Boss of LinkedIn" ]
   ].freeze
 
   # Deterministic satire: score the post's hustle-cringe density.
@@ -61,7 +61,7 @@ class Post < ApplicationRecord
     score += body.scan(/\n\n/).count.clamp(0, 6) * 3
     score += 5 if text.match?(/\$\d/)
     score += 5 if text.match?(/\d{2,}%/)
-    [score, 100].min
+    [ score, 100 ].min
   end
 
   def larp_tier

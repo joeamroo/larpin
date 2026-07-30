@@ -24,6 +24,6 @@ class AddLinkedinFeatures < ActiveRecord::Migration[8.1]
       t.string :name, null: false
       t.timestamps
     end
-    add_index :profile_skills, [:persona_id, :name], unique: true
+    add_index :profile_skills, [ :persona_id, :name ], unique: true
   end
 end

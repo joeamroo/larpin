@@ -32,7 +32,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.string :kind, null: false
       t.timestamps
     end
-    add_index :reactions, [:post_id, :persona_id], unique: true
+    add_index :reactions, [ :post_id, :persona_id ], unique: true
 
     create_table :comments do |t|
       t.references :post, null: false, foreign_key: true
@@ -47,7 +47,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.references :persona, null: false, foreign_key: true
       t.timestamps
     end
-    add_index :comment_likes, [:comment_id, :persona_id], unique: true
+    add_index :comment_likes, [ :comment_id, :persona_id ], unique: true
 
     create_table :connections do |t|
       t.references :requester, null: false, foreign_key: { to_table: :personas }
@@ -55,7 +55,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.string :status, null: false, default: "pending"
       t.timestamps
     end
-    add_index :connections, [:requester_id, :receiver_id], unique: true
+    add_index :connections, [ :requester_id, :receiver_id ], unique: true
 
     create_table :endorsements do |t|
       t.references :persona, null: false, foreign_key: true
@@ -63,7 +63,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.string :skill, null: false
       t.timestamps
     end
-    add_index :endorsements, [:persona_id, :endorser_id, :skill], unique: true, name: "idx_endorsements_unique"
+    add_index :endorsements, [ :persona_id, :endorser_id, :skill ], unique: true, name: "idx_endorsements_unique"
 
     create_table :notifications do |t|
       t.references :persona, null: false, foreign_key: true
@@ -73,7 +73,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.boolean :read, null: false, default: false
       t.timestamps
     end
-    add_index :notifications, [:persona_id, :read]
+    add_index :notifications, [ :persona_id, :read ]
 
     create_table :jobs do |t|
       t.references :persona, null: false, foreign_key: true
@@ -91,7 +91,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.references :persona, null: false, foreign_key: true
       t.timestamps
     end
-    add_index :job_applications, [:job_id, :persona_id], unique: true
+    add_index :job_applications, [ :job_id, :persona_id ], unique: true
 
     create_table :conversations do |t|
       t.references :a, null: false, foreign_key: { to_table: :personas }
@@ -99,7 +99,7 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.datetime :last_message_at
       t.timestamps
     end
-    add_index :conversations, [:a_id, :b_id], unique: true
+    add_index :conversations, [ :a_id, :b_id ], unique: true
 
     create_table :messages do |t|
       t.references :conversation, null: false, foreign_key: true
@@ -108,6 +108,6 @@ class CreateLarpinSchema < ActiveRecord::Migration[8.1]
       t.boolean :read, null: false, default: false
       t.timestamps
     end
-    add_index :messages, [:conversation_id, :created_at]
+    add_index :messages, [ :conversation_id, :created_at ]
   end
 end
