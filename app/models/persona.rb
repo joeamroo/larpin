@@ -17,10 +17,20 @@ class Persona < ApplicationRecord
   has_many :saved_posts, dependent: :destroy
   has_many :saved_feed_posts, through: :saved_posts, source: :post
 
+  has_secure_password validations: false
+
   validates :name, presence: true, length: { maximum: 60 }
   validates :headline, presence: true, length: { maximum: 140 }
   validates :bio, length: { maximum: 1200 }
+  validates :email, uniqueness: { case_sensitive: false, allow_nil: true, message: "is already claimed by another larper" },
+                    format: { with: URI::MailTo::EMAIL_REGEXP, allow_nil: true }
+  validates :password, length: { minimum: 6, message: "needs at least 6 characters. Even fake security has standards." }, allow_nil: true
+  normalizes :email, with: ->(e) { e.strip.downcase.presence }
   validate :uploads_within_limits
+
+  def claimed?
+    email.present?
+  end
 
   scope :bots, -> { where(is_bot: true) }
 

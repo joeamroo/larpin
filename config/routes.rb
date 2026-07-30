@@ -27,6 +27,12 @@ Rails.application.routes.draw do
   resources :profile_skills, only: [:create, :destroy]
   resources :certifications, only: [:create]
 
+  get "signup" => "accounts#new"
+  post "signup" => "accounts#create"
+  get "login" => "sessions#new"
+  post "login" => "sessions#create"
+  delete "logout" => "sessions#destroy"
+
   get "saved" => "saved_posts#index"
   get "premium" => "premium#show"
   post "premium/activate" => "premium#activate"
