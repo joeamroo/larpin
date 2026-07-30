@@ -11,6 +11,7 @@ export default class extends Controller {
     if (seen && !forced) return
 
     this.overlayTarget.classList.remove("hidden")
+    document.body.style.overflow = "hidden"
     requestAnimationFrame(() => {
       this.cardTarget.classList.remove("translate-y-4", "opacity-0")
     })
@@ -21,6 +22,7 @@ export default class extends Controller {
   dismiss() {
     localStorage.setItem("larpin_welcomed", "1")
     this.cardTarget.classList.add("translate-y-4", "opacity-0")
+    document.body.style.overflow = ""
     setTimeout(() => this.overlayTarget.classList.add("hidden"), 250)
     document.removeEventListener("keydown", this.onKey)
     if (window.location.search.includes("welcome=")) {
@@ -29,6 +31,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    document.body.style.overflow = ""
     document.removeEventListener("keydown", this.onKey)
   }
 }
