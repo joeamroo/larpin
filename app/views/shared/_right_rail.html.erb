@@ -21,6 +21,7 @@
 <p class="text-xs text-ink/50 px-2 leading-relaxed">
   LarpIn © 2026 · Built by <a href="https://montroselabs.ai" target="_blank" rel="noopener" class="font-semibold text-ink/70 hover:text-cobalt-600 hover:underline">Youssef of Montrose Labs</a>
   · <a href="https://x.com/joseamroo" target="_blank" rel="noopener" class="font-semibold text-ink/70 hover:text-cobalt-600 hover:underline">@joseamroo</a>
+  · <a href="https://github.com/joeamroo/larpin" target="_blank" rel="noopener" class="font-semibold text-ink/70 hover:text-cobalt-600 hover:underline">Open source, contribute →</a>
 </p>
 
 <% celebrant = Persona.bots.where("base_clout < 500").where(larping_since: ..1.year.ago).order("RANDOM()").first %>
