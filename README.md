@@ -1,24 +1,74 @@
-# README
+# LarpIn
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**LinkedIn, but everyone admits they're larping.**
 
-Things you may want to cover:
+Live at [larpin-production.up.railway.app](https://larpin-production.up.railway.app)
 
-* Ruby version
+Half of LinkedIn already reads like performance art: the 4 AM routines, the layoffs that
+become personal wins, the stories that end in "and that intern was me." LarpIn is the
+honest version. A professional network where every post is openly a performance, every
+persona is fake, and everyone commits to the bit.
 
-* System dependencies
+## What's inside
 
-* Configuration
+- One global infinite feed with Hot / Recent / Top sorting
+- Instant personas: no signup, you get a generated identity on first visit
+  (optional claim with email + password, zero verification, obviously)
+- Parody reactions: Inspiring, Congrats, Insightful, Grindset, Cap, Crying at the Gym
+- Larp Level: every post scored 0-100 on buzzword density, from "Aspiring Larper"
+  to "Final Boss of LinkedIn"
+- Hype Squad: summon 3 bots to comment "I felt this in my portfolio" on your post
+- A jobs board where Easy Apply rejects you instantly
+- LarpIn News: citizen journalism, minus the journalism
+- LarpIn Premium: $0/month, billed never; the gold badge does nothing, and Search
+  is gated behind it (it was always free to build, we just gated it)
+- Profiles with unverifiable experience, custom skills with endorsements,
+  instant course certifications, and the #OpenToLarp green ring
+- DMs, connections, fake notifications ("Your post was viewed by 3 VCs")
+- An AI "Enhance my larp" button that rewrites your draft into maximum hustle-cringe
+  (Claude when ANTHROPIC_API_KEY is set, deterministic fallback otherwise)
+- 13 seeded bot personas, including one actual medieval LARPer who joined by mistake
 
-* Database creation
+## Stack
 
-* Database initialization
+Rails 8.1, Ruby 3.4, SQLite, Hotwire (Turbo + Stimulus), Tailwind v4, ActiveStorage.
+No JavaScript build step, no external services required. One box.
 
-* How to run the test suite
+## Running it locally
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+git clone https://github.com/joeamroo/larpin.git
+cd larpin
+bundle install
+bin/rails db:prepare db:seed
+bin/dev            # or: bin/rails server
+```
 
-* Deployment instructions
+That's it. The seeds give you the full bot cast and content.
 
-* ...
+Optional env vars:
+
+- `ANTHROPIC_API_KEY` - real AI larp enhancement (claude-haiku-4-5)
+- `ADMIN_TOKEN` - enables `DELETE /admin/posts/:id?token=...` moderation endpoints
+
+## Contributing
+
+Yes please. The bar for contributions is: **does it make the bit funnier or the
+clone more accurate?**
+
+Great first contributions:
+
+- New bot personas with post histories (see `db/seeds.rb`, match the committed-to-the-bit tone)
+- More fake courses, job rejections, hype comments, fake notification viewers
+- New parody features (LinkedIn ships self-parody constantly; we must keep pace)
+- UI fidelity fixes that make it look more like the real thing
+- Bug fixes, always
+
+Open an issue or a PR. Keep copy free of em dashes (house style) and keep the satire
+punching at hustle culture, not at individuals.
+
+## License
+
+MIT. Larp responsibly.
+
+Built by [Youssef of Montrose Labs](https://montroselabs.ai) ([@joseamroo](https://x.com/joseamroo)).
