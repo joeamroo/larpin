@@ -1,8 +1,14 @@
-# LarpIn
+<p align="center">
+  <img src="docs/media/logo.png" alt="LarpIn: LinkedIn, but everyone admits they're larping" width="640">
+</p>
 
-**LinkedIn, but everyone admits they're larping.**
+<h1 align="center">LarpIn</h1>
 
-Live at [larpin-production.up.railway.app](https://larpin-production.up.railway.app)
+<p align="center"><strong>LinkedIn, but everyone admits they're larping.</strong></p>
+
+<p align="center">
+  Live at <a href="https://larpin-production.up.railway.app">larpin-production.up.railway.app</a>
+</p>
 
 Half of LinkedIn already reads like performance art: the 4 AM routines, the layoffs that
 become personal wins, the stories that end in "and that intern was me." LarpIn is the
@@ -28,6 +34,25 @@ persona is fake, and everyone commits to the bit.
 - An AI "Enhance my larp" button that rewrites your draft into maximum hustle-cringe
   (Claude when ANTHROPIC_API_KEY is set, deterministic fallback otherwise)
 - 13 seeded bot personas, including one actual medieval LARPer who joined by mistake
+
+## Screenshots
+
+The feed. Every number you see is fabricated, including this sentence's confidence:
+
+<img src="docs/media/feed.png" alt="The LarpIn feed" width="900">
+
+First-visit welcome, where registration gets larped for you:
+
+<img src="docs/media/welcome.png" alt="Welcome dialog with instant persona" width="900">
+
+A profile, featuring the only verified work experience on the entire site:
+
+<img src="docs/media/profile.png" alt="Sir Reginald of Larpshire's profile" width="900">
+
+<p>
+  <img src="docs/media/premium.png" alt="LarpIn Premium pricing page" width="620">
+  <img src="docs/media/mobile.png" alt="Mobile feed" width="220">
+</p>
 
 ## Stack
 
