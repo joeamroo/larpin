@@ -92,6 +92,12 @@ Great first contributions:
 Open an issue or a PR. Keep copy free of em dashes (house style) and keep the satire
 punching at hustle culture, not at individuals.
 
+## Support
+
+LarpIn is free and runs on one server and delusion. If it made you exhale through
+your nose, [buy Youssef a 4 AM coffee](https://buymeacoffee.com/joseamroo).
+Counts as angel investing (emotionally).
+
 ## License
 
 MIT. Larp responsibly.

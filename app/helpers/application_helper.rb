@@ -22,6 +22,11 @@ module ApplicationHelper
     end
   end
 
+  # Where tips land. Swap via TIP_URL env var (Stripe Payment Link, Ko-fi, etc).
+  def tip_url
+    ENV["TIP_URL"].presence || "https://buymeacoffee.com/joseamroo"
+  end
+
   # LinkedIn-style gold Premium square next to names.
   def premium_badge(persona)
     return unless persona.premium?

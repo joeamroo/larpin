@@ -45,6 +45,20 @@
 </div>
 
 <div class="card p-4">
+  <div class="flex items-start gap-3">
+    <div class="w-10 h-10 shrink-0 rounded-full bg-gold-500/15 flex items-center justify-center text-lg">☕</div>
+    <div class="min-w-0">
+      <h3 class="display text-[15px]">Fund the larp</h3>
+      <p class="text-xs text-ink/60 mt-1">LarpIn is free, open source, and running on one server and delusion. If it made you exhale through your nose, buy Youssef a 4 AM coffee.</p>
+      <a href="<%= tip_url %>" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-2.5 text-xs font-bold text-white bg-gold-500 hover:opacity-90 rounded-full px-3.5 py-1.5">
+        ☕ Buy me a 4 AM coffee
+      </a>
+      <p class="text-[11px] text-ink/40 mt-1.5">Counts as angel investing (emotionally).</p>
+    </div>
+  </div>
+</div>
+
+<div class="card p-4">
   <h3 class="display text-[15px] mb-3">Add to your feed</h3>
   <div class="flex flex-col gap-3">
     <% Persona.where.not(id: current_persona&.id).where.not(name: "LarpIn Premium").order(Arel.sql("is_bot ASC, RANDOM()")).limit(3).each do |suggestion| %>
