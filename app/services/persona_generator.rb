@@ -16,7 +16,8 @@ module PersonaGenerator
     "DMs open for synergy", "Ask me about my morning routine", "We're hiring (not really)",
     "Views are my sponsor's own", "Forbes 30 Under 30 (waitlist)", "Raising a pre-idea round",
     "Down 40% but locked in", "Mentored by a podcast", "God's strongest intern",
-    "Currently fasting (day 4)", "Not financial advice", "Portfolio: trust me"
+    "Currently fasting (day 4)", "Not financial advice", "Portfolio: trust me",
+    "Larpmaxxing since birth", "Certified delulu", "Aura farming at scale", "Main character (self-identified)"
   ].freeze
 
   def self.generate

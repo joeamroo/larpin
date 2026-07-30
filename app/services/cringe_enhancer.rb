@@ -10,7 +10,9 @@ module CringeEnhancer
     Rules: keep the user's core topic. Open with a dramatic one-line hook. Use short punchy lines,
     unnecessary vulnerability, at least one humble-brag, invented metrics, a numbered list of
     "lessons", and end with a question to drive engagement plus 3-5 absurd hashtags. Emojis as
-    bullet points. Under 150 words. Return ONLY the rewritten post text.
+    bullet points. Sprinkle one or two pieces of current internet slang where they land naturally
+    (larpmaxxing, delulu, aura, NPC, locked in, main character). Under 150 words.
+    Return ONLY the rewritten post text.
   PROMPT
 
   HOOKS = [
@@ -26,7 +28,9 @@ module CringeEnhancer
     "Sleep is a subscription you can cancel.",
     "Comfort zones are where dreams go to die.",
     "If you're the smartest person in the room, invoice the room.",
-    "Discipline is just self-love wearing a suit."
+    "Discipline is just self-love wearing a suit.",
+    "Delulu is the solulu, especially in B2B.",
+    "NPCs network. Main characters larpmaxx."
   ].freeze
 
   CLOSERS = [
@@ -35,7 +39,7 @@ module CringeEnhancer
   ].freeze
 
   HASHTAGS = %w[#Grindset #Blessed #ThoughtLeadership #5AMClub #Hustle #Synergy
-                #BuildingInPublic #Larping #NoDaysOff #Mindset].freeze
+                #BuildingInPublic #Larpmaxxing #NoDaysOff #Mindset #Delulu #AuraFarming].freeze
 
   def self.enhance(text)
     api_key = ENV["ANTHROPIC_API_KEY"]

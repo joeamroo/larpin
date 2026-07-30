@@ -170,7 +170,7 @@
 
     <% if own_profile %>
       <%= form_with url: profile_skills_path, class: "mt-4 flex gap-2" do |f| %>
-        <%= f.text_field "profile_skill[name]", maxlength: 40, placeholder: "Claim a skill (e.g. Radical Candor)", required: true, class: "flex-1 rounded-full border border-black/15 px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+        <%= f.text_field "profile_skill[name]", maxlength: 40, placeholder: "Claim a skill (e.g. Larpmaxxing, Aura Farming)", required: true, class: "flex-1 rounded-full border border-black/15 px-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
         <%= f.submit "Claim", class: "text-xs font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-4 cursor-pointer" %>
       <% end %>
     <% end %>

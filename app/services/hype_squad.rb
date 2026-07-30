@@ -9,7 +9,10 @@ module HypeSquad
     "Printing this out and framing it above my standing desk.",
     "10/10 vulnerability. Very brave. Very monetizable.",
     "Who gave you permission to be this locked in?",
-    "Screenshotting this for my vision board."
+    "Screenshotting this for my vision board.",
+    "Based and larppilled.",
+    "This is peak larpmaxxing. Study it.",
+    "Delulu? Yes. The solulu? Also yes."
   ].freeze
 
   def self.summon!(post)

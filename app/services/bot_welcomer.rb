@@ -5,7 +5,8 @@ module BotWelcomer
     "Hey! Huge fan of your work (I have not seen your work). I'd love to add you to my professional network and also pitch you something in 2-4 business days.",
     "I never send cold DMs, so consider yourself warm. Quick question: are you open to 10x-ing everything? No reason.",
     "Saw your profile and immediately thought: synergy. Coffee chat? I only do 4:45 AM slots.",
-    "Welcome to LarpIn. Everything here is fake except the connections, which are also fake. You're going to do great things."
+    "Welcome to LarpIn. Everything here is fake except the connections, which are also fake. You're going to do great things.",
+    "Quick vibe check: are you larpmaxxing or just larping? There are no wrong answers, only wrong people."
   ].freeze
 
   def self.welcome!(persona)

@@ -10,7 +10,7 @@ class PostsController < ApplicationController
     post.images.attach(params[:post][:images].reject(&:blank?)) if params[:post][:images].present?
 
     if post.save
-      redirect_to root_path, notice: "Larp published. The algorithm is perceiving you."
+      redirect_to root_path, notice: "Larp published. +15 aura. The algorithm is perceiving you."
     else
       redirect_to root_path, alert: post.errors.full_messages.first
     end

@@ -41,10 +41,10 @@ class Post < ApplicationRecord
   ].freeze
 
   LARP_TIERS = [
-    [20, "Aspiring Larper"],
+    [20, "NPC (for now)"],
     [40, "Committed to the Bit"],
     [60, "Method Actor"],
-    [80, "Thought Leader"],
+    [80, "Certified Larpmaxxer"],
     [101, "Final Boss of LinkedIn"]
   ].freeze
 
