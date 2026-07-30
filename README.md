@@ -95,8 +95,8 @@ punching at hustle culture, not at individuals.
 ## Support
 
 LarpIn is free and runs on one server and delusion. If it made you exhale through
-your nose, [buy Youssef a 4 AM coffee](https://buymeacoffee.com/joseamroo).
-Counts as angel investing (emotionally).
+your nose, [buy Youssef a 4 AM coffee](https://buy.stripe.com/fZu5kCajs75gg6I7z21kA00)
+(Apple Pay and Google Pay work). Counts as angel investing (emotionally).
 
 ## License
 
