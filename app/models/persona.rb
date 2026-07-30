@@ -14,6 +14,8 @@ class Persona < ApplicationRecord
   has_many :certifications, dependent: :destroy
   has_one_attached :avatar
   has_one_attached :cover
+  has_many :saved_posts, dependent: :destroy
+  has_many :saved_feed_posts, through: :saved_posts, source: :post
 
   validates :name, presence: true, length: { maximum: 60 }
   validates :headline, presence: true, length: { maximum: 140 }

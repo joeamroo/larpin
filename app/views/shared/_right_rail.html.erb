@@ -44,6 +44,24 @@
 </div>
 
 <div class="card p-4">
+  <h3 class="display text-[15px] mb-3">Add to your feed</h3>
+  <div class="flex flex-col gap-3">
+    <% Persona.where.not(id: current_persona&.id).where.not(name: "LarpIn Premium").order(Arel.sql("is_bot ASC, RANDOM()")).limit(3).each do |suggestion| %>
+      <div class="flex items-start gap-2.5">
+        <%= link_to persona_path(suggestion) do %><%= avatar_tag(suggestion, size: 10) %><% end %>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-1"><%= link_to suggestion.name, persona_path(suggestion), class: "font-semibold text-[13px] hover:underline truncate" %><%= premium_badge(suggestion) %></div>
+          <p class="text-xs text-ink/50 truncate"><%= suggestion.headline %></p>
+          <%= button_to connections_path(receiver_id: suggestion.id), form_class: "btn-form", class: "mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-ink/70 border border-ink/40 rounded-full px-3 py-1 hover:bg-black/5 hover:border-ink cursor-pointer" do %>
+            <span class="text-sm leading-none">+</span> Connect
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card p-4">
   <h3 class="display text-[15px]">Recruit fellow larpers</h3>
   <p class="text-xs text-ink/60 mt-1 mb-2.5">Every network needs more people pretending. Send LarpIn to a friend who posts "humbled to announce" unironically.</p>
   <div class="flex flex-wrap gap-1.5">

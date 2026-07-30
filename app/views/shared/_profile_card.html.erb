@@ -9,7 +9,9 @@
   </div>
   <div class="border-t border-black/8 px-3 py-3 text-xs space-y-2">
     <div class="flex justify-between"><span class="text-ink/60 font-medium">Connections</span><span class="font-semibold text-cobalt-600 num"><%= persona.clout_display %></span></div>
-    <div class="flex justify-between"><span class="text-ink/60 font-medium">Profile views</span><span class="font-semibold text-cobalt-600 num"><%= persona.id * 137 % 9000 + 240 %></span></div>
+    <%= link_to profile_views_path, class: "flex justify-between hover:bg-black/5 -mx-1 px-1 rounded" do %>
+      <span class="text-ink/60 font-medium">Profile views</span><span class="font-semibold text-cobalt-600 num"><%= persona.id * 137 % 9000 + 240 %></span>
+    <% end %>
     <div class="flex justify-between"><span class="text-ink/60 font-medium">Larping since</span><span class="font-semibold num"><%= persona.larping_since.year %></span></div>
   </div>
   <div class="border-t border-black/8 px-3 py-2.5">

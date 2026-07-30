@@ -22,10 +22,17 @@
       <span class="w-[34px] h-[34px] rounded-[4px] bg-cobalt-600 text-white font-bold text-[21px] tracking-[-0.045em] leading-none inline-flex items-center justify-center pt-[1px]">in</span>
     <% end %>
 
-    <div class="hidden md:flex items-center gap-2 bg-[#edf3f8] rounded px-3 h-[34px] text-sm text-ink/60 w-[280px] cursor-not-allowed ml-1" title="Search is a Premium feature. Premium does not exist.">
-      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="m21 21-4.3-4.3M17 10.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg>
-      <span class="truncate">Search (Premium only)</span>
-    </div>
+    <% if current_persona&.premium? %>
+      <%= form_with url: search_path, method: :get, class: "hidden md:flex items-center bg-[#edf3f8] rounded h-[34px] w-[280px] ml-1 px-3 gap-2 focus-within:ring-2 focus-within:ring-cobalt-600" do %>
+        <svg class="w-4 h-4 shrink-0 text-ink/60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="m21 21-4.3-4.3M17 10.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg>
+        <input type="search" name="q" value="<%= params[:q] if controller_name == "search" %>" placeholder="Search" class="bg-transparent flex-1 min-w-0 text-sm focus:outline-none placeholder:text-ink/60">
+      <% end %>
+    <% else %>
+      <%= link_to premium_path, class: "hidden md:flex items-center gap-2 bg-[#edf3f8] rounded px-3 h-[34px] text-sm text-ink/60 w-[280px] ml-1 hover:bg-[#e2ecf5]", title: "Search is a Premium feature. Premium is free. This is the business model." do %>
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="m21 21-4.3-4.3M17 10.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg>
+        <span class="truncate">Search (Premium only)</span>
+      <% end %>
+    <% end %>
 
     <div class="flex items-center ml-auto h-full">
       <% nav_items.each do |item| %>
@@ -43,7 +50,12 @@
       <% if current_persona %>
         <%= link_to persona_path(current_persona), class: "flex flex-col items-center justify-center h-full w-[64px] sm:w-[80px] text-ink/60 hover:text-ink" do %>
           <%= avatar_tag(current_persona, size: 8, classes: "!w-6 !h-6 !text-[9px]") %>
-          <span class="text-xs leading-tight mt-0.5 hidden sm:block">Me</span>
+          <span class="text-xs leading-tight mt-0.5 hidden sm:flex items-center gap-1">Me<%= premium_badge(current_persona) %></span>
+        <% end %>
+        <% unless current_persona.premium? %>
+          <%= link_to premium_path, class: "hidden lg:flex flex-col items-center justify-center h-full px-3 border-l border-black/10 ml-1" do %>
+            <span class="text-xs font-semibold text-gold-500 leading-tight text-center">Try Premium<br>for $0</span>
+          <% end %>
         <% end %>
       <% end %>
     </div>

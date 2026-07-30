@@ -386,3 +386,8 @@ ActiveRecord::Base.transaction do
 end
 
 puts "Seeded certifications: #{Certification.count}"
+
+# --- Premium and open-to-larp flags for bots ---
+Persona.where(name: ["Chadwick Sterling III", "Sloane Ashford", "LarpIn Premium", "Marlowe Sinclair"], is_bot: true).update_all(premium: true)
+Persona.where(name: ["Sir Reginald of Larpshire", "Waverly Locke"], is_bot: true).update_all(open_to_larp: true)
+puts "Flags set: #{Persona.where(premium: true).count} premium, #{Persona.where(open_to_larp: true).count} open to larp"

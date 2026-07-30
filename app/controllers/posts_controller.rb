@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :destroy, :react, :analytics, :hype]
+  before_action :set_post, only: [:show, :destroy, :react, :analytics, :hype, :save, :report]
 
   def create
     persona = ensure_persona!
@@ -64,6 +64,26 @@ class PostsController < ApplicationController
     else
       redirect_back fallback_location: post_path(@post), alert: "Your hype squad already came. They have other grinds to attend."
     end
+  end
+
+  def save
+    persona = ensure_persona!
+    existing = persona.saved_posts.find_by(post: @post)
+    if existing
+      existing.destroy
+      redirect_back fallback_location: root_path, notice: "Unsaved. It was never that inspiring."
+    else
+      persona.saved_posts.create!(post: @post)
+      redirect_back fallback_location: root_path, notice: "Saved to My items. You will never look at it again."
+    end
+  end
+
+  def report
+    persona = ensure_persona!
+    FakeNotifier.real!(@post.persona, actor: persona,
+      body: "Your post was reported to HR. HR does not exist here. Carry on.",
+      url: "/posts/#{@post.id}")
+    redirect_back fallback_location: root_path, notice: "Reported to HR. HR is a concept. Nothing will happen, and honestly, that's very on-brand."
   end
 
   private

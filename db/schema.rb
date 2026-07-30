@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_30_000001) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -184,7 +184,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.boolean "is_bot", default: false, null: false
     t.date "larping_since", null: false
     t.string "name", null: false
+    t.boolean "open_to_larp", default: false, null: false
     t.integer "posts_count", default: 0, null: false
+    t.boolean "premium", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["device_token"], name: "index_personas_on_device_token", unique: true
   end
@@ -224,6 +226,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
     t.index ["post_id"], name: "index_reactions_on_post_id"
   end
 
+  create_table "saved_posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "persona_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["persona_id", "post_id"], name: "index_saved_posts_on_persona_id_and_post_id", unique: true
+    t.index ["persona_id"], name: "index_saved_posts_on_persona_id"
+    t.index ["post_id"], name: "index_saved_posts_on_post_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "personas"
@@ -250,4 +262,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_021729) do
   add_foreign_key "profile_skills", "personas"
   add_foreign_key "reactions", "personas"
   add_foreign_key "reactions", "posts"
+  add_foreign_key "saved_posts", "personas"
+  add_foreign_key "saved_posts", "posts"
 end
