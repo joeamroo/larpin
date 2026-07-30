@@ -4,6 +4,9 @@
     <% if i == 1 && promoted %>
       <%= render "posts/post", post: promoted %>
     <% end %>
+    <% if i == 3 && page == 1 %>
+      <%= render "shared/credit_card" %>
+    <% end %>
   <% end %>
   <% if posts.empty? && page == 1 %>
     <div class="card p-8 text-center text-sm text-ink/60">The feed is empty. Somewhere, a thought leader weeps.</div>

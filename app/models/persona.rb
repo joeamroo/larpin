@@ -12,11 +12,13 @@ class Persona < ApplicationRecord
   has_many :experiences, dependent: :destroy
   has_many :profile_skills, dependent: :destroy
   has_many :certifications, dependent: :destroy
-  has_many :certifications, dependent: :destroy
+  has_one_attached :avatar
+  has_one_attached :cover
 
   validates :name, presence: true, length: { maximum: 60 }
   validates :headline, presence: true, length: { maximum: 140 }
   validates :bio, length: { maximum: 1200 }
+  validate :uploads_within_limits
 
   scope :bots, -> { where(is_bot: true) }
 
@@ -63,5 +65,15 @@ class Persona < ApplicationRecord
 
   def top_skills
     endorsements.group(:skill).order(count_all: :desc).limit(6).count
+  end
+
+  private
+
+  def uploads_within_limits
+    { avatar: avatar, cover: cover }.each do |name, upload|
+      next unless upload.attached?
+      errors.add(name, "must be an image") unless upload.content_type&.start_with?("image/")
+      errors.add(name, "must be under 5MB") if upload.byte_size > 5.megabytes
+    end
   end
 end
