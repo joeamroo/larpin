@@ -1,0 +1,46 @@
+<div class="hidden fixed inset-0 z-50" data-controller="welcome" data-welcome-target="overlay">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px]" data-action="click->welcome#dismiss"></div>
+  <div class="absolute inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center p-0 sm:p-6 pointer-events-none">
+    <div class="pointer-events-auto bg-white rounded-t-2xl sm:rounded-xl shadow-2xl w-full sm:max-w-[440px] overflow-hidden transition-all duration-300 translate-y-4 opacity-0" data-welcome-target="card">
+
+      <div class="bg-cobalt-600 px-6 py-4 flex items-center justify-between">
+        <span class="flex items-center">
+          <span class="text-[22px] font-bold text-white tracking-[-0.045em] leading-none mr-[2px]">Larp</span>
+          <span class="w-[28px] h-[28px] rounded-[4px] bg-white text-cobalt-600 font-bold text-[17px] tracking-[-0.045em] leading-none inline-flex items-center justify-center">in</span>
+        </span>
+        <button class="text-white/70 hover:text-white text-2xl leading-none w-8 h-8 rounded-full hover:bg-white/10 cursor-pointer" data-action="welcome#dismiss" aria-label="Close">×</button>
+      </div>
+
+      <div class="px-6 pt-5 pb-6">
+        <h2 class="display text-xl leading-snug">Half of LinkedIn is already performance art. This is the honest version.</h2>
+        <p class="text-sm text-ink/70 mt-2 leading-relaxed">
+          The 4 AM routines. The layoffs that become personal wins. The stories that end in
+          "and that intern was me." Everyone is playing a character and nobody admits it.
+          On LarpIn, everyone admits it. Post your best larp. Commit to the bit.
+        </p>
+
+        <% if current_persona %>
+          <div class="mt-4 rounded-lg border border-black/10 bg-paper/60 p-3">
+            <p class="text-xs font-semibold text-ink/50 uppercase tracking-wide mb-2">Your account (we made it up just now)</p>
+            <div class="flex items-center gap-3">
+              <%= avatar_tag(current_persona, size: 12) %>
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold text-sm truncate"><%= current_persona.name %></p>
+                <p class="text-xs text-ink/55 truncate"><%= current_persona.headline %></p>
+              </div>
+              <%= button_to "🎲 Reroll", regenerate_my_persona_path, form_class: "btn-form", class: "shrink-0 text-xs font-semibold text-cobalt-600 border border-cobalt-600 rounded-full px-3 py-1.5 hover:bg-cobalt-50 cursor-pointer", title: "Different name, different lies" %>
+            </div>
+            <p class="text-xs text-ink/50 mt-2">No signup. No email. No password. Registration was the first thing we larped.</p>
+          </div>
+        <% end %>
+
+        <button data-action="welcome#dismiss" class="mt-4 w-full bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-bold rounded-full py-2.5 cursor-pointer">Start larping</button>
+
+        <p class="text-center text-xs text-ink/45 mt-3">
+          Built by <a href="https://montroselabs.ai" target="_blank" rel="noopener" class="font-semibold hover:text-cobalt-600 hover:underline">Youssef of Montrose Labs</a>
+          · <a href="https://x.com/joseamroo" target="_blank" rel="noopener" class="font-semibold hover:text-cobalt-600 hover:underline">@joseamroo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
