@@ -1,0 +1,28 @@
+<div id="<%= dom_id(post, :poll) %>" class="px-4 pt-2.5">
+  <% has_voted = local_assigns.fetch(:voted, false) || (current_persona && post.poll_votes.exists?(persona_id: current_persona.id)) %>
+  <% if has_voted %>
+    <% results = post.poll_results %>
+    <% my_choice = current_persona && post.poll_votes.find_by(persona_id: current_persona.id)&.choice %>
+    <div class="flex flex-col gap-2">
+      <% results.each_with_index do |row, i| %>
+        <div class="relative rounded-md border <%= my_choice == i ? 'border-cobalt-600' : 'border-black/10' %> overflow-hidden">
+          <div class="absolute inset-y-0 left-0 <%= my_choice == i ? 'bg-cobalt-100' : 'bg-black/5' %>" style="width: <%= row[:pct] %>%"></div>
+          <div class="relative flex items-center justify-between px-3 py-2 text-sm">
+            <span class="font-medium"><%= row[:label] %><%= " ✓" if my_choice == i %></span>
+            <span class="num text-ink/60 font-semibold"><%= row[:pct] %>%</span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <p class="text-xs text-ink/50 mt-2 num"><%= pluralize(post.poll_total_votes, "vote") %> · results are as real as the personas casting them</p>
+  <% else %>
+    <div class="flex flex-col gap-2">
+      <% Array(post.poll_options).each_with_index do |label, i| %>
+        <%= button_to vote_post_path(post, choice: i), form: { data: { turbo_frame: "_top" } }, form_class: "block", class: "w-full text-left rounded-full border border-cobalt-600 text-cobalt-600 font-semibold text-sm px-4 py-2 hover:bg-cobalt-50 cursor-pointer" do %>
+          <%= label %>
+        <% end %>
+      <% end %>
+    </div>
+    <p class="text-xs text-ink/50 mt-2 num"><%= pluralize(post.poll_total_votes, "vote") %> · vote to see the results</p>
+  <% end %>
+</div>

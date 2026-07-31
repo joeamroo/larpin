@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_31_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_31_000002) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -161,6 +161,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_000001) do
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
+  create_table "mogs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "persona_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["persona_id"], name: "index_mogs_on_persona_id"
+    t.index ["post_id", "persona_id"], name: "index_mogs_on_post_id_and_persona_id", unique: true
+    t.index ["post_id"], name: "index_mogs_on_post_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.integer "actor_id"
     t.string "body", null: false
@@ -175,8 +185,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_000001) do
   end
 
   create_table "personas", force: :cascade do |t|
+    t.integer "aura", default: 0, null: false
     t.integer "base_clout", default: 0, null: false
     t.text "bio"
+    t.string "coded"
     t.datetime "created_at", null: false
     t.string "device_token"
     t.string "email"
@@ -184,14 +196,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_000001) do
     t.integer "hue", default: 210, null: false
     t.boolean "is_bot", default: false, null: false
     t.date "larping_since", null: false
+    t.date "last_larp_on"
     t.string "name", null: false
     t.boolean "open_to_larp", default: false, null: false
     t.string "password_digest"
+    t.string "pilled"
     t.integer "posts_count", default: 0, null: false
     t.boolean "premium", default: false, null: false
+    t.integer "streak", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified", default: false, null: false
     t.index ["device_token"], name: "index_personas_on_device_token", unique: true
     t.index ["email"], name: "index_personas_on_email", unique: true, where: "email IS NOT NULL"
+  end
+
+  create_table "poll_votes", force: :cascade do |t|
+    t.integer "choice", null: false
+    t.datetime "created_at", null: false
+    t.integer "persona_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["persona_id"], name: "index_poll_votes_on_persona_id"
+    t.index ["post_id", "persona_id"], name: "index_poll_votes_on_post_id_and_persona_id", unique: true
+    t.index ["post_id"], name: "index_poll_votes_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -201,7 +228,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_000001) do
     t.boolean "hyped", default: false, null: false
     t.integer "impressions_seed", default: 0, null: false
     t.string "kind", default: "post", null: false
+    t.integer "mogs_count", default: 0, null: false
     t.integer "persona_id", null: false
+    t.text "poll_options"
     t.integer "reactions_count", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_posts_on_created_at"
@@ -259,8 +288,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_31_000001) do
   add_foreign_key "jobs", "personas"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "personas", column: "sender_id"
+  add_foreign_key "mogs", "personas"
+  add_foreign_key "mogs", "posts"
   add_foreign_key "notifications", "personas"
   add_foreign_key "notifications", "personas", column: "actor_id"
+  add_foreign_key "poll_votes", "personas"
+  add_foreign_key "poll_votes", "posts"
   add_foreign_key "posts", "personas"
   add_foreign_key "profile_skills", "personas"
   add_foreign_key "reactions", "personas"

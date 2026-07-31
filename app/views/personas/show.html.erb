@@ -10,21 +10,33 @@
         <div>
           <h1 class="text-2xl font-semibold flex items-center gap-2">
             <%= @persona.name %>
+            <%= verified_check(@persona) %>
             <%= premium_badge(@persona) %>
             <% if @persona.is_bot %><span class="text-xs font-bold uppercase bg-paper border border-black/10 rounded-full px-2 py-0.5 text-ink/50" title="This persona is a bot. The honesty is refreshing.">Bot</span><% end %>
           </h1>
-          <% if @persona.open_to_larp? %>
-            <span class="inline-flex items-center gap-1 mt-1 text-xs font-semibold text-white bg-[#01754f] rounded-full px-2.5 py-0.5">#OpenToLarp · accepting quests</span>
-          <% end %>
-          <p class="text-[15px] text-ink/80 mt-0.5"><%= @persona.headline %></p>
+          <div class="flex flex-wrap items-center gap-1.5 mt-1">
+            <% if @persona.open_to_larp? %>
+              <span class="inline-flex items-center gap-1 text-xs font-semibold text-white bg-[#01754f] rounded-full px-2.5 py-0.5">#OpenToLarp</span>
+            <% end %>
+            <% if @persona.pilled.present? %><span class="text-xs font-semibold text-cobalt-700 bg-cobalt-50 border border-cobalt-200 rounded-full px-2.5 py-0.5">#<%= @persona.pilled %></span><% end %>
+            <% if @persona.coded.present? %><span class="text-xs font-semibold text-accent-600 bg-accent-500/10 border border-accent-500/30 rounded-full px-2.5 py-0.5"><%= @persona.coded %></span><% end %>
+          </div>
+          <p class="text-[15px] text-ink/80 mt-1"><%= @persona.headline %></p>
           <p class="text-sm text-ink/60 mt-1">
             The Feed, Internet ·
             <span class="font-semibold text-cobalt-600"><%= @persona.clout_display %> connections</span>
           </p>
-          <p class="text-xs text-ink/50 mt-0.5">Larping since <%= @persona.larping_since.year %> · <%= pluralize(@persona.years_larping, "year") %> in character</p>
+          <p class="text-xs text-ink/50 mt-0.5">
+            Larping since <%= @persona.larping_since.year %> ·
+            <span class="font-semibold text-accent-600">✨ <%= number_with_delimiter(@persona.aura) %> aura</span> (<%= @persona.aura_tier %>)
+            <% if @persona.streak >= 2 %> · <span class="font-semibold">🔥 <%= @persona.streak %>-day streak</span><% end %>
+          </p>
         </div>
         <div class="flex gap-2 shrink-0">
           <% if own_profile %>
+            <% if @persona.can_verify? %>
+              <%= button_to "Get verified", verify_my_persona_path, form_class: "btn-form", class: "text-sm font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-4 py-1.5 cursor-pointer", title: "You have 100+ aura. Claim your blue check." %>
+            <% end %>
             <%= link_to "Edit persona", edit_my_persona_path, class: "text-sm font-semibold text-cobalt-600 border border-cobalt-600 rounded-full px-4 py-1.5 hover:bg-cobalt-50" %>
           <% else %>
             <% existing = current_persona&.connection_with(@persona) %>

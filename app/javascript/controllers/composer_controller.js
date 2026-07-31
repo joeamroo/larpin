@@ -1,11 +1,47 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["textarea", "fileInput", "previews", "enhanceBtn", "hint", "submit"]
+  static targets = ["textarea", "fileInput", "previews", "enhanceBtn", "larpmaxxBtn", "hint", "submit", "kind", "pollBox"]
 
   connect() {
     this.grow()
     this.validate()
+  }
+
+  kindChanged() {
+    const isPoll = this.hasKindTarget && this.kindTarget.value === "poll"
+    if (this.hasPollBoxTarget) this.pollBoxTarget.classList.toggle("hidden", !isPoll)
+    if (this.hasPollBoxTarget) this.pollBoxTarget.classList.toggle("flex", isPoll)
+    if (isPoll) this.textareaTarget.placeholder = "Ask the larpers a question..."
+    this.validate()
+  }
+
+  async larpmaxx() {
+    const seed = this.textareaTarget.value.trim().split(/\s+/)[0] || ""
+    const original = this.larpmaxxBtnTarget.innerHTML
+    this.larpmaxxBtnTarget.disabled = true
+    try {
+      const response = await fetch("/ai/larpmaxx", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.content
+        },
+        body: JSON.stringify({ seed })
+      })
+      const data = await response.json()
+      if (data.text) {
+        this.textareaTarget.value = data.text
+        this.grow()
+        this.showHint("Larpmaxxed. You need to be posting this.")
+      }
+    } catch {
+      this.showHint("The maxx failed. Stay an NPC for now.")
+    } finally {
+      this.larpmaxxBtnTarget.innerHTML = original
+      this.larpmaxxBtnTarget.disabled = false
+    }
   }
 
   grow() {

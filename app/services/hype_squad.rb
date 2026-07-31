@@ -27,6 +27,7 @@ module HypeSquad
       Reaction.find_or_create_by!(post: post, persona: bot) { |r| r.kind = Reaction::KINDS.keys.sample }
     end
     post.update!(hyped: true)
+    post.persona.add_aura(50)
 
     post.persona.notifications.create!(
       actor: bots.first,

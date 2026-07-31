@@ -10,9 +10,15 @@
               class: "w-full resize-none rounded-3xl border border-black/25 px-4 py-3 text-sm font-medium placeholder:text-ink/60 focus:outline-none focus:border-cobalt-600 focus:ring-1 focus:ring-cobalt-600 min-h-[48px] leading-snug",
               data: { composer_target: "textarea", action: "input->composer#grow" } %>
         <div class="flex flex-wrap gap-2 mt-2 empty:hidden" data-composer-target="previews"></div>
+        <div class="hidden mt-2 flex-col gap-1.5" data-composer-target="pollBox">
+          <input type="text" name="post[poll_options][]" maxlength="60" placeholder="Option 1 (e.g. Larping)" class="w-full rounded-lg border border-black/20 px-3 py-1.5 text-sm focus:outline-none focus:border-cobalt-600">
+          <input type="text" name="post[poll_options][]" maxlength="60" placeholder="Option 2 (e.g. Just Tuesday)" class="w-full rounded-lg border border-black/20 px-3 py-1.5 text-sm focus:outline-none focus:border-cobalt-600">
+          <input type="text" name="post[poll_options][]" maxlength="60" placeholder="Option 3 (optional)" class="w-full rounded-lg border border-black/20 px-3 py-1.5 text-sm focus:outline-none focus:border-cobalt-600">
+          <input type="text" name="post[poll_options][]" maxlength="60" placeholder="Option 4 (optional)" class="w-full rounded-lg border border-black/20 px-3 py-1.5 text-sm focus:outline-none focus:border-cobalt-600">
+        </div>
       </div>
     </div>
-    <div class="flex items-center gap-0.5 sm:gap-1 mt-2 sm:pl-[52px]">
+    <div class="flex items-center flex-wrap gap-0.5 mt-2 sm:pl-[52px]">
       <label class="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-[13px] font-semibold text-ink/60 hover:bg-black/5 cursor-pointer px-2 sm:px-3 py-2 rounded whitespace-nowrap">
         <svg class="w-5 h-5 text-[#378fe9] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M19 4H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3ZM8.5 7.5A1.5 1.5 0 1 1 7 9a1.5 1.5 0 0 1 1.5-1.5ZM20 17a1 1 0 0 1-1 1H5.19L14 9.81 20 14Z"/></svg>
         Media
@@ -20,16 +26,21 @@
       </label>
       <label class="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-[13px] font-semibold text-ink/60 hover:bg-black/5 cursor-pointer px-2 sm:px-3 py-2 rounded whitespace-nowrap min-w-0">
         <svg class="w-5 h-5 text-[#c37d16] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2ZM9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9Z"/></svg>
-        <select name="post[kind]" class="bg-transparent cursor-pointer focus:outline-none text-xs sm:text-[13px] font-semibold text-ink/60 max-w-[110px] sm:max-w-none">
-          <option value="post">Share a larp</option>
-          <option value="celebration">Celebrate a milestone</option>
+        <select name="post[kind]" data-composer-target="kind" data-action="composer#kindChanged" class="bg-transparent cursor-pointer focus:outline-none text-xs sm:text-[13px] font-semibold text-ink/60 max-w-[92px] sm:max-w-none">
+          <option value="post">Larp</option>
+          <option value="celebration">Milestone</option>
+          <option value="poll">Poll</option>
         </select>
       </label>
+      <button type="button" data-action="composer#larpmaxx" data-composer-target="larpmaxxBtn"
+              class="flex items-center gap-1 text-xs sm:text-[13px] font-semibold text-cobalt-600 hover:bg-cobalt-50 px-2 sm:px-3 py-2 rounded cursor-pointer whitespace-nowrap">
+        <span>🔷</span><span>Larpmaxx<span class="hidden sm:inline">&nbsp;it</span></span>
+      </button>
       <button type="button" data-action="composer#enhance" data-composer-target="enhanceBtn"
               class="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-[13px] font-semibold text-accent-600 hover:bg-orange-50 px-2 sm:px-3 py-2 rounded cursor-pointer whitespace-nowrap">
         <span>✨</span><span>Enhance<span class="hidden sm:inline">&nbsp;my larp</span></span>
       </button>
-      <%= f.submit "Post", disabled: true, data: { composer_target: "submit" }, class: "ml-auto bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-semibold rounded-full px-4 py-1.5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed" %>
+      <%= f.submit "Post", disabled: true, data: { composer_target: "submit" }, class: "ml-auto shrink-0 bg-cobalt-600 hover:bg-cobalt-700 text-white text-sm font-semibold rounded-full px-4 py-1.5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed" %>
     </div>
     <p class="hidden text-xs text-ink/50 mt-1 pl-[52px]" data-composer-target="hint"></p>
   <% end %>

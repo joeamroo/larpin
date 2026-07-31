@@ -10,4 +10,9 @@ class AiController < ApplicationController
 
     render json: { text: CringeEnhancer.enhance(draft) }
   end
+
+  def larpmaxx
+    ensure_persona!
+    render json: { text: LarpmaxxGenerator.generate(params[:seed]) }
+  end
 end

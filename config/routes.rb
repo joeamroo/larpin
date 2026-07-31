@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       post :hype
       post :save
       post :report
+      post :mog
+      post :vote
       get :analytics
     end
     resources :comments, only: [ :create ], shallow: true
@@ -17,7 +19,9 @@ Rails.application.routes.draw do
 
   resource :my_persona, only: [ :edit, :update ], controller: "my_personas" do
     post :regenerate
+    post :verify
   end
+  post "ai/larpmaxx" => "ai#larpmaxx"
   resources :personas, only: [ :show ] do
     member { post :endorse }
   end

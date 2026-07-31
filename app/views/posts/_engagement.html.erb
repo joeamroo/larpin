@@ -13,6 +13,7 @@
       <% end %>
     </div>
     <div class="flex items-center gap-1.5 num">
+      <% if post.mogs_count > 0 %><span class="text-accent-600 font-semibold" title="Times this post got mogged">😤 <%= post.mogs_count %></span><span class="text-ink/30">·</span><% end %>
       <% if post.comments_count > 0 %><span><%= pluralize(post.comments_count, "comment") %></span><span class="text-ink/30">·</span><% end %>
       <span title="Impressions are computed by vibes"><%= number_with_delimiter(post.impressions) %> impressions</span>
       <% if current_persona&.id == post.persona_id %>

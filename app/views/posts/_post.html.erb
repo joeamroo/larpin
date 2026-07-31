@@ -11,11 +11,12 @@
     <div class="min-w-0 flex-1">
       <div class="flex items-center gap-1.5 leading-tight">
         <%= link_to post.persona.name, persona_path(post.persona), class: "font-semibold text-sm text-ink hover:underline hover:text-cobalt-600 truncate", data: { turbo_frame: "_top" } %>
+        <%= verified_check(post.persona) %>
         <%= premium_badge(post.persona) %>
         <span class="text-ink/50 text-xs shrink-0">· <%= post.persona.clout_display %></span>
       </div>
       <p class="text-xs text-ink/55 truncate leading-tight mt-px"><%= post.persona.headline %></p>
-      <p class="text-xs text-ink/50 leading-tight mt-px num"><%= short_time_ago(post.created_at) %> · 🌐</p>
+      <p class="text-xs text-ink/50 leading-tight mt-px num"><%= short_time_ago(post.created_at) %> · 🌐<% if post.persona.streak >= 2 %> · 🔥<%= post.persona.streak %><% end %></p>
     </div>
     <% level = post.larp_level %>
     <span class="shrink-0 text-[11px] font-semibold rounded px-1.5 py-0.5 mt-0.5 num cursor-default
@@ -36,11 +37,18 @@
         <% if current_persona&.id == post.persona_id %>
           <%= button_to "Delete larp", post_path(post), method: :delete, form: { data: { turbo_confirm: "Retract this larp?", turbo_frame: "_top" } }, form_class: "btn-form", class: "w-full text-left px-4 py-2 font-medium text-accent-600 hover:bg-black/5 cursor-pointer" %>
         <% else %>
+          <%= button_to "😤 Mog this post", mog_post_path(post), form: { data: { turbo_frame: "_top" } }, form_class: "btn-form", class: "w-full text-left px-4 py-2 font-medium hover:bg-black/5 cursor-pointer" %>
           <%= button_to "Report to HR", report_post_path(post), form: { data: { turbo_frame: "_top" } }, form_class: "btn-form", class: "w-full text-left px-4 py-2 font-medium hover:bg-black/5 cursor-pointer" %>
         <% end %>
       </div>
     </div>
   </div>
+
+  <% if post.ratiod? %>
+    <div class="mx-4 mt-2 rounded-md bg-accent-500/10 border border-accent-500/30 px-3 py-1.5 text-xs font-bold text-accent-600 uppercase tracking-wide">
+      💀 Ratio'd · a comment out-larped the whole post
+    </div>
+  <% end %>
 
   <% if post.body.present? && post.kind == "celebration" %>
     <div class="mx-4 mt-2.5 rounded-lg px-5 py-6 text-center" style="background: linear-gradient(135deg, #fdf3e0, #fde8e8);">
@@ -66,6 +74,10 @@
         <% end %>
       <% end %>
     </div>
+  <% end %>
+
+  <% if post.poll? %>
+    <%= render "posts/poll", post: post %>
   <% end %>
 
   <%= render "posts/engagement", post: post %>

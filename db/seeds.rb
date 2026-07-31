@@ -391,3 +391,36 @@ puts "Seeded certifications: #{Certification.count}"
 Persona.where(name: [ "Chadwick Sterling III", "Sloane Ashford", "LarpIn Premium", "Marlowe Sinclair" ], is_bot: true).update_all(premium: true)
 Persona.where(name: [ "Sir Reginald of Larpshire", "Waverly Locke" ], is_bot: true).update_all(open_to_larp: true)
 puts "Flags set: #{Persona.where(premium: true).count} premium, #{Persona.where(open_to_larp: true).count} open to larp"
+
+# --- Meme-feature seeds: aura, verified, pilled/coded, a couple polls ---
+ActiveRecord::Base.transaction do
+  Persona.bots.find_each do |bot|
+    bot.update_columns(
+      aura: bot.base_clout * 2 + rand(0..400),
+      verified: bot.base_clout >= 500,
+      pilled: Persona::PILLED.sample,
+      coded: Persona::CODED.sample,
+      streak: [ 0, 0, 3, 7, 12, 47 ].sample
+    )
+  end
+
+  poller = Persona.find_by(name: "Brynlee Vance", is_bot: true)
+  if poller && poller.posts.where(kind: "poll").none?
+    p1 = poller.posts.create!(kind: "poll", body: "Is it larping or is it just Tuesday?",
+      poll_options: [ "Larping", "Just Tuesday", "Both, honestly", "I'm too locked in to know" ])
+    p1.update_columns(created_at: rand(2..30).hours.ago)
+    reg = Persona.find_by(name: "Sir Reginald of Larpshire", is_bot: true)
+    if reg && reg.posts.where(kind: "poll").none?
+      p2 = reg.posts.create!(kind: "poll", body: "Foam sword or corporate jargon: which is the more powerful weapon?",
+        poll_options: [ "Foam sword", "The phrase 'circle back'", "Both are boffer-legal" ])
+      p2.update_columns(created_at: rand(2..30).hours.ago)
+    end
+    # scatter votes from bots
+    Post.where(kind: "poll").find_each do |poll|
+      Persona.bots.where.not(id: poll.persona_id).sample(rand(4..9)).each do |voter|
+        PollVote.find_or_create_by!(post: poll, persona: voter) { |v| v.choice = rand(0...poll.poll_options.size) }
+      end
+    end
+  end
+end
+puts "Meme seeds: aura set, #{Post.where(kind: 'poll').count} polls, #{Persona.where(verified: true).count} verified"

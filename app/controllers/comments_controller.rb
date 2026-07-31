@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
     comment = post.comments.new(persona: persona, body: params[:comment][:body].to_s.strip)
 
     if comment.save
+      post.persona.add_aura(3)
       FakeNotifier.real!(post.persona, actor: persona,
         body: "#{persona.name} commented on your post: \"#{comment.body.truncate(60)}\"",
         url: "/posts/#{post.id}")

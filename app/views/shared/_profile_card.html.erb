@@ -8,6 +8,7 @@
     <p class="text-xs text-ink/60 mt-1 leading-snug px-1"><%= persona.headline %></p>
   </div>
   <div class="border-t border-black/8 px-3 py-3 text-xs space-y-2">
+    <div class="flex justify-between"><span class="text-ink/60 font-medium">✨ Aura</span><span class="font-semibold text-accent-600 num"><%= number_with_delimiter(persona.aura) %></span></div>
     <div class="flex justify-between"><span class="text-ink/60 font-medium">Connections</span><span class="font-semibold text-cobalt-600 num"><%= persona.clout_display %></span></div>
     <%= link_to profile_views_path, class: "flex justify-between hover:bg-black/5 -mx-1 px-1 rounded" do %>
       <span class="text-ink/60 font-medium">Profile views</span><span class="font-semibold text-cobalt-600 num"><%= persona.id * 137 % 9000 + 240 %></span>

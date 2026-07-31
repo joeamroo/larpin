@@ -16,8 +16,40 @@ class Persona < ApplicationRecord
   has_one_attached :cover
   has_many :saved_posts, dependent: :destroy
   has_many :saved_feed_posts, through: :saved_posts, source: :post
+  has_many :poll_votes, dependent: :destroy
+  has_many :mogs, dependent: :destroy
 
   has_secure_password validations: false
+
+  PILLED = %w[Larppilled Grindpilled Delulupilled Aurapilled Sigmapilled Stealthpilled Hustlepilled].freeze
+  CODED = %w[Founder-coded CEO-coded NPC-coded Sigma-coded Main-character-coded Stealth-coded Recruiter-coded].freeze
+
+  AURA_TIERS = [
+    [ -1, "Aura in the red" ],
+    [ 50, "Faint aura" ],
+    [ 200, "Aura noticed" ],
+    [ 600, "Aura farming" ],
+    [ 1500, "Radiating aura" ],
+    [ Float::INFINITY, "Aura singularity" ]
+  ].freeze
+
+  # Grant or dock aura. Positive events add, embarrassment subtracts.
+  def add_aura(points)
+    increment!(:aura, points)
+  end
+
+  def aura_tier
+    AURA_TIERS.find { |ceiling, _| aura < ceiling }.last
+  end
+
+  # A larp posted today; bump the consecutive-day streak.
+  def touch_streak!
+    today = Date.current
+    return if last_larp_on == today
+    self.streak = last_larp_on == today - 1 ? streak + 1 : 1
+    self.last_larp_on = today
+    save!
+  end
 
   validates :name, presence: true, length: { maximum: 60 }
   validates :headline, presence: true, length: { maximum: 140 }
@@ -77,6 +109,11 @@ class Persona < ApplicationRecord
 
   def top_skills
     endorsements.group(:skill).order(count_all: :desc).limit(6).count
+  end
+
+  # Verified Larper self-serve check unlocks at 100 aura.
+  def can_verify?
+    aura >= 100 && !verified?
   end
 
   private

@@ -1,9 +1,11 @@
 class Post < ApplicationRecord
-  KINDS = %w[post celebration promoted].freeze
+  KINDS = %w[post celebration promoted poll].freeze
 
   belongs_to :persona, counter_cache: true
   has_many :reactions, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :poll_votes, dependent: :destroy
+  has_many :mogs, dependent: :destroy
   has_many_attached :images
 
   validates :kind, inclusion: { in: KINDS }
@@ -13,8 +15,35 @@ class Post < ApplicationRecord
 
   before_create { self.impressions_seed = rand(2_000..90_000) }
 
-  scope :feed, -> { where(kind: %w[post celebration]) }
+  scope :feed, -> { where(kind: %w[post celebration poll]) }
   scope :promoted, -> { where(kind: "promoted") }
+
+  serialize :poll_options, coder: JSON
+
+  def poll?
+    kind == "poll" && poll_options.present?
+  end
+
+  def poll_results
+    counts = poll_votes.group(:choice).count
+    total = counts.values.sum
+    Array(poll_options).each_with_index.map do |label, i|
+      votes = counts[i].to_i
+      { label: label, votes: votes, pct: total.zero? ? 0 : (votes * 100.0 / total).round }
+    end
+  end
+
+  def poll_total_votes
+    poll_votes.count
+  end
+
+  # A post is ratio'd when any single comment gathers more likes than the
+  # whole post gathered reactions. The internet's cruelest scoreboard.
+  def ratiod?
+    return false if reactions_count.zero? && comments_count.zero?
+    top = comments.maximum(:likes_count).to_i
+    top > reactions_count && top >= 2
+  end
 
   # Hot: engagement over a linear time-decay. Computed in SQL so it works
   # straight off the feed query on SQLite.

@@ -31,3 +31,40 @@ class PostTest < ActiveSupport::TestCase
     assert_nothing_raised { Post.feed.sorted("hot").to_a }
   end
 end
+
+class PollAndMemeTest < ActiveSupport::TestCase
+  setup do
+    @a = Persona.create!(name: "Poller One", headline: "Asking | Questions", larping_since: 1.year.ago)
+    @b = Persona.create!(name: "Voter Two", headline: "Voting | Loudly", larping_since: 1.year.ago)
+  end
+
+  test "poll tallies votes into percentages" do
+    poll = @a.posts.create!(kind: "poll", body: "A or B?", poll_options: [ "A", "B" ])
+    poll.poll_votes.create!(persona: @b, choice: 0)
+    results = poll.poll_results
+    assert_equal 100, results[0][:pct]
+    assert_equal 0, results[1][:pct]
+  end
+
+  test "aura moves on grant and dock" do
+    assert_equal 0, @a.aura
+    @a.add_aura(15)
+    @a.add_aura(-20)
+    assert_equal(-5, @a.reload.aura)
+    assert_equal "Aura in the red", @a.aura_tier
+  end
+
+  test "streak increments on consecutive days" do
+    @a.touch_streak!
+    assert_equal 1, @a.streak
+    @a.update!(last_larp_on: Date.current - 1, streak: 4)
+    @a.touch_streak!
+    assert_equal 5, @a.streak
+  end
+
+  test "larpmaxx generator follows the snowclone" do
+    text = LarpmaxxGenerator.generate("grindset")
+    assert_includes text, "You need to be grindsetmaxxing."
+    assert_includes text, "Stop being an NPC"
+  end
+end
