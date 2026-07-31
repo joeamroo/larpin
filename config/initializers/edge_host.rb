@@ -16,4 +16,4 @@ class EdgeHostRestore
   end
 end
 
-Rails.application.config.middleware.insert_before ActionDispatch::HostAuthorization, EdgeHostRestore
+Rails.application.config.middleware.insert 0, EdgeHostRestore
