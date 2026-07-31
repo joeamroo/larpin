@@ -18,7 +18,17 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-BASE = "https://larpin.io"
+def _pick_base() -> str:
+    for host in ("https://larpin.io", "https://www.larpin.io", "https://larpin-production.up.railway.app"):
+        try:
+            if urllib.request.urlopen(host + "/up", timeout=10).status == 200:
+                return host
+        except OSError:
+            continue
+    raise SystemExit("no live host found")
+
+
+BASE = None  # resolved in main()
 OUT_DIR = Path(__file__).resolve().parent.parent / "exports"
 VIDEO_DIR = OUT_DIR / "demo-video-raw"
 
@@ -133,8 +143,11 @@ class Director:
 
 
 def main() -> None:
+    global BASE
+    BASE = _pick_base()
+    print(f"recording against {BASE}")
     VIDEO_DIR.mkdir(parents=True, exist_ok=True)
-    for path in ["/", "/jobs", "/premium", "/?sort=new"]:
+    for path in ["/", "/jobs", "/premium", "/larpboard", "/?sort=new"]:
         try:
             urllib.request.urlopen(BASE + path, timeout=30).read()
         except OSError:
@@ -170,7 +183,7 @@ def main() -> None:
         # Scene 2: react with Grindset
         react = page.locator("article").first.get_by_role("button", name="React")
         rbox = react.bounding_box()
-        d.bubble("React like a professional: <b>Grindset</b>, <b>Cap</b>, or <b>Crying at the Gym</b>.", rbox["x"] + 120, rbox["y"] - 150, hold=1.4)
+        d.bubble("React like a professional: <b>Grindset</b> 😤, <b>Labubu</b> 🧸, or <b>Larp Larp Larp Sahur</b> 🪵.", rbox["x"] + 120, rbox["y"] - 150, hold=1.4)
         d.click(react, ms=650)
         grindset = page.locator("article").first.get_by_role("button", name="Grindset").first
         gbox = grindset.bounding_box()
@@ -218,7 +231,20 @@ def main() -> None:
             d.unzoom(0.2)
         d.hide_bubble()
 
-        # Scene 5: jobs board, instant rejection (fresh page: reset zoom first)
+        # Scene 5: the Larpboard
+        page.goto(BASE + "/larpboard", wait_until="networkidle")
+        d.install()
+        d.pause(0.8)
+        d.bubble("Climb the <b>Larpboard</b>: followers are the only status signal. The counts are <b>inflated</b>. That's the sport.", 1150, 260, hold=1.8)
+        gold = page.locator("text=🥇").first
+        gbox2 = gold.bounding_box()
+        if gbox2:
+            d.glide(gold, ms=650)
+            d.zoom(1.45, gbox2["x"] + 200, 0, hold=2.2)
+            d.unzoom(0.2)
+        d.hide_bubble()
+
+        # Scene 6: jobs board, instant rejection (fresh page: reset zoom first)
         page.goto(BASE + "/jobs", wait_until="networkidle")
         d.install()
         d.pause(0.8)
@@ -231,7 +257,7 @@ def main() -> None:
         d.unzoom(0.2)
         d.hide_bubble()
 
-        # Scene 6: premium
+        # Scene 7: premium
         page.goto(BASE + "/premium", wait_until="networkidle")
         d.install()
         d.pause(0.8)
