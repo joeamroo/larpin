@@ -1,71 +1,67 @@
-# Two-week launch calendar (all times CST)
+# Launch sprint: everything posted by Sunday Aug 9 (all times CST)
 
-One flagship launch per day maximum. Your comment-reply energy in the first
-2 hours decides outcomes, so heavy days get nothing else. HN Show HNs spaced
-one week apart per account; same for Product Hunt.
+Master calendar for all three products: LarpIn, Knowledgemaxxing (km), ARVnote.
+This file is the single source of truth. The km and ARVnote sessions have prep
+prompts pointing here (LAUNCH_PREP_PROMPT.md in each repo).
 
-## Week 1: LarpIn front and center, km on Reddit
+Rules: one flagship launch per day (flagship = HN or Product Hunt; your first
+2 hours of comment replies decide outcomes). Light posts can stack on any day.
+LarpIn and km Show HNs are 4 days apart, the minimum comfortable spacing on
+one account.
 
-### Saturday Aug 1
-- 9:00 AM  LarpIn -> r/SideProject (main post) + r/webdev "Showoff Saturday" thread comment
-- 10:30 AM LarpIn -> X teaser: thumbnail image + one-liner, "full video Sunday"
+## Saturday Aug 1
+- 9:00 AM  LarpIn -> r/SideProject + r/webdev "Showoff Saturday" comment
+- 10:30 AM LarpIn -> X teaser (thumbnail image, "full video tomorrow")
+- 2:00 PM  km -> r/selfhosted + r/DataHoarder
 
-### Sunday Aug 2 (LarpIn HN day, clear your morning)
-- 8:00 AM  LarpIn -> Show HN (copy in social-posts.md) + first comment immediately
-- 10:00 AM LarpIn -> X main post with the 4K video
-- 2:00 PM  km -> Reddit wave 1: r/selfhosted, r/DataHoarder (their peak window)
+## Sunday Aug 2 (FLAGSHIP: LarpIn Show HN)
+- 8:00 AM  LarpIn -> Show HN + first comment (copy: social-posts.md)
+- 10:00 AM LarpIn -> X main post with 4K video
+- 2:00 PM  km -> r/ObsidianMD + r/PKMS
 
-### Monday Aug 3
+## Monday Aug 3
 - 9:00 AM  LarpIn -> LinkedIn (in-character post + thumbnail PNG)
-- 11:00 AM LarpIn -> r/InternetIsBeautiful (read current self-promo rules first)
-- 1:00 PM  km -> X thread (local-first angle: "I mined my own digital exhaust")
+- 11:00 AM LarpIn -> r/InternetIsBeautiful (verify current self-promo rules)
+- 1:00 PM  km -> X thread
 
-### Tuesday Aug 4 (ARVnote day, B2B peak)
-- 8:30 AM  ARVnote -> LinkedIn post
-- 9:30 AM  ARVnote -> BiggerPockets forum post (the real channel for investors)
-- 10:30 AM ARVnote -> X thread (fix-and-flip ARV angle)
-- Evening: prep LarpIn Product Hunt assets (gallery from README screenshots, tagline, maker comment)
+## Tuesday Aug 4 (ARVnote day)
+- 8:30 AM  ARVnote -> LinkedIn
+- 9:30 AM  ARVnote -> BiggerPockets forum post
+- 10:30 AM ARVnote -> X thread
+- Evening: final check of LarpIn Product Hunt draft (product-hunt.md), schedule the launch
 
-### Wednesday Aug 5 (LarpIn Product Hunt day)
-- 2:01 AM  LarpIn -> Product Hunt launch (12:01 AM PT start maximizes the 24h window; schedule it, sleep, engage from 8 AM)
-- 9:00 AM  LarpIn -> X + LinkedIn: "we're live on Product Hunt" with PH link
-- All day: reply to every PH comment
+## Wednesday Aug 5 (FLAGSHIP: LarpIn Product Hunt)
+- 2:01 AM  LarpIn -> Product Hunt goes live (scheduled Tuesday night; 12:01 AM PT start)
+- 8:00 AM  onward: reply to every PH comment
+- 9:00 AM  LarpIn -> X + LinkedIn "live on Product Hunt"
+- 2:00 PM  km -> r/Python + r/commandline
 
-### Thursday Aug 6
-- 9:00 AM  LarpIn -> r/ProgrammerHumor (screenshot of a great larp + Larp Level, not a link post)
-- 10:00 AM LarpIn -> r/rails (technical angle: Rails 8 + Hotwire, no JS build, one box)
-- 2:00 PM  km -> Reddit wave 2: r/ObsidianMD, r/PKMS (PKM crowd)
-
-### Friday Aug 7 (light day)
-- 10:00 AM LarpIn -> Indie Hackers post (launch story + numbers so far)
-- 11:00 AM dev.to writeup: "I built a LinkedIn parody in 4 days with Claude Code" (evergreen, links everything)
-
-## Week 2: km front and center, ARVnote deep dive
-
-### Saturday Aug 8
-- 9:00 AM  km -> r/webdev Showoff Saturday + r/Python
-- 10:00 AM km -> r/commandline (typer CLI angle)
-
-### Sunday Aug 9 (km HN day)
+## Thursday Aug 6 (FLAGSHIP: km Show HN)
 - 8:00 AM  km -> Show HN + first comment
 - 10:00 AM km -> X post riding the thread
+- 1:00 PM  LarpIn -> r/ProgrammerHumor (screenshot post, see more-posts.md)
+- 2:00 PM  LarpIn -> r/rails (technical angle)
 
-### Monday Aug 10
-- 9:00 AM  km -> LinkedIn (professional knowledge-management angle, straight-faced)
-- 11:00 AM km -> r/opensource
-
-### Tuesday Aug 11 (ARVnote round 2)
-- 8:30 AM  ARVnote -> r/realestateinvesting (VALUE post: "how I estimate ARV in 60 seconds", tool mentioned once; sub bans link-drops)
-- 9:30 AM  ARVnote -> Facebook investor groups + the active IG realtor thread
+## Friday Aug 7
+- 8:30 AM  ARVnote -> r/realestateinvesting (VALUE post, no link-drop; framing in its prep prompt)
+- 9:00 AM  km -> LinkedIn (straight-faced knowledge-management angle)
+- 9:30 AM  ARVnote -> Facebook investor groups + IG realtor thread
 - 10:30 AM ARVnote -> r/RealEstateTechnology
 
-### Wednesday Aug 12
-- 2:01 AM  km -> Product Hunt launch (same playbook as LarpIn's)
+## Saturday Aug 8 (FLAGSHIP: km Product Hunt)
+- 2:01 AM  km -> Product Hunt goes live
+- 9:00 AM  km -> r/webdev Showoff Saturday + r/opensource
+- All day: PH comments
+
+## Sunday Aug 9 (wrap-up)
+- 10:00 AM dev.to writeup: "I built a LinkedIn parody in 4 days with Claude Code" (links all three)
+- 11:00 AM LarpIn -> Indie Hackers launch-story post with week-one numbers
+- 1:00 PM  X week-in-review thread: numbers from all three launches, quote the best comments
 
 ## Platform notes
-- Product Hunt: launch at 12:01 AM PT; needs tagline (60 chars), 3-5 gallery images, maker comment. Assets exist for LarpIn (README screenshots + thumbnail); build km's from its demo.
-- r/LinkedInLunatics: never self-promo; if LarpIn spreads there it must be organic.
-- lobste.rs: invite-only; only if you have an account.
-- Hacker Newsletter / TLDR pick up from HN automatically if the thread performs; no action.
-- HN retry rule: if a Show HN dies quietly (<5 points in 2h), one re-submit is acceptable ~2 days later at Tue 7:30 AM.
-- Every post for every product should come from your account, and replies within 2 hours matter more than posting time.
+- Product Hunt: 12:01 AM PT start maximizes the 24h vote window; needs tagline
+  (60 chars), 3-5 gallery images, maker comment. LarpIn kit: product-hunt.md.
+- HN retry rule: a Show HN that dies quietly (<5 points in 2h) can be
+  re-submitted once, ~2 days later, Tue 7:30 AM being the strongest slot.
+- r/LinkedInLunatics: organic only, never self-promo.
+- Hacker Newsletter / TLDR pick winners up from HN automatically.
