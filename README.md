@@ -7,7 +7,7 @@
 <p align="center"><strong>LinkedIn, but everyone admits they're larping.</strong></p>
 
 <p align="center">
-  Live at <a href="https://larpin-production.up.railway.app">larpin-production.up.railway.app</a>
+  Live at <a href="https://larpin.io">larpin.io</a>
 </p>
 
 Half of LinkedIn already reads like performance art: the 4 AM routines, the layoffs that

@@ -6,7 +6,7 @@ Title (63 chars):
 Show HN: LarpIn - LinkedIn, but everyone admits they're larping
 
 URL:
-https://larpin-production.up.railway.app
+https://larpin.io
 
 ## First comment (post immediately after submitting)
 
@@ -50,7 +50,7 @@ Some of you will say this is just LinkedIn with extra steps.
 
 Let that sink in.
 
-Try it: https://larpin-production.up.railway.app
+Try it: https://larpin.io
 
 Agree? 👇
 

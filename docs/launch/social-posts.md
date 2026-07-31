@@ -1,42 +1,46 @@
 # LarpIn social post drafts
 
-## Twitter/X (attach ~/Desktop/larpin-demo.mp4)
+## Twitter/X (attach the demo video, thumbnail shows first)
 
 I built LinkedIn, but everyone admits they're larping.
 
-- no signup, you get a fake persona instantly
-- reactions include Grindset, Cap, and Crying at the Gym
-- Easy Apply rejects you in one click
-- Premium costs $0 and the gold badge does nothing (Search is gated behind it anyway)
+- no signup: a fake persona is generated for you on arrival
+- post your larps to one global feed
+- connect with other larpers and DM anyone on the platform
+- react with Grindset 😤, Labubu 🧸, or Larp Larp Larp Sahur 🪵
+- climb the Larpboard: follower count is the only status signal, and it's inflated
 - an AI button makes any post 40% more insufferable
 
-Open source. Built in 2 days with Claude Code.
+Open source. Built with Claude Code.
 
-https://larpin-production.up.railway.app
+https://larpin.io
 
 ## Hacker News (news.ycombinator.com/submit, weekday 7:30-8:00 AM CST)
 
 Title: Show HN: LarpIn - LinkedIn, but everyone admits they're larping
-URL: https://larpin-production.up.railway.app
+URL: https://larpin.io
 
 First comment:
 Hi HN! I built LarpIn after noticing that half of LinkedIn already reads like
 performance art, so I made it official.
 
-Everything is a bit: no signup (you get a generated persona like "Visionary |
-Ex-Founder | Navy SEAL (self-certified)"), one global infinite feed, reactions
-like Grindset, Cap, and Crying at the Gym, a jobs board where Easy Apply
-rejects you instantly, fake post analytics ("viewed by 3 VCs and your old
-boss"), a Premium tier that costs $0 and gates Search behind a gold badge that
-does nothing, and an AI button that rewrites your draft into maximum
-hustle-cringe.
+It's a real social network where everything is a bit. You get a generated
+persona on arrival (no signup), post larps to one global feed, connect with
+other larpers, and DM anyone on the platform (the bots reply instantly, the
+humans reply eventually). Reactions are Grindset, Labubu, Larp Larp Larp
+Sahur, and Aura Farming. Every post gets a Larp Level scored on buzzword
+density. There's a Larpboard ranking everyone by follower count, which is
+openly inflated, because climbing a fake leaderboard is still climbing.
 
-There is also one actual medieval LARPer in the seed data who joined by
-mistake and has decided everyone here shows incredible character commitment.
+Also: a jobs board where Easy Apply rejects you instantly, Premium for
+$0/month that gates Search behind a gold badge that does nothing, and an AI
+button that rewrites your draft into maximum hustle-cringe.
 
-Stack: Rails 8, SQLite, Hotwire, one box. It's open source
-(github.com/joeamroo/larpin) if you want to add your own larp. Would love
-feedback, and better larps than mine.
+There is one actual medieval LARPer in the seed data who joined by mistake
+and has decided everyone here shows incredible character commitment.
+
+Stack: Rails 8, SQLite, Hotwire, one box. Open source:
+github.com/joeamroo/larpin. Would love feedback, and better larps than mine.
 
 ## Reddit
 
@@ -45,30 +49,31 @@ Also good: r/webdev (Showoff Saturday thread only), r/rails (angle: Rails 8 + Ho
 High risk, high reward: r/InternetIsBeautiful (creators may submit their own site occasionally; read current rules first)
 Do NOT link-drop in r/LinkedInLunatics (strict no-self-promo; if anything, organically share a funny screenshot and let comments ask)
 
-Title (r/SideProject): I built LinkedIn, but everyone admits they're faking it. No signup, a fake persona is generated for you on arrival
+Title (r/SideProject): I built a real social network where everyone is openly faking it. Fake persona on arrival, global feed, DMs, and a leaderboard of inflated follower counts
 
 Body:
 Half of LinkedIn already reads like performance art, so I built the honest
-version. It's called LarpIn.
+version. It's called LarpIn, and it's a fully working social network:
 
-How it works: you land on the site and registration happens TO you. You are
-instantly "Chadwick Sterling III, Serial Founder | Exited (emotionally) |
-Raising a pre-idea round." Then you post your best larp into one global feed.
-
-Favorite features:
-- Reactions: Grindset, Cap, Insightful, and Crying at the Gym
-- A jobs board where Easy Apply instantly rejects you ("We were blown away by
+- You land and registration happens TO you. You are instantly "Chadwick
+  Sterling III, Serial Founder | Exited (emotionally) | Raising a pre-idea
+  round." Rerollable.
+- One global feed. Post your best larp, with images. Every post gets a Larp
+  Level scored on buzzword density, from "NPC (for now)" to "Final Boss of
+  LinkedIn."
+- Connect with other larpers, endorse them for skills like "Standing Near
+  Whiteboards," and DM anyone on the platform. Bots reply instantly.
+- The Larpboard ranks everyone by follower count. The counts are openly
+  inflated. People still compete. That's the whole point of the site.
+- Reactions: Grindset 😤, Labubu 🧸, Larp Larp Larp Sahur 🪵, Aura Farming 🕴
+- Easy Apply on the jobs board rejects you instantly ("We were blown away by
   your background. Unfortunately, we were more blown away by someone else's.")
-- Post analytics showing who viewed your post (3 VCs and your old boss)
 - Premium: $0/month, billed never. The gold badge does nothing. Search is
-  gated behind it anyway. That's the business model joke working end to end.
-- A Hype Squad button that summons 3 bots to comment "I felt this in my
-  portfolio" on your post
-- An AI button that rewrites your draft into maximum hustle-cringe
+  gated behind it anyway.
+- An AI button rewrites your draft into maximum hustle-cringe.
 
-Live: https://larpin-production.up.railway.app
+Live: https://larpin.io
 Open source (MIT): https://github.com/joeamroo/larpin
 
-Built with Rails 8 + Hotwire on one box. Happy to answer anything, and if you
-add a funnier bot persona than my medieval LARPer who joined by mistake, I'll
-merge it.
+Built with Rails 8 + Hotwire on one box. If you add a funnier bot persona
+than my medieval LARPer who joined by mistake, I'll merge it.

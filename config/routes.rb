@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   get "profile-views" => "profile_views#index", as: :profile_views
   get "search" => "search#index"
 
+  get "larpboard" => "larpboard#index"
   get "network" => "network#index"
   resources :connections, only: [ :create, :update ]
 

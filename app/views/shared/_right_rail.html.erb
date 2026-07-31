@@ -45,6 +45,24 @@
 </div>
 
 <div class="card p-4">
+  <div class="flex items-center justify-between mb-2">
+    <h3 class="display text-[15px]">🏆 The Larpboard</h3>
+    <%= link_to "Full ranking", larpboard_path, class: "text-xs font-semibold text-cobalt-600 hover:underline" %>
+  </div>
+  <div class="flex flex-col gap-2">
+    <% Persona.where.not(name: "LarpIn Premium").sort_by { |p| -p.connection_count }.first(3).each_with_index do |leader, i| %>
+      <div class="flex items-center gap-2">
+        <span class="text-sm w-5 text-center"><%= %w[🥇 🥈 🥉][i] %></span>
+        <%= avatar_tag(leader, size: 8) %>
+        <%= link_to leader.name, persona_path(leader), class: "text-xs font-semibold hover:underline truncate flex-1" %>
+        <span class="text-xs text-ink/50 num shrink-0"><%= number_with_delimiter(leader.connection_count) %></span>
+      </div>
+    <% end %>
+  </div>
+  <p class="text-[11px] text-ink/45 mt-2">Followers are the status signal. All numbers are inflated. That's the sport.</p>
+</div>
+
+<div class="card p-4">
   <div class="flex items-start gap-3">
     <div class="w-10 h-10 shrink-0 rounded-full bg-gold-500/15 flex items-center justify-center text-lg">☕</div>
     <div class="min-w-0">
