@@ -26,7 +26,9 @@ module PersonaGenerator
       headline: "#{TITLES.sample} | #{TITLES.sample} | #{SUFFIX.sample}",
       hue: rand(0..359),
       larping_since: Date.current - rand(30..3200).days,
-      base_clout: [ 0, 3, 12, 47, 86, 212, 499, 500, 1247 ].sample,
+      # Jitter matters: the Larpboard ranks on this number, so a bare .sample means
+      # everyone who rolls the top tier ties at exactly 1247 and saturates the board.
+      base_clout: [ 0, 3, 12, 47, 86, 212, 499, 500, 1247 ].sample + rand(0..99),
       bio: "This persona was procedurally generated, exactly like every story on this site."
     }
   end

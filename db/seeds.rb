@@ -227,6 +227,13 @@ JOBS = [
   { title: "VP of Circling Back", company: "Enterprise Synergies Group", location: "Hybrid (all meetings could be emails)", comp: "$400k OTE (on-target enthusiasm)", description: "Own the follow-up motion end-to-end. 15+ years of experience touching base required." }
 ].freeze
 
+# One-time spread for personas already stuck on the old un-jittered top tier. Every
+# visitor who rolled 1247 tied at exactly that number and filled all 25 Larpboard slots.
+# Deterministic on id, so this is idempotent: once moved off 1247 a row never matches again.
+Persona.where(is_bot: false, base_clout: 1247).find_each do |p|
+  p.update_column(:base_clout, 1247 + (p.id * 37) % 400)
+end
+
 ActiveRecord::Base.transaction do
   BOTS.each do |b|
     persona = Persona.find_or_create_by!(name: b[:name], is_bot: true) do |p|
