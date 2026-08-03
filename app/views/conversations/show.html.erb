@@ -11,7 +11,10 @@
       </div>
     </div>
 
-    <%= turbo_frame_tag "conversation_messages", src: conversation_path(@conversation), data: { controller: "refresher", refresher_interval_value: 8000 } do %>
+    <%# No lazy src here. A turbo-frame whose src is its own page is a self-reference:
+     Turbo refuses to load it AND blanks the frame, so no message ever rendered.
+     The messages below are server-rendered, and sending redirects back here. %>
+<%= turbo_frame_tag "conversation_messages", data: { controller: "refresher", refresher_interval_value: 8000 } do %>
     <div class="p-4 flex flex-col gap-2 max-h-[55vh] overflow-y-auto">
       <% @messages.each do |message| %>
         <% mine = message.sender_id == @persona.id %>

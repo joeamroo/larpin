@@ -6,7 +6,8 @@ export default class extends Controller {
 
   connect() {
     this.timer = setInterval(() => {
-      if (document.visibilityState === "visible" && this.element.reload) this.element.reload()
+      // Only reload a frame that actually has a src; a src-less frame cannot reload.
+      if (document.visibilityState === "visible" && this.element.src && this.element.reload) this.element.reload()
     }, this.intervalValue)
   }
 
