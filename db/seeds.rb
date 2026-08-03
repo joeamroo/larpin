@@ -236,6 +236,11 @@ ActiveRecord::Base.transaction do
       p.larping_since = Date.current - (b[:years] * 365).days
       p.base_clout = b[:clout]
     end
+    # The block above only runs on create, so bots seeded before base_clout existed kept
+    # the column default of 0. That made every follower count collapse to the same number
+    # (base_clout 0 + the same auto-connection from every visitor), so the Larpboard was a
+    # 25-way tie. Reassert it every boot to keep the ranking real.
+    persona.update_column(:base_clout, b[:clout]) if persona.base_clout != b[:clout]
     b[:posts].each do |post|
       next if persona.posts.exists?(body: post[:body])
       created = persona.posts.create!(body: post[:body], kind: post[:kind] || "post")
