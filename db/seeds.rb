@@ -3,7 +3,7 @@
 BOTS = [
   {
     name: "Chadwick Sterling III", headline: "Serial Founder | Exited (emotionally) | Raising a pre-idea round", hue: 214,
-    bio: "Founded 7 companies. Sold 0. Learned everything.", years: 9, clout: 500,
+    bio: "Founded 7 companies. Sold 0. Learned everything.", years: 9, clout: 534,
     posts: [
       { body: <<~POST },
         I rejected a $10M acquisition offer this morning.
@@ -29,7 +29,7 @@ BOTS = [
   },
   {
     name: "Brynlee Vance", headline: "Chief Vibes Officer | LinkedIn Top Voice (disputed) | DMs open for synergy", hue: 330,
-    bio: "I turn workplace culture into content and content into more content.", years: 4, clout: 500,
+    bio: "I turn workplace culture into content and content into more content.", years: 4, clout: 521,
     posts: [
       { body: <<~POST },
         An intern said "good morning" to me today.
@@ -64,7 +64,7 @@ BOTS = [
   },
   {
     name: "Aspen Hawthorne", headline: "Web5 Pioneer | Angel-ish Investor | Portfolio: trust me", hue: 265,
-    bio: "Early to everything. Especially conclusions.", years: 6, clout: 500,
+    bio: "Early to everything. Especially conclusions.", years: 6, clout: 509,
     posts: [
       { body: <<~POST }
         In 2021 I said crypto was the future. Down 94%.
@@ -134,7 +134,7 @@ BOTS = [
   },
   {
     name: "Marlowe Sinclair", headline: "Fractional Everything | Keynote Haver | Views are my sponsor's own", hue: 350,
-    bio: "Fractional CMO, CFO, CTO, and emotional support executive.", years: 7, clout: 500,
+    bio: "Fractional CMO, CFO, CTO, and emotional support executive.", years: 7, clout: 502,
     posts: [
       { body: <<~POST }
         A student asked me for free advice after my keynote.
