@@ -24,35 +24,70 @@ import * as path from 'path';
 const BASE = process.env.LARPIN_URL || 'https://larpin.io';
 const TMP = '/tmp/larpin-4k';
 
+// Montrose Labs scheme, lifted from montroselabs.ai's own CSS variables:
+//   bg #0c0c0c   text #ffffff   secondary #a1a1aa   border #333333   accent #E91E63
+//   (the light theme's cream is #fdf5DE, used here for the ring so it reads on dark)
+const ML = {
+  bg: '#0c0c0c',
+  text: '#ffffff',
+  dim: '#a1a1aa',
+  border: '#333333',
+  accent: '#E91E63',
+  cream: '#fdf5DE',
+};
+
 const CSS = `
   *{scrollbar-width:none!important}
   ::-webkit-scrollbar{display:none!important}
   #lk-cursor{position:fixed;left:0;top:0;width:32px;height:32px;z-index:2147483647;
     pointer-events:none;will-change:transform;filter:drop-shadow(0 3px 7px rgba(0,0,0,.4))}
   #lk-ring{position:fixed;left:0;top:0;width:16px;height:16px;border-radius:50%;
-    border:3px solid #e3b04b;z-index:2147483646;pointer-events:none;opacity:0}
+    border:3px solid ${ML.accent};z-index:2147483646;pointer-events:none;opacity:0}
   #lk-ring.go{animation:lkring .6s cubic-bezier(.2,.7,.3,1)}
   @keyframes lkring{0%{opacity:.95;transform:translate(-50%,-50%) scale(.25)}
     100%{opacity:0;transform:translate(-50%,-50%) scale(3.4)}}
-  #lk-cap{position:fixed;left:80px;bottom:74px;z-index:2147483645;background:#101a24;
-    color:#fff;padding:17px 24px;border-radius:13px;border-left:5px solid #e3b04b;
-    font:600 26px/1.34 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
-    max-width:780px;opacity:0;transform:translateY(14px);
-    transition:opacity .42s cubic-bezier(.2,.7,.3,1),transform .42s cubic-bezier(.2,.7,.3,1);
-    box-shadow:0 16px 40px rgba(0,0,0,.28)}
-  #lk-cap.on{opacity:1;transform:translateY(0)}
+
+  /* Caption bubbles: a chat bubble, not a lower third. Rounded hard, tail on the
+     bottom-left, and an accent dot so the eye lands on it before the words. */
+  #lk-cap{position:fixed;left:82px;bottom:96px;z-index:2147483645;
+    background:${ML.bg};color:${ML.text};padding:20px 30px 21px 30px;
+    border:1px solid ${ML.border};border-radius:30px 30px 30px 8px;
+    font:600 27px/1.36 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial;
+    letter-spacing:-.011em;max-width:820px;
+    opacity:0;transform:translateY(20px) scale(.94);transform-origin:0 100%;
+    transition:opacity .34s cubic-bezier(.2,.7,.3,1),transform .42s cubic-bezier(.34,1.3,.5,1);
+    box-shadow:0 22px 54px rgba(0,0,0,.34)}
+  #lk-cap.on{opacity:1;transform:translateY(0) scale(1)}
+  /* The tail. Two stacked triangles so the 1px border reads on the diagonal too. */
+  #lk-cap::after{content:'';position:absolute;left:-1px;bottom:-17px;
+    border-width:18px 0 0 20px;border-style:solid;
+    border-color:${ML.border} transparent transparent transparent}
+  #lk-cap::before{content:'';position:absolute;left:0;bottom:-15px;
+    border-width:16px 0 0 18px;border-style:solid;
+    border-color:${ML.bg} transparent transparent transparent;z-index:1}
+  /* Accent dot, drawn as a leading inline marker on the text node's first line. */
+  #lk-cap .lk-dot{display:inline-block;width:11px;height:11px;border-radius:50%;
+    background:${ML.accent};margin-right:14px;vertical-align:middle;
+    position:relative;top:-2px;box-shadow:0 0 0 5px rgba(233,30,99,.16)}
 `;
 
 // Installed as a plain string: no transpiler helpers reach the page.
 const INSTALL = `(function(){
   if (document.getElementById('lk-cursor') && document.getElementById('lk-ring')) return 'already';
   var old = document.getElementById('lk-cursor'); if (old) old.remove();
+
+  // Overlays hang off <html>, NOT <body>. The zoom scales body, and a transformed
+  // ancestor becomes the containing block for position:fixed, which would drag the
+  // cursor, ring and caption around with the page. Outside body they stay pinned to
+  // the viewport, so cursor coordinates keep matching Playwright's click coordinates
+  // even at 1.8x. This is what makes it safe to click while zoomed in.
+  var root = document.documentElement;
   var c = document.createElement('div');
   c.id = 'lk-cursor';
   c.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32"><path d="M5 3 L19 12 L12 13.5 L9.5 20 Z" fill="#fff" stroke="#0b0b0b" stroke-width="1.5"/></svg>';
-  document.body.appendChild(c);
-  var r = document.createElement('div'); r.id = 'lk-ring'; document.body.appendChild(r);
-  var cap = document.createElement('div'); cap.id = 'lk-cap'; document.body.appendChild(cap);
+  root.appendChild(c);
+  var r = document.createElement('div'); r.id = 'lk-ring'; root.appendChild(r);
+  var cap = document.createElement('div'); cap.id = 'lk-cap'; root.appendChild(cap);
   window.__lk = { x: 960, y: 560 };
   c.style.transform = 'translate(960px,560px)';
 
@@ -90,7 +125,13 @@ const INSTALL = `(function(){
       var from = m ? parseFloat(m[1]) : 1;
       b.style.transformOrigin = ox + 'px ' + oy + 'px';
       function step(now) {
-        var t = Math.min(1, (now - s) / ms), v = from + (sc - from) * (1 - Math.pow(1 - t, 3));
+        var t = Math.min(1, (now - s) / ms);
+        // easeInOutCubic. easeOutCubic starts at full speed, which reads as a snap
+        // at the top of a push-in; this eases in and out of the move.
+        var e = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+        var v = from + (sc - from) * e;
+        // Never leave scale(1) behind: an identity transform still creates a
+        // containing block, which breaks position:fixed for anything inside body.
         if (t >= 1 && sc === 1) { b.style.transform = 'none'; b.style.transformOrigin = ''; }
         else b.style.transform = 'scale(' + v + ')';
         if (t < 1) requestAnimationFrame(step); else done(1);
@@ -108,7 +149,13 @@ const INSTALL = `(function(){
   window.__lkCap = function (t) {
     var e = document.getElementById('lk-cap');
     if (!e) return;
-    e.textContent = t; e.classList.add('on');
+    e.innerHTML = '';
+    var dot = document.createElement('span'); dot.className = 'lk-dot';
+    e.appendChild(dot);
+    e.appendChild(document.createTextNode(t));
+    // Restart the pop so a back-to-back caption animates again instead of
+    // swapping its text in place.
+    e.classList.remove('on'); void e.offsetWidth; e.classList.add('on');
   };
   window.__lkCapOff = function () {
     var e = document.getElementById('lk-cap'); if (e) e.classList.remove('on');
@@ -130,7 +177,7 @@ const scrollTo = async (p: Page, y: number, ms = 1400) => {
 };
 const zoom = (p: Page, s: number, x: number, y: number, ms = 900) =>
   p.evaluate(`window.__lkZoom(${s},${x},${y},${ms})`);
-const unzoom = (p: Page, ms = 750) => p.evaluate(`window.__lkZoom(1,960,0,${ms})`);
+const unzoom = (p: Page, ms = 900) => p.evaluate(`window.__lkZoom(1,960,0,${ms})`);
 const cap = async (p: Page, text: string, hold = 2300) => {
   await p.evaluate(`window.__lkCap(${JSON.stringify(text)})`);
   await wait(p, hold);
@@ -155,6 +202,60 @@ async function click(page: Page, sel: string, settle = 1000) {
   await page.evaluate(`window.__lkRing(${x},${y})`);
   await wait(page, 260);
   await page.locator(sel).first().click({ timeout: 9000 }).catch(() => {});
+  await wait(page, settle);
+}
+
+/**
+ * Push in on an element and hold there. Anchors the transform origin to the
+ * element's own centre so it grows in place instead of sliding across frame.
+ */
+async function zoomTo(
+  page: Page,
+  sel: string,
+  scale: number,
+  ms = 1150,
+  originY: 'center' | 'top' = 'center',
+) {
+  const b = await page.locator(sel).first().boundingBox();
+  if (!b) return false;
+  const ox = Math.round(b.x + b.width / 2);
+  // 'top' pins the element's top edge and lets it grow downward. Use it for a
+  // container whose header carries the context (who you are talking to); a centre
+  // origin pushes that header up out of frame.
+  const oy = originY === 'top' ? Math.round(b.y) : Math.round(b.y + b.height / 2);
+  await page.evaluate(`window.__lkZoom(${scale},${ox},${oy},${ms})`);
+  await wait(page, ms + 120);
+  return true;
+}
+
+/**
+ * Click a field, push in on it, then type.
+ *
+ * Typing is the one moment where the viewer has to read individual characters
+ * appearing, so it gets the tightest framing in the video. The zoom lands BEFORE
+ * the first keystroke: pushing in afterwards means the interesting part already
+ * happened at whatever size the page happened to be.
+ *
+ * Clicking while zoomed is safe because Playwright's boundingBox() already
+ * reports post-transform viewport coordinates, and the cursor overlay lives
+ * outside body so it is not scaled along with the page.
+ */
+async function typeInto(
+  page: Page,
+  sel: string,
+  text: string,
+  opts: {
+    scale?: number; delay?: number; settle?: number;
+    anchor?: string; originY?: 'center' | 'top';
+  } = {},
+) {
+  const { scale = 1.8, delay = 78, settle = 700, anchor, originY = 'center' } = opts;
+  await click(page, sel, 320);
+  // Anchor on the surrounding card when one is given. Scaling around a field that
+  // sits low in a short page throws half the frame away as empty background: the
+  // content above it moves up and out, and nothing moves in to replace it.
+  await zoomTo(page, anchor || sel, scale, 1150, originY);
+  await page.keyboard.type(text, { delay });
   await wait(page, settle);
 }
 let PAGE: Page;
@@ -217,13 +318,13 @@ async function run(page: Page) {
     await scrollTo(page, 0, 1100);
     await cap(page, 'Larpmaxx turns any word into a whole post.', 2300);
     await capOff(page);
-    await click(page, 'textarea', 600);
-    await page.keyboard.type('stealth', { delay: 130 });
-    await wait(page, 800);
+    // Tight on the composer while the word goes in, then stay zoomed through the
+    // click so the generated post writes itself at the same size the typing was at.
+    await typeInto(page, 'textarea', 'stealth', { scale: 1.9, delay: 150, settle: 800 });
     await click(page, 'button:has-text("Larpmaxx")', 2600);
-    await zoom(page, 1.3, 960, 130, 950);
-    await wait(page, 2600);
-    await unzoom(page);
+    await zoom(page, 1.45, 960, 130, 1100);
+    await wait(page, 2900);
+    await unzoom(page, 900);
     await wait(page, 400);
   });
 
@@ -249,18 +350,25 @@ async function run(page: Page) {
     await page.waitForLoadState('networkidle').catch(() => {});
     await overlay(page);
     await wait(page, 600);
-    // Stay wide while typing: at 4K the text is legible, and a fixed zoom mis-frames
-    // the card because its height changes as messages land.
-    await click(page, 'input[name="message[body]"]', 400);
-    await page.keyboard.type('quick question, are you free to circle back', { delay: 62 });
-    await wait(page, 900);
+    // Push in on the message field and type there. The old version stayed wide
+    // because a fixed zoom mis-framed the card as its height changed; anchoring the
+    // origin to the field itself fixes that, and the send button stays clickable
+    // while zoomed now that the cursor overlay is outside the transformed body.
+    // Modest push-in while typing, because the thread is still empty at this point
+    // and a hard zoom would just magnify white space. It goes tighter after the send,
+    // once there is an actual exchange worth filling the frame with.
+    await typeInto(page, 'input[name="message[body]"]', 'quick question, are you free to circle back',
+      { scale: 1.4, delay: 72, settle: 850, anchor: 'div.card', originY: 'top' });
     await click(page, 'input[type="submit"][value="Send"]', 1000);
     await page.waitForLoadState('networkidle').catch(() => {});
-    // Wait for a real bubble. Messages are server-rendered now, but the redirect still
-    // needs to paint before we can measure anything.
-    await page.locator('div.rounded-2xl').first().waitFor({ timeout: 9000 });
-    await wait(page, 700);
-    // Measure the conversation card and push in on the actual exchange.
+    // Pull back out so the reply lands in frame, then push in on the whole exchange.
+    // Measuring has to happen unzoomed: boundingBox reports post-transform pixels,
+    // so sizing a zoom off a zoomed measurement compounds the scale.
+    await unzoom(page, 700);
+    // Two bubbles, not one. Our own message paints immediately; the bot's reply is a
+    // live model call now, so the interesting half of the shot arrives a second later.
+    await page.locator('div.rounded-2xl').nth(1).waitFor({ timeout: 15000 }).catch(() => {});
+    await wait(page, 600);
     const card = page.locator('div.card').first();
     const cb = await card.boundingBox();
     if (cb) {
@@ -268,10 +376,10 @@ async function run(page: Page) {
       const sc = Math.max(1.35, Math.min(2.3, target / Math.max(cb.height, 1)));
       const ox = Math.round(cb.x + cb.width / 2);
       const oy = Math.round(cb.y);
-      await page.evaluate(`window.__lkZoom(${sc.toFixed(2)},${ox},${oy},950)`);
+      await page.evaluate(`window.__lkZoom(${sc.toFixed(2)},${ox},${oy},1150)`);
     }
-    await wait(page, 3200);   // hold on our message plus the instant bot reply
-    await unzoom(page);
+    await wait(page, 3400);   // hold on our message plus the bot's reply
+    await unzoom(page, 900);
     await wait(page, 400);
   });
 
