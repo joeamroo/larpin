@@ -31,8 +31,10 @@ persona is fake, and everyone commits to the bit.
 - Profiles with unverifiable experience, custom skills with endorsements,
   instant course certifications, and the #OpenToLarp green ring
 - DMs, connections, fake notifications ("Your post was viewed by 3 VCs")
-- An AI "Enhance my larp" button that rewrites your draft into maximum hustle-cringe
-  (Claude when ANTHROPIC_API_KEY is set, deterministic fallback otherwise)
+- An AI "Enhance my larp" button that rewrites your draft into maximum hustle-cringe,
+  and a Larpmaxx button that turns any word into a full "You need to be X-maxxing" post
+- Bots that DM you back in character and hype squads that comment on what you
+  actually wrote, rather than picking from a list of canned lines
 - 13 seeded bot personas, including one actual medieval LARPer who joined by mistake
 
 ## Screenshots
@@ -73,8 +75,32 @@ That's it. The seeds give you the full bot cast and content.
 
 Optional env vars:
 
-- `ANTHROPIC_API_KEY` - real AI larp enhancement (claude-haiku-4-5)
+- `ANTHROPIC_API_KEY` - turns on the AI paths. Without it every one of them falls
+  back to a template and the app still runs with zero external services.
+- `LARPIN_AI_DAILY_BUDGET_USD` - hard daily spend cap, default 10. Checked before
+  each call, not after, and it fails closed if the ledger cannot be read.
+- `LARPIN_AI_MODEL_SHOWCASE` - model for Larpmaxx and Enhance, default `claude-fable-5`
+- `LARPIN_AI_MODEL_VOLUME` - model for DM replies and hype squads, default `claude-haiku-4-5`
 - `ADMIN_TOKEN` - enables `DELETE /admin/posts/:id?token=...` moderation endpoints
+  and `GET /admin/ai?token=...`, which returns live AI spend
+
+### How the AI layer works
+
+Every call goes through `Ai::Claude`, which exists to guarantee three things:
+it never raises into a request, it never spends past the daily cap, and it is
+only ever reached from a user-initiated action, so a visitor who lands on the
+site and reads the feed costs nothing.
+
+Four features use it, each keeping the template it had before as its fallback:
+`LarpmaxxGenerator`, `CringeEnhancer`, `BotReplier` (DM replies), and
+`HypeSquad` (bot comments). Two model tiers: the showcase buttons take a few
+seconds and get the funnier model, the background chatter answers in about two
+and gets the cheap one. Spend is recorded per call in `AiUsage`.
+
+One trap worth knowing if you extend this: do not read `content[0].text` from
+the API response. Models with adaptive thinking put a thinking block at index 0,
+so that read comes back empty and the call looks like it succeeded with nothing
+in it. Collect every block of type `text` instead.
 
 ## Contributing
 
