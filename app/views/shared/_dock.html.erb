@@ -22,7 +22,7 @@
     <div class="hidden border-t border-black/5" data-dock-target="body" data-dock-key="global">
       <%= turbo_frame_tag "dock_global", src: dock_global_path, loading: "lazy",
             data: { controller: "refresher", refresher_interval_value: 6000,
-                    action: "turbo:frame-load->dock#scrollBottom" } do %>
+                    action: "turbo:before-frame-render->dock#rememberScroll turbo:frame-load->dock#restoreScroll" } do %>
         <div class="h-64 flex items-center justify-center text-xs text-ink/40">Entering the room...</div>
       <% end %>
     </div>
@@ -44,7 +44,7 @@
     <div class="hidden border-t border-black/5" data-dock-target="body" data-dock-key="messaging">
       <%= turbo_frame_tag "dock_messaging", src: dock_conversations_path, loading: "lazy",
             data: { controller: "refresher", refresher_interval_value: 8000,
-                    action: "turbo:frame-load->dock#scrollBottom" } do %>
+                    action: "turbo:before-frame-render->dock#rememberScroll turbo:frame-load->dock#restoreScroll" } do %>
         <div class="h-64 flex items-center justify-center text-xs text-ink/40">Loading your network...</div>
       <% end %>
     </div>

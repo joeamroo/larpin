@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
-// The bottom-right chat dock. Opens and closes panels and remembers which ones
-// were open, so a page navigation does not close the chat you were mid-sentence in.
+// The bottom-right chat dock. Opens and closes panels, remembers which ones were
+// open, and keeps your place in a conversation while it polls.
 export default class extends Controller {
-  static targets = ["body", "chevron", "scroller"]
+  static targets = ["body", "chevron"]
 
   connect() {
+    this.saved = {}
     this.bodyTargets.forEach((body) => {
       if (localStorage.getItem(this.storageKey(body.dataset.dockKey)) === "open") {
         this.setOpen(body.dataset.dockKey, true)
@@ -35,15 +36,48 @@ export default class extends Controller {
       if (frame && frame.getAttribute("loading") === "lazy" && !frame.hasAttribute("complete")) {
         frame.setAttribute("loading", "eager")
       }
-      requestAnimationFrame(() => this.scrollBottom())
+      // Opening a panel should always land on the newest message.
+      requestAnimationFrame(() => this.jumpToBottom(body))
     }
   }
 
-  // Chat reads bottom-up. Called on every frame load, including the polled ones.
-  scrollBottom() {
-    this.scrollerTargets.forEach((el) => {
-      el.scrollTop = el.scrollHeight
-    })
+  // --- Scroll position across polls -----------------------------------------
+  //
+  // The frame reloads every few seconds. Replacing its contents resets scrollTop,
+  // and unconditionally scrolling to the bottom afterwards drags you away from
+  // whatever you had scrolled up to read. So: remember where you were, and only
+  // stick to the bottom if that is where you already were.
+
+  // How close to the bottom still counts as "following the conversation".
+  static BOTTOM_SLACK = 80
+
+  rememberScroll(event) {
+    const el = this.scroller(event.target)
+    if (!el) return
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight
+    this.saved[event.target.id] = {
+      atBottom: distance < this.constructor.BOTTOM_SLACK,
+      top: el.scrollTop,
+    }
+  }
+
+  restoreScroll(event) {
+    const el = this.scroller(event.target)
+    if (!el) return
+    const previous = this.saved[event.target.id]
+    // No record yet means this is the first load, where the bottom is correct.
+    if (!previous || previous.atBottom) el.scrollTop = el.scrollHeight
+    else el.scrollTop = previous.top
+  }
+
+  jumpToBottom(root) {
+    const el = this.scroller(root)
+    if (el) el.scrollTop = el.scrollHeight
+  }
+
+  scroller(root) {
+    if (!root) return null
+    return root.matches?.("[data-chat-scroller]") ? root : root.querySelector("[data-chat-scroller]")
   }
 
   storageKey(key) {
