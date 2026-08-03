@@ -1,9 +1,15 @@
 <% content_for :title, "Messaging - LarpIn" %>
 <div class="max-w-xl mx-auto">
   <div class="card divide-y divide-black/5">
-    <div class="p-4">
-      <h1 class="display text-lg">Messaging</h1>
-      <p class="text-xs text-ink/50">Reach out. Circle back. Touch base. The holy trinity.</p>
+    <div class="p-4 flex items-center justify-between gap-3">
+      <div>
+        <h1 class="display text-lg">Messaging</h1>
+        <p class="text-xs text-ink/50">Reach out. Circle back. Touch base. The holy trinity.</p>
+      </div>
+      <%# The corner dock is desktop-only, so mobile reaches the room from here. %>
+      <%= link_to chat_path, class: "shrink-0 text-xs font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-3.5 py-2" do %>
+        💬 Global Chat
+      <% end %>
     </div>
     <% if @conversations.any? %>
       <% @conversations.each do |conversation| %>
