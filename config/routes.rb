@@ -57,6 +57,13 @@ Rails.application.routes.draw do
     resources :messages, only: [ :create ]
   end
 
+  # The bottom-right chat dock. Every GET here renders a bare turbo-frame.
+  get  "dock/conversations" => "dock#conversations", as: :dock_conversations
+  get  "dock/conversations/:id" => "dock#conversation", as: :dock_conversation
+  get  "dock/global" => "dock#global", as: :dock_global
+  post "dock/global" => "dock#create_global"
+  get  "chat" => "dock#chat_page", as: :chat
+
   post "ai/enhance" => "ai#enhance"
 
   get "admin/ai" => "admin#ai_status", as: :admin_ai

@@ -7,7 +7,11 @@ export default class extends Controller {
   connect() {
     this.timer = setInterval(() => {
       // Only reload a frame that actually has a src; a src-less frame cannot reload.
-      if (document.visibilityState === "visible" && this.element.src && this.element.reload) this.element.reload()
+      // offsetParent is null inside a collapsed dock panel, so a closed panel
+      // stops polling instead of quietly hitting the server every few seconds.
+      if (document.visibilityState !== "visible") return
+      if (this.element.offsetParent === null) return
+      if (this.element.src && this.element.reload) this.element.reload()
     }, this.intervalValue)
   }
 

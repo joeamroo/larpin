@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_03_170000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_03_213000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -135,6 +135,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_03_170000) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["persona_id"], name: "index_experiences_on_persona_id"
+  end
+
+  create_table "global_messages", force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.integer "persona_id", null: false
+    t.index ["created_at"], name: "index_global_messages_on_created_at"
+    t.index ["persona_id"], name: "index_global_messages_on_persona_id"
   end
 
   create_table "job_applications", force: :cascade do |t|
@@ -294,6 +302,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_03_170000) do
   add_foreign_key "endorsements", "personas"
   add_foreign_key "endorsements", "personas", column: "endorser_id"
   add_foreign_key "experiences", "personas"
+  add_foreign_key "global_messages", "personas"
   add_foreign_key "job_applications", "jobs"
   add_foreign_key "job_applications", "personas"
   add_foreign_key "jobs", "personas"

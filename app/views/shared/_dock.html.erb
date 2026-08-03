@@ -1,0 +1,52 @@
+<%# The bottom-right chat dock, LinkedIn / old-Facebook style.
+
+  Both panels are collapsed bars until clicked, and their frames are lazy, so a
+  cold visitor loads nothing extra and mints no persona just by landing here.
+  Desktop only on purpose: two 320px panels do not fit a phone, and this is
+  exactly what LinkedIn does. Mobile gets /chat and /conversations instead. %>
+<% dock_unread = current_persona&.unread_messages_count.to_i %>
+
+<div class="hidden sm:flex fixed bottom-0 right-4 z-40 items-end gap-3 pointer-events-none"
+     data-controller="dock">
+
+  <%# ---- Global chat ---------------------------------------------------- %>
+  <section class="pointer-events-auto w-[320px] rounded-t-xl bg-white border border-black/10 border-b-0 shadow-[0_-6px_28px_rgba(0,0,0,0.12)] overflow-hidden">
+    <button type="button" data-action="dock#toggle" data-dock-key-param="global"
+            class="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 hover:bg-paper cursor-pointer">
+      <span class="flex items-center gap-2 min-w-0">
+        <span class="w-2 h-2 rounded-full bg-[#01754f] shrink-0"></span>
+        <span class="font-bold text-sm truncate">Global Chat</span>
+      </span>
+      <span class="text-xs text-ink/40 shrink-0" data-dock-target="chevron" data-dock-key="global">▲</span>
+    </button>
+    <div class="hidden border-t border-black/5" data-dock-target="body" data-dock-key="global">
+      <%= turbo_frame_tag "dock_global", src: dock_global_path, loading: "lazy",
+            data: { controller: "refresher", refresher_interval_value: 6000,
+                    action: "turbo:frame-load->dock#scrollBottom" } do %>
+        <div class="h-64 flex items-center justify-center text-xs text-ink/40">Entering the room...</div>
+      <% end %>
+    </div>
+  </section>
+
+  <%# ---- Messaging ------------------------------------------------------ %>
+  <section class="pointer-events-auto w-[320px] rounded-t-xl bg-white border border-black/10 border-b-0 shadow-[0_-6px_28px_rgba(0,0,0,0.12)] overflow-hidden">
+    <button type="button" data-action="dock#toggle" data-dock-key-param="messaging"
+            class="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 hover:bg-paper cursor-pointer">
+      <span class="flex items-center gap-2 min-w-0">
+        <%= avatar_tag(current_persona, size: 6) if current_persona %>
+        <span class="font-bold text-sm truncate">Messaging</span>
+        <% if dock_unread > 0 %>
+          <span class="bg-accent-500 text-white text-xs font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center shrink-0"><%= dock_unread %></span>
+        <% end %>
+      </span>
+      <span class="text-xs text-ink/40 shrink-0" data-dock-target="chevron" data-dock-key="messaging">▲</span>
+    </button>
+    <div class="hidden border-t border-black/5" data-dock-target="body" data-dock-key="messaging">
+      <%= turbo_frame_tag "dock_messaging", src: dock_conversations_path, loading: "lazy",
+            data: { controller: "refresher", refresher_interval_value: 8000,
+                    action: "turbo:frame-load->dock#scrollBottom" } do %>
+        <div class="h-64 flex items-center justify-center text-xs text-ink/40">Loading your network...</div>
+      <% end %>
+    </div>
+  </section>
+</div>

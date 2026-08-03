@@ -1,0 +1,35 @@
+<%= turbo_frame_tag "dock_global" do %>
+  <div class="h-64 overflow-y-auto px-3 py-2.5 flex flex-col gap-2.5 bg-paper/40" data-dock-target="scroller">
+    <% if messages.empty? %>
+      <p class="text-center text-xs text-ink/50 py-8">Nobody has said anything yet. Historic opportunity.</p>
+    <% end %>
+    <% messages.each do |message| %>
+      <% mine = message.persona_id == persona.id %>
+      <div class="flex items-start gap-2 <%= 'flex-row-reverse' if mine %>">
+        <%= link_to persona_path(message.persona), class: "shrink-0", data: { turbo_frame: "_top" } do %>
+          <%= avatar_tag(message.persona, size: 7) %>
+        <% end %>
+        <div class="min-w-0 <%= 'text-right' if mine %>">
+          <p class="text-[11px] text-ink/50 leading-tight truncate">
+            <%= mine ? "You" : message.persona.name %>
+            <span class="text-ink/30"><%= short_time_ago(message.created_at) %></span>
+          </p>
+          <div class="inline-block rounded-2xl px-3 py-1.5 text-[13px] mt-0.5 <%= mine ? 'bg-cobalt-600 text-white rounded-br-sm' : 'bg-white border border-black/5 rounded-bl-sm' %>">
+            <p class="whitespace-pre-line break-words"><%= message.body %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if local_assigns[:error].present? %>
+    <p class="px-3 py-1.5 text-[11px] text-accent-600 bg-accent-50 border-t border-black/5"><%= error %></p>
+  <% end %>
+
+  <%= form_with url: dock_global_path, method: :post, data: { turbo_frame: "dock_global" },
+        class: "border-t border-black/5 p-2 flex gap-2 bg-white" do |f| %>
+    <%= f.text_field :body, placeholder: "Say something load-bearing...", maxlength: 500, autocomplete: "off",
+          class: "flex-1 min-w-0 rounded-full border border-black/15 px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+    <%= f.submit "Send", class: "text-[13px] font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-3.5 cursor-pointer shrink-0" %>
+  <% end %>
+<% end %>

@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "dock_messaging" do %>
+  <div class="h-64 overflow-y-auto divide-y divide-black/5">
+    <% if conversations.any? %>
+      <% conversations.each do |conversation| %>
+        <% other = conversation.other(persona) %>
+        <% last = conversation.messages.last %>
+        <% unread = conversation.unread_count_for(persona) %>
+        <%= link_to dock_conversation_path(conversation), data: { turbo_frame: "dock_messaging" },
+              class: "flex items-center gap-2.5 px-3 py-2.5 hover:bg-paper #{'bg-cobalt-50/50' if unread > 0}" do %>
+          <%= avatar_tag(other, size: 9) %>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-baseline justify-between gap-2">
+              <p class="font-bold text-[13px] truncate"><%= other.name %></p>
+              <span class="text-[11px] text-ink/40 shrink-0"><%= last ? short_time_ago(last.created_at) : "" %></span>
+            </div>
+            <p class="text-[11px] text-ink/60 truncate">
+              <%= last ? "#{last.sender_id == persona.id ? 'You: ' : ''}#{last.body}" : "No messages yet. The synergy awaits." %>
+            </p>
+          </div>
+          <% if unread > 0 %>
+            <span class="bg-accent-500 text-white text-[10px] font-bold rounded-full min-w-4 h-4 px-1 flex items-center justify-center shrink-0"><%= unread %></span>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="p-6 text-center text-xs text-ink/60">No conversations yet. Open someone's profile and press Message. Networking!</p>
+    <% end %>
+  </div>
+  <%= link_to "Open full messaging", conversations_path, data: { turbo_frame: "_top" },
+        class: "block border-t border-black/5 px-3 py-2 text-[11px] font-bold text-cobalt-600 hover:bg-paper text-center" %>
+<% end %>

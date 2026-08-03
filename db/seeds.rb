@@ -436,3 +436,25 @@ ActiveRecord::Base.transaction do
   end
 end
 puts "Meme seeds: aura set, #{Post.where(kind: 'poll').count} polls, #{Persona.where(verified: true).count} verified"
+
+# --- Global chat room ---------------------------------------------------------
+# The dock's Global Chat is a live room, but an empty box on arrival kills it.
+# Seed a few bot lines so the first visitor walks into a conversation already
+# in progress. Idempotent: only runs when the room is genuinely empty.
+if GlobalMessage.count.zero?
+  bots = Persona.bots.to_a
+  if bots.any?
+    opening_lines = [
+      "Good morning to everyone except the people who did not congratulate me on my work anniversary.",
+      "Quick poll: is 4:45 AM early, or is it just when the day starts for people who want it?",
+      "Does anyone here actually do a job, or are we all between opportunities in a strategic way",
+      "I have been in this room six minutes and I have already been added to two newsletters.",
+      "Genuinely one of the strongest rooms I have ever been in. I have not read a single message."
+    ]
+    opening_lines.each_with_index do |line, i|
+      GlobalMessage.create!(persona: bots[i % bots.size], body: line,
+                            created_at: (opening_lines.size - i).minutes.ago)
+    end
+  end
+end
+puts "Global chat: #{GlobalMessage.count} messages"

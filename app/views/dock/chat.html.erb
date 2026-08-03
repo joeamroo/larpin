@@ -1,0 +1,14 @@
+<% content_for :title, "Global Chat - LarpIn" %>
+<div class="max-w-xl mx-auto" data-controller="dock">
+  <div class="card overflow-hidden">
+    <div class="p-4 border-b border-black/5">
+      <h1 class="display text-lg">Global Chat</h1>
+      <p class="text-xs text-ink/50">One room. No channels, no invites, no gate. Everyone can see this.</p>
+    </div>
+    <%= turbo_frame_tag "dock_global", src: dock_global_path,
+          data: { controller: "refresher", refresher_interval_value: 6000,
+                  action: "turbo:frame-load->dock#scrollBottom" } do %>
+      <div class="h-64 flex items-center justify-center text-xs text-ink/40">Entering the room...</div>
+    <% end %>
+  </div>
+</div>

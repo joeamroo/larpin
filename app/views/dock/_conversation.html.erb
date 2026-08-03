@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "dock_messaging" do %>
+  <div class="flex items-center gap-2 px-2.5 py-2 border-b border-black/5 bg-white">
+    <%= link_to dock_conversations_path, data: { turbo_frame: "dock_messaging" },
+          class: "text-ink/50 hover:text-ink font-bold px-1" do %>←<% end %>
+    <%= link_to persona_path(conversation.other(persona)), data: { turbo_frame: "_top" }, class: "shrink-0" do %>
+      <%= avatar_tag(conversation.other(persona), size: 7) %>
+    <% end %>
+    <div class="min-w-0">
+      <%= link_to conversation.other(persona).name, persona_path(conversation.other(persona)),
+            data: { turbo_frame: "_top" }, class: "font-bold text-[13px] hover:underline block truncate" %>
+      <p class="text-[10px] text-ink/50 truncate"><%= conversation.other(persona).headline %></p>
+    </div>
+  </div>
+
+  <div class="h-56 overflow-y-auto px-3 py-2.5 flex flex-col gap-1.5 bg-paper/40" data-dock-target="scroller">
+    <% messages.each do |message| %>
+      <% mine = message.sender_id == persona.id %>
+      <div class="max-w-[85%] <%= mine ? 'self-end' : 'self-start' %>">
+        <div class="rounded-2xl px-3 py-1.5 text-[13px] <%= mine ? 'bg-cobalt-600 text-white rounded-br-sm' : 'bg-white border border-black/5 rounded-bl-sm' %>">
+          <p class="whitespace-pre-line break-words"><%= message.body %></p>
+        </div>
+        <p class="text-[10px] text-ink/40 mt-0.5 <%= 'text-right' if mine %>"><%= short_time_ago(message.created_at) %></p>
+      </div>
+    <% end %>
+    <% if messages.empty? %>
+      <p class="text-center text-xs text-ink/50 py-6">Say something professional-sounding.</p>
+    <% end %>
+  </div>
+
+  <%= form_with url: conversation_messages_path(conversation), data: { turbo_frame: "dock_messaging" },
+        class: "border-t border-black/5 p-2 flex gap-2 bg-white" do |f| %>
+    <%= hidden_field_tag :dock, "1" %>
+    <%= f.text_field "message[body]", placeholder: "Write a message...", maxlength: 2000, autocomplete: "off",
+          class: "flex-1 min-w-0 rounded-full border border-black/15 px-3 py-1.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-cobalt-500" %>
+    <%= f.submit "Send", class: "text-[13px] font-bold text-white bg-cobalt-600 hover:bg-cobalt-700 rounded-full px-3.5 cursor-pointer shrink-0" %>
+  <% end %>
+<% end %>

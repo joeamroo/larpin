@@ -16,9 +16,17 @@ class MessagesController < ApplicationController
           body: "#{persona.name} sent you a message: \"#{message.body.truncate(50)}\"",
           url: "/conversations/#{conversation.id}")
       end
-      redirect_to conversation_path(conversation)
+      redirect_to after_send_path(conversation)
     else
-      redirect_to conversation_path(conversation), alert: message.errors.full_messages.first
+      redirect_to after_send_path(conversation), alert: message.errors.full_messages.first
     end
+  end
+
+  private
+
+  # Sent from the dock, the reply belongs back in the dock frame. Sent from the
+  # full page, it belongs on the full page.
+  def after_send_path(conversation)
+    params[:dock].present? ? dock_conversation_path(conversation) : conversation_path(conversation)
   end
 end
