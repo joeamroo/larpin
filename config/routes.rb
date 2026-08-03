@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
   post "ai/enhance" => "ai#enhance"
 
+  get "admin/ai" => "admin#ai_status", as: :admin_ai
   delete "admin/posts/:id" => "admin#destroy_post", as: :admin_post
   delete "admin/personas/:id" => "admin#destroy_persona", as: :admin_persona
 

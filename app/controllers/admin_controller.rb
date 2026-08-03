@@ -2,6 +2,11 @@ class AdminController < ApplicationController
   skip_forgery_protection
   before_action :require_admin_token!
 
+  # Launch-night dashboard for the AI spend: /admin/ai?token=...
+  def ai_status
+    render json: AiUsage.summary
+  end
+
   def destroy_post
     Post.find(params[:id]).destroy
     head :no_content

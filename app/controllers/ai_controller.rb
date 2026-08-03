@@ -12,7 +12,13 @@ class AiController < ApplicationController
   end
 
   def larpmaxx
-    ensure_persona!
+    persona = ensure_persona!
+    # Larpmaxx now costs money when a key is configured, so it needs the same
+    # per-persona ceiling the enhance button has. Generous: this is the button
+    # people are meant to mash.
+    count = Rails.cache.increment("ai_larpmaxx:#{persona.id}", 1, expires_in: 1.hour)
+    return rate_limited!("30 larpmaxxes an hour. Even your aura needs a rest.") if count && count > 30
+
     render json: { text: LarpmaxxGenerator.generate(params[:seed]) }
   end
 end

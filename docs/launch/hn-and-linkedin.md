@@ -56,7 +56,7 @@ Agree? 👇
 
 ## Timing
 
-Peak HN window: weekdays 8:00-10:00 AM Eastern (7:00-9:00 AM CDT).
-Target: today (Wed Jul 29) ~7:30 AM CDT. Wednesday is a strong HN day.
+Show HN slot: Mon Aug 3, 7:00 PM CST. That is the data-best Show HN hour
+(Mon 00:00 UTC): 10.8% chance of clearing 50+ points, about 4x the worst hour.
 Post the LinkedIn version 1-2 hours after the HN post, once there are a few
 comments to screenshot.

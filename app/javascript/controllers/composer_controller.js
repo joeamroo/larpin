@@ -19,6 +19,8 @@ export default class extends Controller {
   async larpmaxx() {
     const seed = this.textareaTarget.value.trim().split(/\s+/)[0] || ""
     const original = this.larpmaxxBtnTarget.innerHTML
+    // The AI path takes a few seconds. A button that only greys out reads as broken.
+    this.larpmaxxBtnTarget.innerHTML = "📈 Maxxing..."
     this.larpmaxxBtnTarget.disabled = true
     try {
       const response = await fetch("/ai/larpmaxx", {

@@ -1,4 +1,4 @@
-# LarpIn Product Hunt launch kit (launch: Wed Aug 5, 12:01 AM PT)
+# LarpIn Product Hunt launch kit (launch: Wed Aug 5, 2:01 AM CST / 12:01 AM PT)
 
 ## Listing
 

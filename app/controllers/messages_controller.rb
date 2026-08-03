@@ -1,12 +1,4 @@
 class MessagesController < ApplicationController
-  BOT_REPLIES = [
-    "Love this energy. Let's circle back when the market stabilizes (never).",
-    "100%. Adding this to my second brain. My first brain is full.",
-    "This is exactly the kind of synergy I DM about. Sending you a calendar link for 4:45 AM.",
-    "Incredible. I'm forwarding this to my mastermind group. They're all me on different accounts.",
-    "Noted. My assistant (also me) will follow up in 3-5 business identities."
-  ].freeze
-
   def create
     persona = ensure_persona!
     conversation = Conversation.involving(persona).find(params[:conversation_id])
@@ -16,7 +8,9 @@ class MessagesController < ApplicationController
     if message.save
       other = conversation.other(persona)
       if other.is_bot
-        conversation.messages.create!(sender: other, body: BOT_REPLIES.sample)
+        reply = BotReplier.reply_for(conversation: conversation, bot: other,
+                                     sender: persona, incoming: message.body)
+        conversation.messages.create!(sender: other, body: reply)
       else
         FakeNotifier.real!(other, actor: persona,
           body: "#{persona.name} sent you a message: \"#{message.body.truncate(50)}\"",
