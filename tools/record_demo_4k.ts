@@ -24,7 +24,7 @@ import * as path from 'path';
 const BASE = process.env.LARPIN_URL || 'https://larpin.io';
 const TMP = '/tmp/larpin-4k';
 
-// Montrose Labs scheme, lifted from montroselabs.ai's own CSS variables:
+// Dark caption scheme:
 //   bg #0c0c0c   text #ffffff   secondary #a1a1aa   border #333333   accent #E91E63
 //   (the light theme's cream is #fdf5DE, used here for the ring so it reads on dark)
 const ML = {

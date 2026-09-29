@@ -128,4 +128,4 @@ your nose, [buy Youssef a 4 AM coffee](https://buy.stripe.com/fZu5kCajs75gg6I7z2
 
 MIT. Larp responsibly.
 
-Built by [Youssef of Montrose Labs](https://montroselabs.ai) ([@joseamroo](https://x.com/joseamroo)).
+Built by Youssef Ateya ([@joseamroo](https://x.com/joseamroo)).

@@ -43,7 +43,7 @@ too small to read at timeline size.
 Two things carry the look, both documented in the toolkit's
 `playwright-recording` skill:
 
-- Captions are chat bubbles in the Montrose Labs scheme (`#0c0c0c` on
+- Captions are chat bubbles in a dark scheme (`#0c0c0c` on
   `#E91E63` accent), not lower thirds.
 - Typing is the tightest framing in the video. The push-in lands before the first
   keystroke, anchored on the surrounding card rather than the input, because
