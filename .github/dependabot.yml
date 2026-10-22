@@ -3,10 +3,17 @@ updates:
 - package-ecosystem: bundler
   directory: "/"
   schedule:
-    interval: weekly
-  open-pull-requests-limit: 10
+    interval: monthly
+  open-pull-requests-limit: 5
+  groups:
+    # One PR for every minor and patch bump. Majors still arrive one per PR so each gets a real look.
+    gems:
+      update-types: [minor, patch]
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
-    interval: weekly
-  open-pull-requests-limit: 10
+    interval: monthly
+  open-pull-requests-limit: 5
+  groups:
+    actions:
+      patterns: ["*"]
